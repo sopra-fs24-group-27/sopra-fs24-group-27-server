@@ -53,12 +53,13 @@ bootJar {
     archiveFileName = "${archiveBaseName.get()}.${archiveExtension.get()}"
 }
 
+
 sonar {
-    properties {
-        property "sonar.projectKey", "TODO"
-        property "sonar.organization", "TODO"
-        property "sonar.host.url", "TODO"
-    }
+  properties {
+    property "sonar.projectKey", "sopra-fs24-group-27_sopra-fs24-group-27-server"
+    property "sonar.organization", "sopra-fs24-group-27"
+    property "sonar.host.url", "https://sonarcloud.io"
+  }
 }
 
 jacocoTestReport {
