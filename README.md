@@ -1,87 +1,32 @@
-# SoPra RESTful Service Template FS24
+# SoPra FS24 Group 27 Project - LyricLies🎵
 
-## Getting started with Spring Boot
--   Documentation: https://docs.spring.io/spring-boot/docs/current/reference/html/index.html
--   Guides: http://spring.io/guides
-    -   Building a RESTful Web Service: http://spring.io/guides/gs/rest-service/
-    -   Building REST services with Spring: https://spring.io/guides/tutorials/rest/
+## Authors
+- Yating Pan - [GitHub](https://github.com/YatingPan)
+- Xueying Cheng - [GitHub](https://github.com/XueyingCheng)
+- Hepeng Fan - [GitHub](https://github.com/HepengFan)
+- Qingcheng Wan - [GitHub](https://github.com/QingchengWan)
+- Yuying Zhong - [GitHub](https://github.com/YuyingZhong)
 
-## Setup this Template with your IDE of choice
-Download your IDE of choice (e.g., [IntelliJ](https://www.jetbrains.com/idea/download/), [Visual Studio Code](https://code.visualstudio.com/), or [Eclipse](http://www.eclipse.org/downloads/)). Make sure Java 17 is installed on your system (for Windows, please make sure your `JAVA_HOME` environment variable is set to the correct version of Java).
+## Project Description
+This group project from Group 27 in the Software Engineering Lab FS24 at UZH aims to develop "LyricLies," a multiplayer online game that combines music and emojis. Players use their knowledge of music and non-literal expression skills to identify the "lyric spy" among them. This entertaining social platform promotes the exploration of musical perception and non-verbal communication, thereby enriching the social gaming landscape with educational and fun elements.
 
-### IntelliJ
-If you consider to use IntelliJ as your IDE of choice, you can make use of your free educational license [here](https://www.jetbrains.com/community/education/#students).
-1. File -> Open... -> SoPra server template
-2. Accept to import the project as a `gradle project`
-3. To build right click the `build.gradle` file and choose `Run Build`
+## LyricLies🎵
 
-### VS Code
-The following extensions can help you get started more easily:
--   `vmware.vscode-spring-boot`
--   `vscjava.vscode-spring-initializr`
--   `vscjava.vscode-spring-boot-dashboard`
--   `vscjava.vscode-java-pack`
+The objective of LyricLies is to identify the spy who listens to a different song, using emojis to describe their song. The game supports 4 players and utilizes songs from the [Spotify API](https://developer.spotify.com/documentation/web-api) to assign identities to each player. Suitable for audiences aged 10 and up, the game begins with each player assigned a song, but only one player receives a different track. Throughout two rounds of emoji descriptions, players must then vote to guess the spy. If the spy is correctly identified, the non-spy players win; otherwise, the spy claims victory.
 
-**Note:** You'll need to build the project first with Gradle, just click on the `build` command in the _Gradle Tasks_ extension. Then check the _Spring Boot Dashboard_ extension if it already shows `soprafs24` and hit the play button to start the server. If it doesn't show up, restart VS Code and check again.
+### Game Setup
+After registration and login, players can create or join a game room. The game starts once four players are present, initiated by the room owner. Privacy during gameplay is crucial to ensure fair play.
 
-## Building with Gradle
-You can use the local Gradle Wrapper to build the application.
--   macOS: `./gradlew`
--   Linux: `./gradlew`
--   Windows: `./gradlew.bat`
+### Identity Assignment
+The system randomly selects songs through the Spotify API, assigning the same song to three players and a different one to the spy. All players listen to their song for 30 seconds simultaneously.
 
-More Information about [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html) and [Gradle](https://gradle.org/docs/).
+### Emoji Description
+Post-listening, players have 60 seconds to select up to five emojis to describe their song, taking turns. The choice of emojis can reflect the song's mood, style, lyrics, or vibe. Players must be strategic in their descriptions, as the spy's identity is unknown.
 
-### Build
+### Guessing and Voting
+After two rounds of description, a two-minute discussion phase allows players to speculate on the spy's identity, followed by a voting phase.
 
-```bash
-./gradlew build
-```
+### End of Game
+The game concludes by revealing the true identities and songs, determining the winning side based on the votes. Players' scores are updated accordingly, rewarding strategic deception and deduction.
 
-### Run
-
-```bash
-./gradlew bootRun
-```
-
-You can verify that the server is running by visiting `localhost:8080` in your browser.
-
-### Test
-
-```bash
-./gradlew test
-```
-
-### Development Mode
-You can start the backend in development mode, this will automatically trigger a new build and reload the application
-once the content of a file has been changed.
-
-Start two terminal windows and run:
-
-`./gradlew build --continuous`
-
-and in the other one:
-
-`./gradlew bootRun`
-
-If you want to avoid running all tests with every change, use the following command instead:
-
-`./gradlew build --continuous -xtest`
-
-## API Endpoint Testing with Postman
-We recommend using [Postman](https://www.getpostman.com) to test your API Endpoints.
-
-## Debugging
-If something is not working and/or you don't know what is going on. We recommend using a debugger and step-through the process step-by-step.
-
-To configure a debugger for SpringBoot's Tomcat servlet (i.e. the process you start with `./gradlew bootRun` command), do the following:
-
-1. Open Tab: **Run**/Edit Configurations
-2. Add a new Remote Configuration and name it properly
-3. Start the Server in Debug mode: `./gradlew bootRun --debug-jvm`
-4. Press `Shift + F9` or the use **Run**/Debug "Name of your task"
-5. Set breakpoints in the application where you need it
-6. Step through the process one step at a time
-
-## Testing
-Have a look here: https://www.baeldung.com/spring-boot-testing
+Embark on a journey of musical espionage - can you outsmart your friends and win the game of LyricLies? 🤔
