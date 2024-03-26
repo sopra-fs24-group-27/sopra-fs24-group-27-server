@@ -24,7 +24,8 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String password;
 
-    @Transient // Token should not be persisted as it's likely to change with each session
+//    @Transient // Token should not be persisted as it's likely to change with each session
+    @Column(nullable = true)
     private String token;
 
     @Column(nullable = false)
