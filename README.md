@@ -2,9 +2,9 @@
 
 ## Authors
 - Yating Pan - [GitHub](https://github.com/YatingPan)
-- Hepeng Fan - [GitHub](https://github.com/HepengFan)
+- Hepeng Fan - [GitHub](https://github.com/bazziprincess)
 - Qingcheng Wang - [GitHub](https://github.com/wqc260615)
-- Yuying Zhong - [GitHub](https://github.com/YuyingZhong)
+- Yuying Zhong - [GitHub](https://github.com/Yuying8777)
 - Yi Zhang - [GitHub](https://github.com/imyizhang)
 
 ## Project Description
