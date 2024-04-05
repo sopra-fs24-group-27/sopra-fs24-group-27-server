@@ -3,11 +3,21 @@ package ch.uzh.ifi.hase.soprafs24.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import ch.uzh.ifi.hase.soprafs24.entity.SongInfo;
+
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 @Service
 public class SpotifyService {
@@ -47,14 +57,42 @@ public class SpotifyService {
         }
     }
 
-    public String searchSong(String query, String type, String token) {
+    private String normalizeSongName(String name) {
+        // Lowercase the name for case-insensitive comparison
+        String lowerName = name.toLowerCase();
+        // Remove common variant descriptors and additional spaces
+        lowerName = lowerName.replaceAll("\\s*-?\\s*(live|remix|acoustic|version|edit|radio)\\b", "")
+        .replaceAll("\\s{2,}", " ") // Replace multiple spaces with a single space
+        .trim();
+        return lowerName;
+    }
+
+    public List<SongInfo> searchSong(String description, String genre, String artist, String token) {
+        // Returned example: "name, artist, imageUrl, href"
+        // returned example with descrption = English, genre = pop, artist = Maroon 5 :
+        // [
+        // {
+        //  "title": "Girls Like You",
+        //  "artist": "Maroon 5",
+        //  "imageUrl": "https://i.scdn.co/image/ab67616d0000b273c41f2b16c718388133a7e994",
+        //  "playUrl": "https://api.spotify.com/v1/tracks/5xzGT3Zg5QDlRqgNDPrumy"
+        //},
+        //{
+        //  "title": "Animals",
+        //  "artist": "Maroon 5",
+        //  "imageUrl": "https://i.scdn.co/image/ab67616d0000b2737a2a4b225ad828477e358206",
+        //  "playUrl": "https://api.spotify.com/v1/tracks/4H52xXIWHfi68h8VqBcS4V"
+        //}
+        //]
+        String query = String.format("%s genre:%s artist:%s", description, genre, artist);
+
         LOGGER.info("Searching for song with query: {}", query);
         String searchResult = WebClient.create("https://api.spotify.com/v1")
                 .get()
                 .uri(uriBuilder -> uriBuilder.path("/search")
                         .queryParam("q", query)
-                        .queryParam("type", type)
-                        .queryParam("limit", 2) // Adjust based on how many results you want
+                        .queryParam("type", "track") // Only search for tracks
+                        .queryParam("limit", 20) // Limit to 10 results because we will filter duplicates
                         .build())
                 .headers(headers -> headers.setBearerAuth(token))
                 .retrieve()
@@ -62,6 +100,37 @@ public class SpotifyService {
                 .block(); // Consider using async handling with Mono instead of block
 
         LOGGER.info("Received search result");
-        return searchResult;
+
+        List<SongInfo> songsInfo = new ArrayList<>();
+        Set<String> normalizedSongNames = new HashSet<>();// Track added song names to filter duplicates: one song can have multiple versions, like remixes, lives...
+
+        try {
+            JsonNode searchJson = objectMapper.readTree(searchResult);
+            JsonNode items = searchJson.path("tracks").path("items");
+            for (JsonNode item : items) {
+                // utf-8 encoding for songs' name
+                String name = item.path("name").asText();
+                String normalized = normalizeSongName(name);
+                // filter to ensure only add songs with different names
+                if (!normalizedSongNames.contains(normalized)) {
+                    String artistName = item.path("artists").get(0).path("name").asText();
+                    String imageUrl = item.path("album").path("images").get(0).path("url").asText();
+                    String href = item.path("href").asText();
+                    songsInfo.add(new SongInfo(name, artistName, imageUrl, href));
+                    // print the songs' name, artist name, image url and href
+                    LOGGER.info("Song name: {}, Artist name: {}, Image URL: {}, Href: {}", normalized, artistName, imageUrl, href);
+                    normalizedSongNames.add(normalized);
+                } 
+                if (normalizedSongNames.size() >= 2) {
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error("Error parsing search result", e);
+            throw new RuntimeException("Error parsing search result", e);
+        }
+
+        LOGGER.info("Parsed search results successfully");
+        return songsInfo;
     }
 }
