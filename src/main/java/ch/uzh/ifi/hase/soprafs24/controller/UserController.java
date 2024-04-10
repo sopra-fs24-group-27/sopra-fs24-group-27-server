@@ -43,7 +43,7 @@ public class UserController {
     return userGetDTOs;
   }
 
-  @PostMapping("/users")
+  @PostMapping("/register")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   public UserGetDTO createUser(@RequestBody UserPostDTO userPostDTO) {
@@ -56,12 +56,21 @@ public class UserController {
     return DTOMapper.INSTANCE.convertEntityToUserGetDTO(createdUser);
   }
 
-    @GetMapping("/login")
+
+    @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public UserGetDTO loginUser(@RequestBody UserPostDTO userPostDTO) {
-        User user = userService.loginUser(userPostDTO.getUsername(), userPostDTO.getPassword());
-        return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
+      if (userPostDTO.getUsername() == null || userPostDTO.getPassword() == null ||
+          userPostDTO.getUsername().isEmpty() || userPostDTO.getPassword().isEmpty()) {
+          throw new IllegalArgumentException("Invalid login request: username and password are required.");
+      }
+
+      // Call methods in UserService to verify user credentials
+      User loginUser = userService.loginUser(userPostDTO.getUsername(), userPostDTO.getPassword());
+
+      // Convert user information to API representation and back
+      return DTOMapper.INSTANCE.convertEntityToUserGetDTO(loginUser);
     }
 
     @GetMapping("/logout")
