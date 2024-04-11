@@ -33,7 +33,7 @@ public interface DTOMapper {
     Player convertLeaveRoomPayloadDTOtoEntity(LeaveRoomPayloadDTO leaveRoomPayloadDTO);
 
     @Mapping(source = "gameId", target = "gameId")
-    @Mapping(source = "hostID", target = "hostID")
+    @Mapping(source = "hostId", target = "hostId")
     @Mapping(source = "currentRound", target = "currentRound")
     @Mapping(source = "settings", target = "settings")
     @Mapping(source = "players", target = "players")
