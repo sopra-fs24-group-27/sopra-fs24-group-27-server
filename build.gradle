@@ -41,8 +41,7 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-webflux:2.4.13'
 
-    implementation 'org.springframework:spring-messaging:5.3.13'
-    implementation 'org.springframework:spring-websocket:5.3.13'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket:2.4.13'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2'
