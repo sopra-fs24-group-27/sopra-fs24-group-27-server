@@ -1,5 +1,13 @@
 package ch.uzh.ifi.hase.soprafs24.repository;
 
-public class GameRepository {
-    
+import ch.uzh.ifi.hase.soprafs24.entity.Game;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository("userRepository")
+public interface GameRepository extends JpaRepository<Game, Long> {
+    Game findByGameId(String GameId);
+
+    Game findByHostId(Long hostId);
 }

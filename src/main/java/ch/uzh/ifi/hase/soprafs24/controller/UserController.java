@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs24.controller;
 
-import ch.uzh.ifi.hase.soprafs24.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs24.entity.User;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.UserPostDTO;
@@ -43,7 +42,7 @@ public class UserController {
     return userGetDTOs;
   }
 
-  @PostMapping("/users")
+  @PostMapping("/register")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   public UserGetDTO createUser(@RequestBody UserPostDTO userPostDTO) {
@@ -56,38 +55,46 @@ public class UserController {
     return DTOMapper.INSTANCE.convertEntityToUserGetDTO(createdUser);
   }
 
-    @GetMapping("/login")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public UserGetDTO loginUser(@RequestBody UserPostDTO userPostDTO) {
-        User user = userService.loginUser(userPostDTO.getUsername(), userPostDTO.getPassword());
-        return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
+  @PostMapping("/login")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public UserGetDTO loginUser(@RequestBody UserPostDTO userPostDTO) {
+    if (userPostDTO.getUsername() == null || userPostDTO.getPassword() == null ||
+        userPostDTO.getUsername().isEmpty() || userPostDTO.getPassword().isEmpty()) {
+      throw new IllegalArgumentException("Invalid login request: username and password are required.");
     }
 
-    @GetMapping("/logout")
-    @ResponseStatus(HttpStatus.OK)
-    public void logoutUser(@RequestBody Long userId) {
+    // Call methods in UserService to verify user credentials
+    User loginUser = userService.loginUser(userPostDTO.getUsername(), userPostDTO.getPassword());
 
-    }
+    // Convert user information to API representation and back
+    return DTOMapper.INSTANCE.convertEntityToUserGetDTO(loginUser);
+  }
 
-    @GetMapping("/users/{userId}")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public UserGetDTO getUserById(@PathVariable Long userId) {
-        // fetch user by id
-        User user = userService.getUserById(userId);
-        // convert user to API representation
-        return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
-    }
+  @GetMapping("/logout")
+  @ResponseStatus(HttpStatus.OK)
+  public void logoutUser(@RequestBody Long userId) {
 
-    @PutMapping("/users/{userId}")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public UserGetDTO updateUserDetails(@PathVariable Long userId, @RequestBody UserPostDTO userPostDTO) {
-        // Update user details
-        User updatedUser = userService.updateUserDetails(userId, userPostDTO.getUsername());
+  }
 
-        // Convert updated user to API representation
-        return DTOMapper.INSTANCE.convertEntityToUserGetDTO(updatedUser);
-    }
+  @GetMapping("/users/{userId}")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public UserGetDTO getUserById(@PathVariable Long userId) {
+    // fetch user by id
+    User user = userService.getUserById(userId);
+    // convert user to API representation
+    return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
+  }
+
+  @PutMapping("/users/{userId}")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public UserGetDTO updateUserDetails(@PathVariable Long userId, @RequestBody UserPostDTO userPostDTO) {
+    // Update user details
+    User updatedUser = userService.updateUserDetails(userId, userPostDTO.getUsername());
+
+    // Convert updated user to API representation
+    return DTOMapper.INSTANCE.convertEntityToUserGetDTO(updatedUser);
+  }
 }
