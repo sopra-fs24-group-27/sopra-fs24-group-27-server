@@ -10,14 +10,20 @@ public class Player extends User {
     @Column
     private String avatar;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Game game; // Association to Game
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private SongInfo songInfo; // Song assigned to the player, different players can have the same song
+
+    @Column
+    private boolean isSpy; // True if the player is the spy, false otherwise.
+
     @Column
     private int score;
 
     @Column
     private int turn;
-
-    @Embedded
-    private Role role;
 
     @ElementCollection // This annotation is used for storing a list of basic elements or embeddable
                        // objects
@@ -35,6 +41,31 @@ public class Player extends User {
         this.avatar = avatar;
     }
 
+    // Constructor, getters, and setters for new fields
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public boolean isSpy() {
+        return isSpy;
+    }
+
+    public void setSpy(boolean spy) {
+        this.isSpy = spy;
+    }
+
+    public SongInfo getSongInfo() {
+        return songInfo;
+    }
+
+    public void setSongInfo(SongInfo songInfo) {
+        this.songInfo = songInfo;
+    }
+
     public int getScore() {
         return score;
     }
@@ -49,14 +80,6 @@ public class Player extends User {
 
     public void setTurn(int turn) {
         this.turn = turn;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 
     public List<String> getEmojis() {

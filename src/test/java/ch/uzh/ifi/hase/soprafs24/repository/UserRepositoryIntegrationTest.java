@@ -20,12 +20,11 @@ public class UserRepositoryIntegrationTest {
   private UserRepository userRepository;
 
   @Test
-  public void findByName_success() {
-    // given
+  public void findByUsername_success(){
     User user = new User();
     user.setUsername("firstname@lastname");
     user.setPassword("password");
-    user.setStatus(UserStatus.OFFLINE);
+    user.setStatus(UserStatus.ONLINE);
     user.setToken("1");
     user.setBirthDate(null);
 
