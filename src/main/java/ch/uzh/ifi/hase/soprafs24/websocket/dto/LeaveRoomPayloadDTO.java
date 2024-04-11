@@ -1,6 +1,6 @@
 package ch.uzh.ifi.hase.soprafs24.websocket.dto;
 
-public class JoinRoomPayloadDTO {
+public class LeaveRoomPayloadDTO {
     private Long id;
 
     public Long getId() {
