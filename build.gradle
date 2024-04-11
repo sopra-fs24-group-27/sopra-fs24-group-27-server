@@ -49,8 +49,14 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+    // JUnit 5 Jupiter API
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
+    // Mockito
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.3.3'
+    testImplementation 'org.mockito:mockito-core:3.3.3'
+    // AssertJ
+    testImplementation 'org.assertj:assertj-core:3.16.1'
 }
 
 bootJar {
@@ -76,6 +82,9 @@ test {
     useJUnitPlatform()
     testLogging.showStandardStreams = true
     maxParallelForks = 1
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
 
 File secretPropsFile = file('./local.properties')
