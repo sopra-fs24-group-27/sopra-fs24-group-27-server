@@ -5,6 +5,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "PLAYER")
+@PrimaryKeyJoinColumn(name = "id")
 public class Player extends User {
 
     @Column
@@ -41,7 +42,6 @@ public class Player extends User {
         this.avatar = avatar;
     }
 
-    // Constructor, getters, and setters for new fields
     public Game getGame() {
         return game;
     }

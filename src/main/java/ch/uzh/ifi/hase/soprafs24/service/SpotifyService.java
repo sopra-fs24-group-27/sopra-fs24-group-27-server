@@ -12,6 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Properties;
+import java.io.FileInputStream;
+import org.springframework.core.io.ClassPathResource;
 
 import ch.uzh.ifi.hase.soprafs24.entity.SongInfo;
 
@@ -35,6 +38,10 @@ public class SpotifyService {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public String authenticate() {
+        LOGGER.info("Using clientId: {} and clientSecret: {}", clientId, clientSecret);
+        if (clientId == null || clientSecret == null) {
+            throw new IllegalStateException("Spotify clientId or clientSecret is not set!");
+        }
         String tokenResponse = webClient.post()
                 .uri("/api/token")
                 .headers(headers -> {
@@ -132,5 +139,38 @@ public class SpotifyService {
 
         LOGGER.info("Parsed search results successfully");
         return songsInfo;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
+    
+    public void setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
+    }
+    
+
+    // a main method to use above methods
+    public static void main(String[] args) {
+        try {
+            // Manually loading properties
+            Properties props = new Properties();
+            ClassPathResource resource = new ClassPathResource("application.properties");
+            props.load(new FileInputStream(resource.getFile()));
+    
+            // Create an instance of the service
+            SpotifyService spotifyService = new SpotifyService();
+            
+            // Set properties manually
+            spotifyService.setClientId(props.getProperty("spotify.client.id"));
+            spotifyService.setClientSecret(props.getProperty("spotify.client.secret"));
+    
+            // Authenticate and search for songs
+            String token = spotifyService.authenticate();
+            List<SongInfo> songs = spotifyService.searchSong("English", "pop", "Maroon 5", token);
+            System.out.println(songs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

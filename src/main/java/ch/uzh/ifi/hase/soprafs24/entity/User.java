@@ -4,12 +4,11 @@ import ch.uzh.ifi.hase.soprafs24.constant.UserStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
-@Table(name = "USER")
 @Inheritance(strategy = InheritanceType.JOINED) // Use JOINED inheritance strategy
+@Table(name = "USER")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;

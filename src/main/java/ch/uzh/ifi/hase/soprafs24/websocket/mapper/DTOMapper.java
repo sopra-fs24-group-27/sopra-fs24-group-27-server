@@ -8,6 +8,8 @@ import ch.uzh.ifi.hase.soprafs24.websocket.dto.JoinRoomPayloadDTO;
 import ch.uzh.ifi.hase.soprafs24.websocket.dto.ModifySettingsPayloadDTO;
 import ch.uzh.ifi.hase.soprafs24.websocket.dto.SendEmojisPayloadDTO;
 import ch.uzh.ifi.hase.soprafs24.websocket.dto.LeaveRoomPayloadDTO;
+import ch.uzh.ifi.hase.soprafs24.websocket.dto.PlayerInfoDTO;
+import ch.uzh.ifi.hase.soprafs24.websocket.dto.PlayerSongInfoDTO;
 
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
@@ -26,6 +28,21 @@ public interface DTOMapper {
     Settings convertModifySettingsPayloadDTOtoEntity(ModifySettingsPayloadDTO modifySettingsPayloadDTO);
 
     @Mapping(source = "id", target = "id")
+    @Mapping(source = "username", target = "username")
+    @Mapping(source = "avatar", target = "avatar")
+    @Mapping(source = "score", target = "score")
+    @Mapping(source = "emojis", target = "emojis")
+    @Mapping(source = "turn", target = "turn")
+    PlayerInfoDTO convertEntityToPlayerInfoDTO(Player player);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "songInfo.title", target = "songTitle")
+    @Mapping(source = "songInfo.artist", target = "songArtist")
+    @Mapping(source = "songInfo.playUrl", target = "playUrl")
+    @Mapping(source = "songInfo.imageUrl", target = "imageUrl")
+    PlayerSongInfoDTO convertEntityToPlayerSongInfoDTO(Player player);
+
+    @Mapping(source = "id", target = "id")
     @Mapping(source = "emojis", target = "emojis")
     Player convertSendEmojisPayloadDTOtoEntity(SendEmojisPayloadDTO sendEmojisPayloadDTO);
 
@@ -38,4 +55,5 @@ public interface DTOMapper {
     @Mapping(source = "settings", target = "settings")
     @Mapping(source = "players", target = "players")
     GameResponseDTO convertEntityToGameResponseDTO(Game game);
+
 }

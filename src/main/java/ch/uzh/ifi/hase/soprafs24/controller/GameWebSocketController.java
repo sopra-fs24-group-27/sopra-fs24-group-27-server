@@ -7,9 +7,15 @@ import ch.uzh.ifi.hase.soprafs24.entity.Game;
 import ch.uzh.ifi.hase.soprafs24.websocket.dto.GameResponseDTO;
 import ch.uzh.ifi.hase.soprafs24.websocket.dto.JoinRoomPayloadDTO;
 import ch.uzh.ifi.hase.soprafs24.websocket.dto.ModifySettingsPayloadDTO;
+import ch.uzh.ifi.hase.soprafs24.websocket.dto.PlayerSongInfoDTO;
 import ch.uzh.ifi.hase.soprafs24.websocket.dto.SendEmojisPayloadDTO;
 import ch.uzh.ifi.hase.soprafs24.websocket.dto.LeaveRoomPayloadDTO;
+import ch.uzh.ifi.hase.soprafs24.websocket.dto.PlayerInfoDTO;
 import ch.uzh.ifi.hase.soprafs24.websocket.mapper.DTOMapper;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -18,6 +24,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.stereotype.Controller;
 
+
 public class GameWebSocketController {
 
     private final GameService gameService;
@@ -25,6 +32,12 @@ public class GameWebSocketController {
     GameWebSocketController(GameService gameService) {
         this.gameService = gameService;
     }
+
+    // Setter method for SimpMessagingTemplate
+    public void setSimpMessagingTemplate(SimpMessagingTemplate simpMessagingTemplate) {
+        this.simpMessagingTemplate = simpMessagingTemplate;
+    }
+
 
     private SimpMessagingTemplate simpMessagingTemplate;
 
@@ -59,17 +72,43 @@ public class GameWebSocketController {
         // Then broadcast the new player's arrival to all subscribers of this room
         broadcast(gameId, gameResponse);
     }
-
+ 
     @MessageMapping("/games/{gameId}/startRound")
     public void startRound(@DestinationVariable String gameId) {
-        // Process the round starting, i.e., player role assigning, logic here
         Game gameStatus = gameService.startRound(gameId);
-
-        GameResponseDTO gameResponse = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(gameStatus);
-
-        // Then broadcast the new player's arrival to all subscribers of this room
-        broadcast(gameId, gameResponse);
+    
+        // Create a general game response DTO that contains non-sensitive info
+        GameResponseDTO generalGameResponse = new GameResponseDTO();
+        generalGameResponse.setGameId(gameId);
+        generalGameResponse.setCurrentRound(gameStatus.getCurrentRound());
+        generalGameResponse.setHostId(gameStatus.getHostId());
+        
+        List<PlayerInfoDTO> playerInfoList = gameStatus.getPlayers().stream()
+                .map(DTOMapper.INSTANCE::convertEntityToPlayerInfoDTO)
+                .collect(Collectors.toList());
+    
+        generalGameResponse.setPlayers(playerInfoList);
+        
+        // Broadcast general player information to all players
+        broadcast(gameId, generalGameResponse);
+    
+        // For each player, prepare and send individual song details
+        gameStatus.getPlayers().forEach(player -> {
+            GameResponseDTO individualGameResponse = new GameResponseDTO();
+            individualGameResponse.setGameId(gameId);
+            individualGameResponse.setCurrentRound(gameStatus.getCurrentRound());
+            individualGameResponse.setHostId(gameStatus.getHostId());
+    
+            // Set song information only for the current player
+            PlayerSongInfoDTO songInfoDTO = DTOMapper.INSTANCE.convertEntityToPlayerSongInfoDTO(player);
+            individualGameResponse.setPlayerSongInfo(Collections.singletonList(songInfoDTO));
+    
+            // Send song details only to the respective player
+            simpMessagingTemplate.convertAndSendToUser(player.getId().toString(), "/queue/roundStart", individualGameResponse);
+        });
     }
+    
+    
 
     @MessageMapping("/games/{gameId}/sortTurnOrder")
     public void sortTurnOrder(@DestinationVariable String gameId) {

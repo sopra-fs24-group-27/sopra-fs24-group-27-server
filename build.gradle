@@ -46,18 +46,24 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2'
 
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+    // Spring Boot Test Starter (includes JUnit Jupiter)
+    testImplementation ('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        exclude group: 'org.mockito', module: 'mockito-core'
     }
-    // JUnit 5 Jupiter API
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
+    
+    // JUnit 5 Jupiter API and Engine
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    
     // Mockito
-    testImplementation 'org.mockito:mockito-junit-jupiter:3.3.3'
-    testImplementation 'org.mockito:mockito-core:3.3.3'
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.6.0' // Integrates Mockito with JUnit 5
+    testImplementation 'org.mockito:mockito-core:3.6.0' // Core Mockito functionality
+
     // AssertJ
-    testImplementation 'org.assertj:assertj-core:3.16.1'
+    testImplementation 'org.assertj:assertj-core:3.18.1' // Keeping AssertJ updated
 }
+
 
 bootJar {
     archiveFileName = "${archiveBaseName.get()}.${archiveExtension.get()}"
@@ -80,8 +86,6 @@ jacocoTestReport {
 
 test {
     useJUnitPlatform()
-    testLogging.showStandardStreams = true
-    maxParallelForks = 1
     testLogging {
         events "passed", "skipped", "failed"
     }
