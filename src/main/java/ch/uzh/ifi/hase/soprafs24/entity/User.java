@@ -17,6 +17,9 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Ensure ID is auto-generated
     private Long id;
 
+    @Column(nullable = true) 
+    private String name;
+
     @Column(nullable = false, unique = true)
     private String username;
 
@@ -47,5 +50,7 @@ public class User implements Serializable {
     public UserStatus getStatus() { return status; }
     public void setStatus(UserStatus status) { this.status = status; }
     public Date getBirthDate() { return birthDate; }
+    public String getName() {return name;}
+    public void setName(String name) {this.name = name;}
     public void setBirthDate(Date birthDate) { this.birthDate = birthDate; }
 }

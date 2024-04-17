@@ -71,10 +71,19 @@ public class UserController {
     return DTOMapper.INSTANCE.convertEntityToUserGetDTO(loginUser);
   }
 
-  @GetMapping("/logout")
-  @ResponseStatus(HttpStatus.OK)
-  public void logoutUser(@RequestBody Long userId) {
+  @GetMapping("/token")
+  @ResponseBody
+  public UserGetDTO getIdByToken(@RequestBody UserPostDTO userPostDTO){
+    String token = userPostDTO.getToken();
+    User user = userService.getUserByToken(token);
+    return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
+  }
 
+  @PostMapping("/logout")
+  @ResponseBody
+  public void logOut(@RequestBody UserPostDTO userPostDTO){
+    String token = userPostDTO.getToken();
+    userService.logoutUser(token);
   }
 
   @GetMapping("/users/{userId}")
@@ -91,10 +100,11 @@ public class UserController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public UserGetDTO updateUserDetails(@PathVariable Long userId, @RequestBody UserPostDTO userPostDTO) {
-    // Update user details
-    User updatedUser = userService.updateUserDetails(userId, userPostDTO.getUsername());
-
-    // Convert updated user to API representation
-    return DTOMapper.INSTANCE.convertEntityToUserGetDTO(updatedUser);
+      // Update user details
+      User updatedUser = userService.updateUserDetails(userId, userPostDTO);
+  
+      // Convert updated user to API representation
+      return DTOMapper.INSTANCE.convertEntityToUserGetDTO(updatedUser);
   }
+  
 }

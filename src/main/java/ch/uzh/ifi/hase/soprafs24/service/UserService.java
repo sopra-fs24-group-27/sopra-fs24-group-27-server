@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-
+import java.util.Optional;
+import ch.uzh.ifi.hase.soprafs24.rest.dto.UserPostDTO;
+import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,6 +40,17 @@ public class UserService {
   public List<User> getUsers() {
     return this.userRepository.findAll();
   }
+  public void logoutUser(String token) {
+    Optional<User> optionalUser = userRepository.findByToken(token);
+
+    if (optionalUser.isPresent()) {
+        User user = optionalUser.get(); // 获取 User 对象
+        user.setStatus(UserStatus.OFFLINE); // 改变用户状态
+        userRepository.save(user); // 保存更新的用户对象到数据库
+    } else {
+        // 处理用户未找到的情况，比如抛出异常或记录日志
+    }
+}
 
   public User createUser(User newUser) {
     newUser.setToken(UUID.randomUUID().toString());
@@ -86,17 +99,21 @@ public class UserService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
 
-    public User updateUserDetails(Long userId, String username) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-
-        // Update the user details
-        user.setUsername(username);
-
-        // Save the updated user to the database
-        userRepository.save(user);
-
-        return user;
-    }
+    public User updateUserDetails(long userId, @RequestBody UserPostDTO userPostDTO) {
+      // 先通过 userId 找到 User
+      User user = userRepository.findById(userId)
+          .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+  
+      user.setBirthDate(userPostDTO.getBirthDate());
+  
+      user.setUsername(userPostDTO.getUsername());
+      
+      user.setName(userPostDTO.getName());
+      // Save the updated user to the database
+      userRepository.save(user);
+  
+      return user;
+  }
+  
 
 }
