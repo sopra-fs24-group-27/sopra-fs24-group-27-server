@@ -31,6 +31,7 @@ public class Game {
 
     private int votedPlayers;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     private Player winner; // Could be a Player reference or a Player object
 
     // Getters and Setters

@@ -126,7 +126,8 @@ public class GameWebSocketController {
         // Process the emojis sending logic here
         Player playerInput = DTOMapper.INSTANCE.convertSendEmojisPayloadDTOtoEntity(sendEmojisPayloadDTO);
 
-        Game gameStatus = gameService.sendEmojis(gameId, playerInput);
+        List<String> emojis = sendEmojisPayloadDTO.getEmojis();
+        Game gameStatus = gameService.sendEmojis(gameId, playerInput, emojis);
 
         GameResponseDTO gameResponse = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(gameStatus);
 
@@ -138,7 +139,7 @@ public class GameWebSocketController {
     @MessageMapping("/games/{gameId}/vote")
     public void vote(@DestinationVariable String gameId, @Payload Player player) {
         // Process the player voting logic here
-        Game gameStatus = gameService.vote(gameId, player);
+        Game gameStatus = gameService.vote(gameId, player.getId());
 
         GameResponseDTO gameResponse = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(gameStatus);
 
