@@ -17,7 +17,7 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Ensure ID is auto-generated
     private Long id;
 
-    @Column(nullable = true) 
+    @Column(nullable = true)
     private String name;
 
     @Column(nullable = false, unique = true)
@@ -26,7 +26,8 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String password;
 
-//    @Transient // Token should not be persisted as it's likely to change with each session
+    // @Transient // Token should not be persisted as it's likely to change with
+    // each session
     @Column(nullable = true)
     private String token;
 
@@ -39,18 +40,59 @@ public class User implements Serializable {
     private Date birthDate;
 
     // Standard getters and setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
-    public String getToken() { return token; }
-    public void setToken(String token) { this.token = token; }
-    public UserStatus getStatus() { return status; }
-    public void setStatus(UserStatus status) { this.status = status; }
-    public Date getBirthDate() { return birthDate; }
-    public String getName() {return name;}
-    public void setName(String name) {this.name = name;}
-    public void setBirthDate(Date birthDate) { this.birthDate = birthDate; }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
 }

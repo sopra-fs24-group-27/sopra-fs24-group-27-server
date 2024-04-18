@@ -2,11 +2,27 @@ package ch.uzh.ifi.hase.soprafs24.entity;
 
 import javax.persistence.*;
 import java.util.List;
+import java.io.Serializable;
 
+// @Entity
+// @Table(name = "PLAYER")
+// @PrimaryKeyJoinColumn(name = "id")
+// public class Player extends User {
 @Entity
 @Table(name = "PLAYER")
-@PrimaryKeyJoinColumn(name = "id")
-public class Player extends User {
+public class Player implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Ensure ID is auto-generated
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private Long userId;
+
+    @Column(nullable = false, unique = true)
+    private String username;
 
     @Column
     private String avatar;
@@ -34,6 +50,30 @@ public class Player extends User {
     private int votes;
 
     // Constructor, getters, and setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getUserId() {
+        return id;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getAvatar() {
         return avatar;
     }

@@ -9,6 +9,7 @@ import ch.uzh.ifi.hase.soprafs24.rest.mapper.DTOMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+@RestController
 public class GameController {
 
     private final GameService gameService;
