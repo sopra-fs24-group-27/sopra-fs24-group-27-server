@@ -11,7 +11,7 @@ public class UserGetDTO {
   private UserStatus status;
   private String token;
   private Date birthDate;
-
+  private String name;
   public Long getId() {
     return id;
   }
@@ -22,6 +22,13 @@ public class UserGetDTO {
 
   public String getUsername() {
     return username;
+  }
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public void setUsername(String username) {

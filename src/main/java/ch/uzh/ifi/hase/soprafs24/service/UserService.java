@@ -48,7 +48,7 @@ public class UserService {
         user.setStatus(UserStatus.OFFLINE); // 改变用户状态
         userRepository.save(user); // 保存更新的用户对象到数据库
     } else {
-        // 处理用户未找到的情况，比如抛出异常或记录日志
+  
     }
 }
 
@@ -100,18 +100,18 @@ public class UserService {
     }
 
     public User updateUserDetails(long userId, @RequestBody UserPostDTO userPostDTO) {
-      // 先通过 userId 找到 User
+
       User user = userRepository.findById(userId)
           .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-  
+      System.out.println("Received name: " + userPostDTO.getName()); // 输出接收到的name值
       user.setBirthDate(userPostDTO.getBirthDate());
-  
+
       user.setUsername(userPostDTO.getUsername());
       
       user.setName(userPostDTO.getName());
       // Save the updated user to the database
       userRepository.save(user);
-  
+      System.out.println("After update: " + user.getName());  
       return user;
   }
   
