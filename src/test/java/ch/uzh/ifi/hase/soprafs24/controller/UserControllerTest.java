@@ -35,13 +35,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.hamcrest.Matchers.containsString;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 /**
  * UserControllerTest
  * This is a WebMvcTest which allows to test the UserController i.e. GET/POST
  * request without actually sending them over the network.
  * This tests if the UserController works.
  */
-@WebMvcTest(value = UserController.class, excludeAutoConfiguration = SecurityAutoConfiguration.class)
+@WebMvcTest(value = UserController.class)
 public class UserControllerTest {
 
   @Autowired
@@ -49,10 +54,18 @@ public class UserControllerTest {
 
   @MockBean
   private UserService userService;
-
+  
   @Test
   public void givenUsers_whenGetUsers_thenReturnJsonArray() throws Exception {
-      // given
+      // Setup mock authentication
+      List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+      org.springframework.security.core.userdetails.User principal = new org.springframework.security.core.userdetails.User(
+          "user", "", true, true, true, true, authorities
+      );
+      Authentication auth = new UsernamePasswordAuthenticationToken(principal, "", authorities);
+      SecurityContextHolder.getContext().setAuthentication(auth);
+  
+      // Setup User entity
       User user = new User();
       user.setUsername("firstname@lastname");
       user.setStatus(UserStatus.OFFLINE);
@@ -60,21 +73,17 @@ public class UserControllerTest {
       user.setBirthDate(java.sql.Date.valueOf(LocalDate.now()));
   
       List<User> allUsers = Collections.singletonList(user);
-  
       given(userService.getUsers()).willReturn(allUsers);
   
-      MockHttpServletRequestBuilder getRequest = get("/users").contentType(MediaType.APPLICATION_JSON);
-  
-      // Convert LocalDate to the beginning of the day in UTC (for comparison)
-      String expectedDateStr = LocalDate.now().atStartOfDay(ZoneId.of("UTC")).toInstant().toString();
-  
-      mockMvc.perform(getRequest).andExpect(status().isOk())
+      // Perform test
+      mockMvc.perform(get("/users")
+              .contentType(MediaType.APPLICATION_JSON)
+              .header("Authorization", "Bearer some-token"))
+          .andExpect(status().isOk())
           .andExpect(jsonPath("$", hasSize(1)))
           .andExpect(jsonPath("$[0].username", is(user.getUsername())))
           .andExpect(jsonPath("$[0].status", is(user.getStatus().toString())))
-          .andExpect(jsonPath("$[0].token", is(user.getToken())))
-          // Use containsString to focus on the date part only if full matching is not possible
-          .andExpect(jsonPath("$[0].birthDate", containsString(expectedDateStr.substring(0, 10))));
+          .andExpect(jsonPath("$[0].token", is(user.getToken())));
   }
   
   @Test

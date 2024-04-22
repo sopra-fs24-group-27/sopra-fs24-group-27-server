@@ -14,8 +14,16 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.UserPostDTO;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 
 /**
  * User Service
@@ -44,11 +52,11 @@ public class UserService {
     Optional<User> optionalUser = userRepository.findByToken(token);
 
     if (optionalUser.isPresent()) {
-        User user = optionalUser.get(); // 获取 User 对象
-        user.setStatus(UserStatus.OFFLINE); // 改变用户状态
-        userRepository.save(user); // 保存更新的用户对象到数据库
+        User user = optionalUser.get(); 
+        user.setStatus(UserStatus.OFFLINE); 
+        userRepository.save(user); 
     } else {
-  
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
     }
 }
 
@@ -114,6 +122,24 @@ public class UserService {
       System.out.println("After update: " + user.getName());  
       return user;
   }
-  
 
+    public boolean validateToken(String replace) {
+        return userRepository.findByToken(replace).isPresent();
+    }
+    
+    public Authentication getAuthentication(String token) {
+      User user = userRepository.findByToken(token)
+              .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token"));
+
+      // Directly return an authentication token with minimal authorities
+      return new UsernamePasswordAuthenticationToken(user.getUsername(), null, Collections.emptyList());
+
+      // the returned authentication object will be set in the SecurityContextHolder
+      //UsernamePasswordAuthenticationToken {
+     //Principal: "username_of_the_user", // String
+     //Credentials: null, // Since it's not used post-authentication
+     //Authorities: [] // Empty list, no roles assigned
+
+  }
 }
+

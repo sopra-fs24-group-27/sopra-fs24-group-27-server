@@ -27,6 +27,7 @@ public class UserController {
     this.userService = userService;
   }
 
+  @CrossOrigin(origins = "http://localhost:3000")  // Make sure CORS is enabled here
   @GetMapping("/users")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
@@ -42,6 +43,7 @@ public class UserController {
     return userGetDTOs;
   }
 
+  @CrossOrigin(origins = "http://localhost:3000")  // Make sure CORS is enabled here
   @PostMapping("/register")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
@@ -55,6 +57,7 @@ public class UserController {
     return DTOMapper.INSTANCE.convertEntityToUserGetDTO(createdUser);
   }
 
+  @CrossOrigin(origins = "http://localhost:3000")  // Make sure CORS is enabled here
   @PostMapping("/login")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
@@ -71,7 +74,9 @@ public class UserController {
     return DTOMapper.INSTANCE.convertEntityToUserGetDTO(loginUser);
   }
 
+  @CrossOrigin(origins = "http://localhost:3000")  // Make sure CORS is enabled here
   @GetMapping("/token")
+  @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public UserGetDTO getIdByToken(@RequestBody UserPostDTO userPostDTO){
     String token = userPostDTO.getToken();
@@ -79,13 +84,16 @@ public class UserController {
     return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
   }
 
+  @CrossOrigin(origins = "http://localhost:3000")  // Make sure CORS is enabled here
   @PostMapping("/logout")
+  @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public void logOut(@RequestBody UserPostDTO userPostDTO){
     String token = userPostDTO.getToken();
     userService.logoutUser(token);
   }
 
+  @CrossOrigin(origins = "http://localhost:3000")  // Make sure CORS is enabled here
   @GetMapping("/users/{userId}")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
@@ -96,6 +104,7 @@ public class UserController {
     return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
   }
 
+  @CrossOrigin(origins = "http://localhost:3000")  // Make sure CORS is enabled here
   @PutMapping("/users/{userId}")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody

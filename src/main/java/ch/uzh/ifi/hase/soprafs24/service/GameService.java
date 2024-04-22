@@ -65,11 +65,12 @@ public class GameService {
         User user = userRepository.findById(userId).orElseThrow(
             () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found")
         );
-        return playerRepository.findByUserId(user.getId()).orElseGet(() -> {
+    
+        return playerRepository.findByUserId(userId).orElseGet(() -> {
             Player player = new Player();
+            player.setUser(user); // Make sure to set the user here
             player.setScore(0);  // Default score
-            player = playerRepository.save(player);
-            return player;
+            return playerRepository.save(player);
         });
     }
 

@@ -1,6 +1,9 @@
 package ch.uzh.ifi.hase.soprafs24.entity;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 import java.io.Serializable;
 
@@ -24,6 +27,7 @@ public class Player implements Serializable {
     private boolean isHost; // True if the player is the host, false otherwise.
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore // Prevents the serialization of game back to JSON which stops the recursion
     private Game game; // Association to Game
 
     @ManyToOne(fetch = FetchType.LAZY)
