@@ -2,10 +2,8 @@ package ch.uzh.ifi.hase.soprafs24.websocket.mapper;
 
 import ch.uzh.ifi.hase.soprafs24.entity.Game;
 import ch.uzh.ifi.hase.soprafs24.entity.Player;
-import ch.uzh.ifi.hase.soprafs24.entity.Settings;
 import ch.uzh.ifi.hase.soprafs24.websocket.dto.GameResponseDTO;
 import ch.uzh.ifi.hase.soprafs24.websocket.dto.JoinRoomPayloadDTO;
-import ch.uzh.ifi.hase.soprafs24.websocket.dto.ModifySettingsPayloadDTO;
 import ch.uzh.ifi.hase.soprafs24.websocket.dto.SendEmojisPayloadDTO;
 import ch.uzh.ifi.hase.soprafs24.websocket.dto.LeaveRoomPayloadDTO;
 import ch.uzh.ifi.hase.soprafs24.websocket.dto.PlayerInfoDTO;
@@ -19,17 +17,13 @@ public interface DTOMapper {
 
     DTOMapper INSTANCE = Mappers.getMapper(DTOMapper.class);
 
-    @Mapping(source = "id", target = "id")
+    @Mapping(source = "userId", target = "user.id")
     Player convertJoinRoomPayloadDTOtoEntity(JoinRoomPayloadDTO joinRoomPayloadDTO);
 
-    @Mapping(source = "language", target = "language")
-    @Mapping(source = "style", target = "style")
-    @Mapping(source = "artist", target = "artist")
-    Settings convertModifySettingsPayloadDTOtoEntity(ModifySettingsPayloadDTO modifySettingsPayloadDTO);
-
     @Mapping(source = "id", target = "id")
-    @Mapping(source = "username", target = "username")
-    @Mapping(source = "avatar", target = "avatar")
+    @Mapping (source = "user.id", target = "userId")
+    @Mapping(source = "user.username", target = "username")
+    @Mapping(source = "user.avatar", target = "avatar")
     @Mapping(source = "score", target = "score")
     @Mapping(source = "emojis", target = "emojis")
     @Mapping(source = "turn", target = "turn")
@@ -46,7 +40,7 @@ public interface DTOMapper {
     @Mapping(source = "emojis", target = "emojis")
     Player convertSendEmojisPayloadDTOtoEntity(SendEmojisPayloadDTO sendEmojisPayloadDTO);
 
-    @Mapping(source = "id", target = "id")
+    @Mapping(source = "userId", target = "user.id")
     Player convertLeaveRoomPayloadDTOtoEntity(LeaveRoomPayloadDTO leaveRoomPayloadDTO);
 
     @Mapping(source = "gameId", target = "gameId")

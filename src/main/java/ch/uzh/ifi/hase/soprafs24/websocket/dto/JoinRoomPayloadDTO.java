@@ -1,13 +1,13 @@
 package ch.uzh.ifi.hase.soprafs24.websocket.dto;
 
 public class JoinRoomPayloadDTO {
-    private Long id;
+    private Long userId; // Renamed from 'id' to 'userId' to clarify its purpose
 
-    public Long getId() {
-        return id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

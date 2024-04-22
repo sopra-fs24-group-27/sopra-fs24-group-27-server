@@ -10,11 +10,13 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
 
+
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        // Register the endpoint where the connection will build
-        registry.addEndpoint("/games/{gameId}").withSockJS();
+        registry.addEndpoint("/ws-games/{gameId}").setAllowedOrigins("*"); // Plain WebSocket endpoint
+        registry.addEndpoint("/games/{gameId}").setAllowedOrigins("*").withSockJS();  // Existing SockJS endpoint
     }
+
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {

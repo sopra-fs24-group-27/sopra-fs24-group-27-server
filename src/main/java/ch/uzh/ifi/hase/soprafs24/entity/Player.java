@@ -4,10 +4,8 @@ import javax.persistence.*;
 import java.util.List;
 import java.io.Serializable;
 
-// @Entity
-// @Table(name = "PLAYER")
-// @PrimaryKeyJoinColumn(name = "id")
-// public class Player extends User {
+// We set the relation betwwen "Player" and "User" to "Association", to seperate the game related characteristics from the user related characteristics.
+
 @Entity
 @Table(name = "PLAYER")
 public class Player implements Serializable {
@@ -18,14 +16,12 @@ public class Player implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Ensure ID is auto-generated
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private Long userId;
-
-    @Column(nullable = false, unique = true)
-    private String username;
+    @ManyToOne(fetch = FetchType.LAZY) // many players can belong to one user
+    @JoinColumn(name = "user_id") // This column links Player to a specific User
+    private User user;
 
     @Column
-    private String avatar;
+    private boolean isHost; // True if the player is the host, false otherwise.
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Game game; // Association to Game
@@ -58,30 +54,22 @@ public class Player implements Serializable {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return id;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public String getUsername() {
-        return username;
+    public boolean isHost() {
+        return isHost;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setHost(boolean host) {
+        isHost = host;
     }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
+    
     public Game getGame() {
         return game;
     }

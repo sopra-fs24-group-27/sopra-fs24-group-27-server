@@ -11,7 +11,6 @@ public class GameResponseDTO {
     private int currentRound;
     private Settings settings;
     private List<PlayerInfoDTO> players = new ArrayList<>();  // To share player information without spy and song information
-    private List<PlayerSongInfoDTO> playerSongInfo;  // To store song information
 
     public String getGameId() {
         return gameId;
@@ -51,14 +50,6 @@ public class GameResponseDTO {
 
     public void setPlayers(List<PlayerInfoDTO> players) {
         this.players = players;
-    }
-
-    public List<PlayerSongInfoDTO> getPlayerSongInfo() {
-        return playerSongInfo;
-    }
-
-    public void setPlayerSongInfo(List<PlayerSongInfoDTO> playerSongInfo) {
-        this.playerSongInfo = playerSongInfo;
     }
 
 }

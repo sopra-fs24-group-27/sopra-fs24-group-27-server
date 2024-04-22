@@ -43,6 +43,11 @@ public interface DTOMapper {
   @Mapping(source = "gameId", target = "gameId")
   @Mapping(source = "hostId", target = "hostId")
   @Mapping(source = "settings", target = "settings")
+  @Mapping(source = "currentRound", target = "currentRound")
+  @Mapping(source = "players", target = "players")
+  @Mapping(target = "settings.language", source = "settings.language")
+  @Mapping(target = "settings.artist", source = "settings.artist")
+  @Mapping(target = "settings.genre", source = "settings.genre")
   Game convertGamePostDTOtoEntity(GamePostDTO gamePostDTO);
 
   @Mapping(source = "gameId", target = "gameId")
@@ -50,5 +55,8 @@ public interface DTOMapper {
   @Mapping(source = "currentRound", target = "currentRound")
   @Mapping(source = "settings", target = "settings")
   @Mapping(source = "players", target = "players")
+  @Mapping(target = "settings.language", source = "settings.language")
+  @Mapping(target = "settings.artist", source = "settings.artist")
+  @Mapping(target = "settings.genre", source = "settings.genre")
   GameGetDTO convertEntityToGameGetDTO(Game game);
 }

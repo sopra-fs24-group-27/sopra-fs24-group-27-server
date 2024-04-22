@@ -74,7 +74,7 @@ public class SpotifyService {
         return lowerName;
     }
 
-    public List<SongInfo> searchSong(String description, String genre, String artist, String token) {
+    public List<SongInfo> searchSong(String language, String genre, String artist, String token) {
         // Returned example: "name, artist, imageUrl, href"
         // returned example with descrption = English, genre = pop, artist = Maroon 5 :
         // [
@@ -91,7 +91,7 @@ public class SpotifyService {
         //  "playUrl": "https://api.spotify.com/v1/tracks/4H52xXIWHfi68h8VqBcS4V"
         //}
         //]
-        String query = String.format("%s genre:%s artist:%s", description, genre, artist);
+        String query = String.format("description:%s genre:%s artist:%s", language, genre, artist);
 
         LOGGER.info("Searching for song with query: {}", query);
         String searchResult = WebClient.create("https://api.spotify.com/v1")
@@ -138,6 +138,7 @@ public class SpotifyService {
         }
 
         LOGGER.info("Parsed search results successfully");
+        // return the list of songs
         return songsInfo;
     }
 

@@ -3,7 +3,7 @@ package ch.uzh.ifi.hase.soprafs24.entity;
 public class Settings {
     private String language;
     private String artist;
-    private String style;
+    private String genre;
 
 
     // Getters and Setters
@@ -23,12 +23,12 @@ public class Settings {
         this.artist = artist;
     }
 
-    public String getStyle() {
-        return style;
+    public String getGenre() {
+        return genre;
     }
 
-    public void setStyle(String style) {
-        this.style = style;
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
 }

@@ -39,6 +39,11 @@ public class User implements Serializable {
     @Temporal(TemporalType.DATE) // Use TemporalType.DATE for date without time
     private Date birthDate;
 
+    // Avatar
+    @Column
+    private String avatar;
+
+
     // Standard getters and setters
     public Long getId() {
         return id;
@@ -94,5 +99,13 @@ public class User implements Serializable {
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }
