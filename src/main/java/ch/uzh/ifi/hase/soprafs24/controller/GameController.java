@@ -10,6 +10,9 @@ import ch.uzh.ifi.hase.soprafs24.rest.mapper.DTOMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 public class GameController {
@@ -20,7 +23,6 @@ public class GameController {
         this.gameService = gameService;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")  // Make sure CORS is enabled here
     @PostMapping("/games")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
@@ -29,7 +31,18 @@ public class GameController {
         return DTOMapper.INSTANCE.convertEntityToGameGetDTO(game);
     } 
 
-    @CrossOrigin(origins = "http://localhost:3000")  // Make sure CORS is enabled here
+    // add to test
+    @GetMapping("/games/{gameId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public String getGame(@PathVariable String gameId) {
+        Game game = gameService.getGameById(gameId);
+        if (game == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
+        }
+        return game.toString();
+    }
+
     @DeleteMapping("/games/{gameId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody

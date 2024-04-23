@@ -19,12 +19,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-
 /**
  * User Service
  * This class is the "worker" and responsible for all functionality related to
@@ -107,39 +101,20 @@ public class UserService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
 
-    public User updateUserDetails(long userId, @RequestBody UserPostDTO userPostDTO) {
+    public User updateUserDetails(long userId, @RequestBody User user2) {
 
       User user = userRepository.findById(userId)
           .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-      System.out.println("Received name: " + userPostDTO.getName()); // 输出接收到的name值
-      user.setBirthDate(userPostDTO.getBirthDate());
+      System.out.println("Received name: " + user2.getName()); // 输出接收到的name值
+      user.setBirthDate(user2.getBirthDate());
 
-      user.setUsername(userPostDTO.getUsername());
+      user.setUsername(user2.getUsername());
       
-      user.setName(userPostDTO.getName());
+      user.setName(user2.getName());
       // Save the updated user to the database
       userRepository.save(user);
       System.out.println("After update: " + user.getName());  
       return user;
-  }
-
-    public boolean validateToken(String replace) {
-        return userRepository.findByToken(replace).isPresent();
-    }
-    
-    public Authentication getAuthentication(String token) {
-      User user = userRepository.findByToken(token)
-              .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token"));
-
-      // Directly return an authentication token with minimal authorities
-      return new UsernamePasswordAuthenticationToken(user.getUsername(), null, Collections.emptyList());
-
-      // the returned authentication object will be set in the SecurityContextHolder
-      //UsernamePasswordAuthenticationToken {
-     //Principal: "username_of_the_user", // String
-     //Credentials: null, // Since it's not used post-authentication
-     //Authorities: [] // Empty list, no roles assigned
-
   }
 }
 

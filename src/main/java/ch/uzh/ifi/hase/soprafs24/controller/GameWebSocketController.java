@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -38,7 +39,7 @@ public class GameWebSocketController {
     }
 
     private SimpMessagingTemplate simpMessagingTemplate;
-
+    
     // client: subscribe to /topic/games/{gameId}
     private void broadcast(String gameId, GameResponseDTO gameResponse) {
         // Use SimpMessagingTemplate to send to a specific topic
@@ -49,14 +50,18 @@ public class GameWebSocketController {
 
     @MessageMapping("/games/{gameId}/waitingroom")
     public void joinWaitingRoom(@DestinationVariable String gameId, @Payload JoinRoomPayloadDTO payload) {
-        Game game = gameService.joinRoom(gameId, payload.getUserId());
-        // Convert the updated game state to a DTO to broadcast
-        GameResponseDTO gameResponse = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(game);
-        // Broadcast the updated game state to all subscribers of this room
-        broadcast("/topic/games/" + gameId + "/waitingroom", gameResponse);
+        try {
+            Game game = gameService.joinRoom(gameId, payload.getUserId());
+            GameResponseDTO gameResponse = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(game);
+            broadcast("/topic/games/" + gameId + "/waitingroom", gameResponse);
+            System.out.println("Data sent: " + gameResponse);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error processing request");
+        }
     }
     
- 
+    
     @MessageMapping("/games/{gameId}/start")
     public void startGame(@DestinationVariable String gameId) {
         Game gameStatus = gameService.startGame(gameId);

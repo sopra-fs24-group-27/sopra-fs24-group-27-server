@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.4.13'
+    id 'org.springframework.boot' version '2.5.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
     id 'idea'
@@ -39,13 +39,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    implementation 'org.springframework.boot:spring-boot-starter-webflux:2.4.13'
-    // Spring Boot WebSocket dependency
+    implementation 'org.springframework.boot:spring-boot-starter-webflux:2.5.5'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
-
-
-    // Spring Security
-    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.webjars.npm:sockjs-client:1.5.0'
 
     //MessageSecurityMetadataSourceRegistry
     implementation 'org.springframework.security:spring-security-messaging'
