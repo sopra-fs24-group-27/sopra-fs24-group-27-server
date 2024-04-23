@@ -24,11 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -245,25 +241,62 @@ public class GameService {
     public Game sortTurnOrder(String gameId) {
         Game game = gameRepository.findByGameId(gameId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
-        if (game == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
-        }
         List<Player> players = game.getPlayers();
         Collections.shuffle(players); // Shuffle the list to randomize turn order
+
+        for (int i = 0; i < players.size(); i++) {
+            players.get(i).setTurn(i + 1);
+            playerRepository.save(players.get(i));
+        }
+
         game.setPlayers(players); // Set the shuffled list back to the game
         return gameRepository.save(game); // Save the changes to the database
     }
 
-    public Game sendEmojis(String gameId, Player player, List<String> emojis) {
-        Game game = gameRepository.findByGameId(gameId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
-        if (game == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
+    public Game sendEmojis(Long playerId, List<String> emojis) {
+        Player player = playerRepository.findById(playerId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Player not found"));
+
+        Game game = player.getGame();
+        if (game.getCurrentTurn() != player.getTurn()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "It's not this player's turn");
         }
-        player.setEmojis(emojis); // Set the emojis sent by the player
-        playerRepository.save(player); // Save the player's updated state
+
+        if (emojis.size() > 5) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cannot send more than 5 emojis");
+        }
+
+        player.setEmojis(emojis);
+        playerRepository.save(player);
+
         return game;
     }
+
+    public Game startNewEmojisRound(String gameId) {
+        Game game = this.getGameById(gameId);
+        game.setCurrentEmojiRound(game.getCurrentEmojiRound() + 1);
+        // Reset emojis for all players
+        for (Player player : game.getPlayers()) {
+            player.setEmojis(new ArrayList<>());
+            playerRepository.save(player);
+        }
+        return gameRepository.save(game);
+    }
+
+    public Map<String, List<String>> viewEmojis(Long gameId) {
+        Game game = gameRepository.findById(gameId)
+                .orElseThrow(() -> new IllegalArgumentException("Game not found"));
+
+        List<Player> players = game.getPlayers();
+        Map<String, List<String>> playerEmojis = new HashMap<>();
+
+        for (Player player : players) {
+            playerEmojis.put(player.getUser().getUsername(), player.getEmojis());
+        }
+
+        return playerEmojis;
+    }
+
 
     public Game vote(String gameId, Long votedPlayerId) {
         Game game = gameRepository.findByGameId(gameId)
