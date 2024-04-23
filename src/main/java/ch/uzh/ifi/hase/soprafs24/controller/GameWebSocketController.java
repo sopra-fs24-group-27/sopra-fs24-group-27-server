@@ -40,9 +40,12 @@ public class GameWebSocketController {
 
     private SimpMessagingTemplate simpMessagingTemplate;
 
+    // client: subscribe to /topic/games/{gameId}
     private void broadcast(String gameId, GameResponseDTO gameResponse) {
         // Use SimpMessagingTemplate to send to a specific topic
         simpMessagingTemplate.convertAndSend("/topic/games/" + gameId, gameResponse);
+        // print to check connection with a new client
+        System.out.println("Broadcasting to /topic/games/" + gameId);
     }
 
     @MessageMapping("/games/{gameId}/waitingroom")

@@ -40,8 +40,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     implementation 'org.springframework.boot:spring-boot-starter-webflux:2.4.13'
+    // Spring Boot WebSocket dependency
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
-    implementation 'org.springframework.boot:spring-boot-starter-websocket:2.4.13'
 
     // Spring Security
     implementation 'org.springframework.boot:spring-boot-starter-security'

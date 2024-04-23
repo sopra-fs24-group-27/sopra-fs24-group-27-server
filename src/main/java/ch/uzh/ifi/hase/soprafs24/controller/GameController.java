@@ -29,7 +29,7 @@ public class GameController {
         return DTOMapper.INSTANCE.convertEntityToGameGetDTO(game);
     } 
 
-      @CrossOrigin(origins = "http://localhost:3000")  // Make sure CORS is enabled here
+    @CrossOrigin(origins = "http://localhost:3000")  // Make sure CORS is enabled here
     @DeleteMapping("/games/{gameId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
