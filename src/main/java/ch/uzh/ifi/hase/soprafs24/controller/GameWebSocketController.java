@@ -4,25 +4,24 @@ import ch.uzh.ifi.hase.soprafs24.service.GameService;
 import ch.uzh.ifi.hase.soprafs24.entity.Player;
 import ch.uzh.ifi.hase.soprafs24.entity.Settings;
 import ch.uzh.ifi.hase.soprafs24.entity.Game;
-import ch.uzh.ifi.hase.soprafs24.websocket.dto.GameResponseDTO;
-import ch.uzh.ifi.hase.soprafs24.websocket.dto.JoinRoomPayloadDTO;
-import ch.uzh.ifi.hase.soprafs24.websocket.dto.PlayerSongInfoDTO;
-import ch.uzh.ifi.hase.soprafs24.websocket.dto.SendEmojisPayloadDTO;
-import ch.uzh.ifi.hase.soprafs24.websocket.dto.LeaveRoomPayloadDTO;
-import ch.uzh.ifi.hase.soprafs24.websocket.dto.PlayerInfoDTO;
+import ch.uzh.ifi.hase.soprafs24.websocket.dto.*;
 import ch.uzh.ifi.hase.soprafs24.websocket.mapper.DTOMapper;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.stereotype.Controller;
+import org.springframework.messaging.handler.annotation.Header;
+
 
 
 public class GameWebSocketController {
@@ -97,32 +96,44 @@ public class GameWebSocketController {
             );
         });
     }
-    
-      
+
+
     @MessageMapping("/games/{gameId}/sortTurnOrder")
     public void sortTurnOrder(@DestinationVariable String gameId) {
-        // Process the player turn order sorting logic here
-        Game gameStatus = gameService.sortTurnOrder(gameId);
-
-        GameResponseDTO gameResponse = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(gameStatus);
-
-        // Then broadcast the new player's arrival to all subscribers of this room
+        Game game = gameService.sortTurnOrder(gameId);
+        GameResponseDTO gameResponse = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(game);
         broadcast(gameId, gameResponse);
     }
 
     @MessageMapping("/games/{gameId}/sendEmojis")
-    public void sendEmojis(@DestinationVariable String gameId, @Payload SendEmojisPayloadDTO sendEmojisPayloadDTO) {
-        // Process the emojis sending logic here
-        Player playerInput = DTOMapper.INSTANCE.convertSendEmojisPayloadDTOtoEntity(sendEmojisPayloadDTO);
-
-        List<String> emojis = sendEmojisPayloadDTO.getEmojis();
-        Game gameStatus = gameService.sendEmojis(gameId, playerInput, emojis);
-
-        GameResponseDTO gameResponse = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(gameStatus);
-
-        // Then broadcast the new player's arrival to all subscribers of this room
+    public void sendEmojis(@DestinationVariable String gameId, @Payload SendEmojisPayloadDTO payload) {
+        Game game = gameService.sendEmojis(payload.getPlayerId(), payload.getEmojis());
+        GameResponseDTO gameResponse = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(game);
         broadcast(gameId, gameResponse);
     }
+
+
+    @MessageMapping("/games/{gameId}/viewEmojis")
+    public void viewEmojis(@DestinationVariable String gameId) {
+        // Call the service to get the emoji data for this game
+        Map<String, List<String>> emojis = gameService.viewEmojis(Long.valueOf(gameId));
+
+        // Construct a response DTO to send back the emojis
+        ViewEmojisResponseDTO emojisResponse = new ViewEmojisResponseDTO();
+        emojisResponse.setEmojis(emojis);
+
+        // Broadcast the emoji data to all subscribers of this game's topic
+        simpMessagingTemplate.convertAndSend("/topic/games/" + gameId + "/emojis", emojisResponse);
+    }
+
+    @MessageMapping("/games/{gameId}/startNewRound")
+    public void startNewEmojisRound(@DestinationVariable String gameId) {
+        Game game = gameService.startNewEmojisRound(gameId);
+        // Notify all players about the new round
+        GameResponseDTO response = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(game);
+        broadcast(gameId, response);
+    }
+
 
     // Who voted matters as well!
     @MessageMapping("/games/{gameId}/vote")

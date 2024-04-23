@@ -36,7 +36,7 @@ public interface DTOMapper {
     @Mapping(source = "songInfo.imageUrl", target = "imageUrl")
     PlayerSongInfoDTO convertEntityToPlayerSongInfoDTO(Player player);
 
-    @Mapping(source = "id", target = "id")
+    @Mapping(source = "playerId", target = "id")
     @Mapping(source = "emojis", target = "emojis")
     Player convertSendEmojisPayloadDTOtoEntity(SendEmojisPayloadDTO sendEmojisPayloadDTO);
 
