@@ -107,23 +107,31 @@ public class GameService {
     
 
     public Game joinRoom(String gameId, Long userId) {
-        Game gameByGameId = gameRepository.findByGameIdWithPlayers(gameId)
+        // Fetch the game along with its players to avoid lazy loading issues.
+        Game game = gameRepository.findByGameIdWithPlayers(gameId)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
-        // check if the user is already in a game
-        if (playerRepository.findByUserId(userId).isPresent()) {
+    
+        // Check if the user is already in a game.
+        playerRepository.findByUserId(userId).ifPresent(p -> {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Player is already in a game");
-        }
-        // check if the game already has 4 players
-        if (gameByGameId.getPlayers().size() >= 4) {
+        });
+    
+        // Ensure the game is not full.
+        if (game.getPlayers().size() >= 4) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Game is full");
         }
+    
+        // Create a new player or get the existing one.
         Player player = getOrCreatePlayerFromUser(userId);
-        gameByGameId.getPlayers().add(player);
-        player.setGame(gameByGameId);
-        player.setHost(false);
-        playerRepository.save(player);
-        return gameRepository.save(gameByGameId);
-    }    
+        player.setGame(game);
+        player.setHost(false);  // Set host status for the player
+    
+        // Add the player to the game and save it.
+        game.getPlayers().add(player);
+        playerRepository.save(player);  // Save the player to persist the changes
+        return gameRepository.save(game);  // Save the game to update the player list and return
+    }
+    
 
     public boolean isPlayerInAnyGame(Long userId) {
         // find if the player is already in a game player.getGame().getGameId() returns not null

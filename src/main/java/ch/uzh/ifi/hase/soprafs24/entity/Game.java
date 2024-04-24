@@ -22,7 +22,7 @@ public class Game {
     @Embedded
     private Settings settings;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Player> players = new ArrayList<>();
 
     private int currentEmojiRound;

@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -25,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.messaging.handler.annotation.Header;
 
 
+@Transactional
 @Controller
 public class GameWebSocketController {
 
@@ -40,19 +43,24 @@ public class GameWebSocketController {
         System.out.println("Broadcasting to /topic/games/" + gameId);
     }
     
+    private void broadcastError(String gameId, String message) {
+        simpMessagingTemplate.convertAndSend("/topic/games/" + gameId + "/errors", message);
+        System.out.println("Error broadcast to /topic/games/" + gameId + "/errors");
+    }
+
 
     @MessageMapping("/games/{gameId}/join")
     public void joinWaitingRoom(@DestinationVariable String gameId, @Payload JoinRoomPayloadDTO payload) {
         try {
             Game game = gameService.joinRoom(gameId, payload.getUserId());
             GameResponseDTO gameResponse = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(game);
-            broadcast(gameId + "/waitingroom", gameResponse); // Notify all in the waiting room
-            System.out.println("Data sent: " + gameResponse);
+            broadcast(gameId + "/waitingroom", gameResponse);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            broadcastError(gameId, "Join failed: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Join failed", e);
         }
     }
-
+    
     @MessageMapping("/games/{gameId}/start")
     public void startGame(@DestinationVariable String gameId, @Header("userId") Long userId) {
         if (!gameService.isHost(userId, gameId)) {

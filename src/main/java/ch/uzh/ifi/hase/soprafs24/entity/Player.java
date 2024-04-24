@@ -27,9 +27,9 @@ public class Player implements Serializable {
     private boolean isHost; // True if the player is the host, false otherwise.
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore // Prevents the serialization of game back to JSON which stops the recursion
-    private Game game; // Association to Game
-
+    @JoinColumn(name = "game_id") // ensure this matches the database column name
+    private Game game;
+    
     @ManyToOne(fetch = FetchType.LAZY)
     private SongInfo songInfo; // Song assigned to the player, different players can have the same song
 
@@ -42,9 +42,9 @@ public class Player implements Serializable {
     @Column
     private int turn;
 
-    @ElementCollection // This annotation is used for storing a list of basic elements or embeddable
-                       // objects
-    private List<String> emojis; // Stores multiple emojis
+    @ElementCollection(fetch = FetchType.EAGER) // to sovlve the error:failed to lazily initialize a collection of role: ch.uzh.ifi.hase.soprafs24.entity.Player.emojis, could not initialize proxy - no Session
+    private List<String> emojis;
+    
 
     @Column
     private int votes;
