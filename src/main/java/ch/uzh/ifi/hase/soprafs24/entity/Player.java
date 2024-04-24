@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs24.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class Player implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "game_id") // ensure this matches the database column name
+    @JsonBackReference
     private Game game;
     
     @ManyToOne(fetch = FetchType.LAZY)

@@ -1,6 +1,9 @@
 package ch.uzh.ifi.hase.soprafs24.entity;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +26,7 @@ public class Game {
     private Settings settings;
 
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Player> players = new ArrayList<>();
 
     private int currentEmojiRound;
