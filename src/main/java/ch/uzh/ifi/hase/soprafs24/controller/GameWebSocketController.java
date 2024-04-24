@@ -55,6 +55,9 @@ public class GameWebSocketController {
             Game game = gameService.joinRoom(gameId, payload.getUserId());
             GameResponseDTO gameResponse = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(game);
             broadcast(gameId + "/waitingroom", gameResponse);
+            // broadcast again after 1 second to ensure that the player is added to the game
+            Thread.sleep(1000);
+            broadcast(gameId + "/waitingroom", gameResponse);
         } catch (Exception e) {
             broadcastError(gameId, "Join failed: " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Join failed", e);
