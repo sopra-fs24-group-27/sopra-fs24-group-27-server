@@ -101,16 +101,21 @@ public User getUserByToken(String token) {
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 }
 
-public User updateUserDetails(Long userId, String username) {
-    User user = userRepository.findById(userId)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+public User updateUserDetails(long userId, @RequestBody UserPostDTO userPostDTO) {
 
-    // Update the user details
-    user.setUsername(username);
 
-    // Save the updated user to the database
-    userRepository.save(user);
+  User user = userRepository.findById(userId)
+      .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
-    return user;
+  user.setBirthDate(userPostDTO.getBirthDate());
+
+
+  user.setUsername(userPostDTO.getUsername());
+  
+  user.setName(userPostDTO.getName());
+  // Save the updated user to the database
+  userRepository.save(user);
+
+  return user;
 }
 }

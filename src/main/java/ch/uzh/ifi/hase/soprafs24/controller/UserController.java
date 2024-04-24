@@ -71,7 +71,7 @@ public class UserController {
   @ResponseBody
   public UserGetDTO updateUserDetails(@PathVariable Long userId, @RequestBody UserPostDTO userPostDTO) {
       // Update user details
-      User updatedUser = userService.updateUserDetails(userId, userPostDTO.getUsername());
+      User updatedUser = userService.updateUserDetails(userId, userPostDTO);
 
       // Convert updated user to API representation
       return DTOMapper.INSTANCE.convertEntityToUserGetDTO(updatedUser);
