@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 public class UserController {
@@ -39,17 +42,38 @@ public class UserController {
     return DTOMapper.INSTANCE.convertEntityToUserGetDTO(createdUser);
   }
 
-  @GetMapping("/{userId}")
+  @PostMapping("/login")
   @ResponseStatus(HttpStatus.OK)
-  public UserGetDTO getUserById(@PathVariable Long userId) {
-    User user = userService.getUserById(userId);
-    return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
+  @ResponseBody
+  public UserGetDTO loginUser(@RequestBody UserPostDTO userPostDTO) {
+      User user = userService.loginUser(userPostDTO.getUsername(), userPostDTO.getPassword());
+      return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
   }
 
-  @PutMapping("/{userId}")
+  @GetMapping("/logout")
   @ResponseStatus(HttpStatus.OK)
-  public UserGetDTO updateUserDetails(@PathVariable Long userId, @RequestBody UserPostDTO userPostDTO) {
-    User updatedUser = userService.updateUserDetails(userId, DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO));
-    return DTOMapper.INSTANCE.convertEntityToUserGetDTO(updatedUser);
+  public void logoutUser(@RequestBody Long userId) {
+
   }
-}
+
+  @GetMapping("/users/{userId}")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public UserGetDTO getUserById(@PathVariable Long userId) {
+      // fetch user by id
+      User user = userService.getUserById(userId);
+      // convert user to API representation
+      return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
+  }
+
+  @PutMapping("/users/{userId}")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public UserGetDTO updateUserDetails(@PathVariable Long userId, @RequestBody UserPostDTO userPostDTO) {
+      // Update user details
+      User updatedUser = userService.updateUserDetails(userId, userPostDTO.getUsername());
+
+      // Convert updated user to API representation
+      return DTOMapper.INSTANCE.convertEntityToUserGetDTO(updatedUser);
+  }
+}	

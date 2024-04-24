@@ -24,7 +24,7 @@ public class GameRepositoryIntegrationTest {
         game = gameRepository.save(game);
 
         // Test findByGameId
-        Optional<Game> foundGame = gameRepository.findByGameId("testGameId");
+        Optional<Game> foundGame = gameRepository.findByGameIdWithPlayers(game.getGameId());
         assertThat(foundGame).isPresent();
         assertThat(foundGame.get().getGameId()).isEqualTo(game.getGameId());
     }

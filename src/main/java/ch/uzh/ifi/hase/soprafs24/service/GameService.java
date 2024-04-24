@@ -70,8 +70,8 @@ public class GameService {
         });
     }
 
-    public Game getGameById(String gameId) {
-        return gameRepository.findByGameId(gameId)
+    public Game getGameByIdWithPlayers(String gameId) {
+        return gameRepository.findByGameIdWithPlayers(gameId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
     }
     
@@ -93,29 +93,36 @@ public class GameService {
 
 
     public void deleteRoom(String gameId) {
-        Game gameByGameId = gameRepository.findByGameId(gameId)
+        Game gameByGameId = gameRepository.findByGameIdWithPlayers(gameId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
         gameRepository.delete(gameByGameId);
+    }
+
+    // check if the user is the host of the game
+    public boolean isHost(Long userId, String gameId) {
+        Game gameByGameId = gameRepository.findByGameIdWithPlayers(gameId)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
+        return gameByGameId.getHostId().equals(userId);
     }
     
 
     public Game joinRoom(String gameId, Long userId) {
-        Game game = gameRepository.findByGameId(gameId)
+        Game gameByGameId = gameRepository.findByGameIdWithPlayers(gameId)
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
         // check if the user is already in a game
         if (playerRepository.findByUserId(userId).isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Player is already in a game");
         }
         // check if the game already has 4 players
-        if (game.getPlayers().size() >= 4) {
+        if (gameByGameId.getPlayers().size() >= 4) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Game is full");
         }
         Player player = getOrCreatePlayerFromUser(userId);
-        game.getPlayers().add(player);
-        player.setGame(game);
+        gameByGameId.getPlayers().add(player);
+        player.setGame(gameByGameId);
         player.setHost(false);
         playerRepository.save(player);
-        return game;
+        return gameRepository.save(gameByGameId);
     }    
 
     public boolean isPlayerInAnyGame(Long userId) {
@@ -124,11 +131,12 @@ public class GameService {
     }    
 
     public List<PlayerInfoDTO> getPlayerInfoForGame(String gameId) {
-        Game game = gameRepository.findByGameId(gameId)
+        Game gameByGameId = gameRepository.findByGameIdWithPlayers(gameId)
                          .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
     
-        return game.getPlayers().stream()
-                   .map(player -> new PlayerInfoDTO(
+        return gameByGameId.getPlayers().stream()
+                     .filter(player -> player.getUser() != null)
+                     .map(player -> new PlayerInfoDTO(
                           player.getId(),
                           player.getUser().getId(),
                           player.getUser().getUsername(),
@@ -157,13 +165,13 @@ public class GameService {
     // player related methods: find all players in a game, find one player by id,
     // find one player by username
     public List<Player> getPlayers(String gameId) {
-        Game game = gameRepository.findByGameId(gameId)
+        Game game = gameRepository.findByGameIdWithPlayers(gameId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
         return game.getPlayers();
     }
 
     public Player getPlayerById(String gameId, Long playerId) {
-        Game game = gameRepository.findByGameId(gameId)
+        Game game = gameRepository.findByGameIdWithPlayers(gameId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
         return game.getPlayers().stream()
                 .filter(player -> player.getId().equals(playerId))
@@ -172,7 +180,7 @@ public class GameService {
     }
 
     public Player getPlayerByUsername(String gameId, String username) {
-        Game game = gameRepository.findByGameId(gameId)
+        Game game = gameRepository.findByGameIdWithPlayers(gameId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
         return game.getPlayers().stream()
                 .filter(player -> player.getUser().getUsername().equals(username))
@@ -181,7 +189,7 @@ public class GameService {
     }
 
     public Game startGame(String gameId) {
-        Game game = gameRepository.findByGameId(gameId)
+        Game game = gameRepository.findByGameIdWithPlayers(gameId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
 
         if (game.getPlayers().size() < 4) {
@@ -239,7 +247,7 @@ public class GameService {
     
 
     public Game sortTurnOrder(String gameId) {
-        Game game = gameRepository.findByGameId(gameId)
+        Game game = gameRepository.findByGameIdWithPlayers(gameId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
         List<Player> players = game.getPlayers();
         Collections.shuffle(players); // Shuffle the list to randomize turn order
@@ -273,7 +281,8 @@ public class GameService {
     }
 
     public Game startNewEmojisRound(String gameId) {
-        Game game = this.getGameById(gameId);
+        Game game = gameRepository.findByGameIdWithPlayers(gameId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
         game.setCurrentEmojiRound(game.getCurrentEmojiRound() + 1);
         // Reset emojis for all players
         for (Player player : game.getPlayers()) {
@@ -299,7 +308,7 @@ public class GameService {
 
 
     public Game vote(String gameId, Long votedPlayerId) {
-        Game game = gameRepository.findByGameId(gameId)
+        Game game = gameRepository.findByGameIdWithPlayers(gameId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
         if (game == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
@@ -312,7 +321,7 @@ public class GameService {
     }
 
     public Game endVoting(String gameId) {
-        Game game = gameRepository.findByGameId(gameId)
+        Game game = gameRepository.findByGameIdWithPlayers(gameId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
         if (game == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
@@ -321,7 +330,7 @@ public class GameService {
     }
 
     public Game declareWinner(String gameId) {
-        Game game = gameRepository.findByGameId(gameId)
+        Game game = gameRepository.findByGameIdWithPlayers(gameId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
         if (game == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
@@ -332,7 +341,7 @@ public class GameService {
     }
 
     public Game endRound(String gameId) {
-        Game game = gameRepository.findByGameId(gameId)
+        Game game = gameRepository.findByGameIdWithPlayers(gameId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
         if (game == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
@@ -348,12 +357,13 @@ public class GameService {
 
     // Players except host can leave the room by pressing Quit button
     public Game leaveRoom(String gameId, Player player) {
-        Game gameByGameId = gameRepository.findByGameId(gameId)
+        Game game = gameRepository.findByGameIdWithPlayers(gameId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
-        List<Player> players = gameByGameId.getPlayers();
+        List<Player> players = game.getPlayers();
         players.remove(player);
-        gameByGameId.setPlayers(players);
-        return gameByGameId;
+        playerRepository.delete(player);
+        game.setPlayers(players);
+        return gameRepository.save(game);
     }
 
 }

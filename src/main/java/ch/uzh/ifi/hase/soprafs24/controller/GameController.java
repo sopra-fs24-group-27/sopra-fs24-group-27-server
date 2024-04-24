@@ -36,7 +36,7 @@ public class GameController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public String getGame(@PathVariable String gameId) {
-        Game game = gameService.getGameById(gameId);
+        Game game = gameService.getGameByIdWithPlayers(gameId);
         if (game == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
         }

@@ -83,38 +83,34 @@ public class UserService {
     }
   }
 
-    public User loginUser(String username, String password) {
-        User user = userRepository.findByUsername(username);
-        if (user == null || !user.getPassword().equals(password)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password");
-        }
-        return user;
+  public User loginUser(String username, String password) {
+    User user = userRepository.findByUsername(username);
+    if (user == null || !user.getPassword().equals(password)) {
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password");
     }
-
-    public User getUserById(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-    }
-
-    public User getUserByToken(String token) {
-        return userRepository.findByToken(token)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-    }
-
-    public User updateUserDetails(long userId, @RequestBody User user2) {
-
-      User user = userRepository.findById(userId)
-          .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-      System.out.println("Received name: " + user2.getName()); // 输出接收到的name值
-      user.setBirthDate(user2.getBirthDate());
-
-      user.setUsername(user2.getUsername());
-      
-      user.setName(user2.getName());
-      // Save the updated user to the database
-      userRepository.save(user);
-      System.out.println("After update: " + user.getName());  
-      return user;
-  }
+    return user;
 }
 
+public User getUserById(Long userId) {
+    return userRepository.findById(userId)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+}
+
+public User getUserByToken(String token) {
+    return userRepository.findByToken(token)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+}
+
+public User updateUserDetails(Long userId, String username) {
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+    // Update the user details
+    user.setUsername(username);
+
+    // Save the updated user to the database
+    userRepository.save(user);
+
+    return user;
+}
+}

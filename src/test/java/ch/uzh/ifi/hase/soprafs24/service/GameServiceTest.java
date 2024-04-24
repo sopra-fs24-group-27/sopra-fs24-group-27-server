@@ -61,14 +61,14 @@ public class GameServiceTest {
         lenient().when(userRepository.findById(1L)).thenReturn(Optional.of(host));
         lenient().when(playerRepository.findByUserId(1L)).thenReturn(Optional.of(hostPlayer));
         lenient().when(playerRepository.save(any(Player.class))).thenReturn(hostPlayer);
-        lenient().when(gameRepository.findByGameId(any())).thenReturn(Optional.empty());
+        lenient().when(gameRepository.findByGameIdWithPlayers(dynamicGameId)).thenReturn(Optional.empty());
 
     
         // Ensure we handle dynamic game IDs correctly by returning the same game that was saved
         lenient().when(gameRepository.save(any(Game.class))).thenAnswer(invocation -> {
             Game savedGame = invocation.getArgument(0);
             dynamicGameId = savedGame.getGameId();  // Capture dynamically generated game ID
-            when(gameRepository.findByGameId(dynamicGameId)).thenReturn(Optional.of(savedGame));
+            when(gameRepository.findByGameIdWithPlayers(dynamicGameId)).thenReturn(Optional.of(savedGame));
             return savedGame;
     });
     
@@ -94,7 +94,7 @@ public class GameServiceTest {
         assertTrue(createdGame.getPlayers().stream().anyMatch(Player::isHost), "Should have a host player");
         verify(gameRepository).save(createdGame);
 
-        assertEquals(createdGame, gameRepository.findByGameId(dynamicGameId).orElse(null));
+        assertEquals(createdGame, gameRepository.findByGameIdWithPlayers(dynamicGameId).get(), "Game should be saved in the repository");
     }
     
     @Test
@@ -120,6 +120,8 @@ public class GameServiceTest {
         assertNotNull(updatedGame, "Game should not be null");
         assertEquals(2, updatedGame.getPlayers().size(), "Should have 2 players now");
         assertTrue(updatedGame.getPlayers().contains(newPlayer), "New player should be added to the game");
+
+        assertEquals(updatedGame, gameRepository.findByGameIdWithPlayers(dynamicGameId).get(), "Game should be saved in the repository");
     }
     
     @Test
@@ -142,6 +144,8 @@ public class GameServiceTest {
         assertNotNull(updatedGame, "Game should not be null");
         assertEquals(3, updatedGame.getPlayers().size(), "Should have 3 players now");
         assertTrue(updatedGame.getPlayers().contains(player3), "New player should be added to the game");
+
+        assertEquals(updatedGame, gameRepository.findByGameIdWithPlayers(dynamicGameId).get(), "Game should be saved in the repository");
     }
 
     @Test
@@ -164,6 +168,8 @@ public class GameServiceTest {
         assertNotNull(updatedGame, "Game should not be null");
         assertEquals(4, updatedGame.getPlayers().size(), "Should have 4 players now");
         assertTrue(updatedGame.getPlayers().contains(player4), "New player should be added to the game");
+
+        assertEquals(updatedGame, gameRepository.findByGameIdWithPlayers(dynamicGameId).get(), "Game should be saved in the repository");
     }
 
     //@Test

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -24,84 +25,54 @@ import org.springframework.stereotype.Controller;
 import org.springframework.messaging.handler.annotation.Header;
 
 
-
+@Controller
 public class GameWebSocketController {
 
-    private final GameService gameService;
+    @Autowired
+    private GameService gameService;
 
-    GameWebSocketController(GameService gameService) {
-        this.gameService = gameService;
-    }
-
-    // Setter method for SimpMessagingTemplate
-    public void setSimpMessagingTemplate(SimpMessagingTemplate simpMessagingTemplate) {
-        this.simpMessagingTemplate = simpMessagingTemplate;
-    }
-
+    @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
-    
-    // client: subscribe to /topic/games/{gameId}
+
+    // populate the game response object and broadcast it to all subscribers of the game
     private void broadcast(String gameId, GameResponseDTO gameResponse) {
-        // Use SimpMessagingTemplate to send to a specific topic
         simpMessagingTemplate.convertAndSend("/topic/games/" + gameId, gameResponse);
-        // print to check connection with a new client
         System.out.println("Broadcasting to /topic/games/" + gameId);
     }
+    
 
-    @MessageMapping("/games/{gameId}/waitingroom")
+    @MessageMapping("/games/{gameId}/join")
     public void joinWaitingRoom(@DestinationVariable String gameId, @Payload JoinRoomPayloadDTO payload) {
         try {
             Game game = gameService.joinRoom(gameId, payload.getUserId());
             GameResponseDTO gameResponse = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(game);
-            broadcast("/topic/games/" + gameId + "/waitingroom", gameResponse);
+            broadcast(gameId + "/waitingroom", gameResponse); // Notify all in the waiting room
             System.out.println("Data sent: " + gameResponse);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error processing request");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
-    
-    
+
     @MessageMapping("/games/{gameId}/start")
-    public void startGame(@DestinationVariable String gameId) {
+    public void startGame(@DestinationVariable String gameId, @Header("userId") Long userId) {
+        if (!gameService.isHost(userId, gameId)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Only the host can start the game");
+        }
+        
         Game gameStatus = gameService.startGame(gameId);
+        GameResponseDTO generalGameResponse = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(gameStatus);
+        broadcast(gameId + "/start", generalGameResponse);  // Make sure all needed info is sent
     
-        // Notify all players that the game is starting
-        GameResponseDTO generalGameResponse = new GameResponseDTO();
-        generalGameResponse.setGameId(gameId);
-        generalGameResponse.setCurrentRound(gameStatus.getCurrentRound());
-        generalGameResponse.setHostId(gameStatus.getHostId());
-    
-        List<PlayerInfoDTO> playerInfoList = gameStatus.getPlayers().stream()
-            .map(DTOMapper.INSTANCE::convertEntityToPlayerInfoDTO)
-            .collect(Collectors.toList());
-    
-        generalGameResponse.setPlayers(playerInfoList);
-    
-        // Broadcast general game information to all players
-        broadcast("/topic/games/" + gameId + "/start", generalGameResponse);
-    
-        // Individual secure messages for song details
         gameStatus.getPlayers().forEach(player -> {
-            PlayerSongInfoDTO songInfoDTO = new PlayerSongInfoDTO(
-                player.getId(),
-                player.isSpy(),
-                player.getSongInfo().getTitle(),
-                player.getSongInfo().getArtist(),
-                player.getSongInfo().getPlayUrl(),
-                player.getSongInfo().getImageUrl()
-            );
-    
-            // Send individual song details directly to each player
+            PlayerSongInfoDTO songInfoDTO = DTOMapper.INSTANCE.convertEntityToPlayerSongInfoDTO(player);
             simpMessagingTemplate.convertAndSendToUser(
                 player.getUser().getId().toString(),
-                "/queue/listen", // Assumed endpoint on the client for receiving the song
-                // here queue is used to ensure that the message is delivered to the correct user
+                "/queue/listen",  // Direct message to user queue for song info
                 songInfoDTO
             );
         });
     }
-
+    
 
     @MessageMapping("/games/{gameId}/sortTurnOrder")
     public void sortTurnOrder(@DestinationVariable String gameId) {
