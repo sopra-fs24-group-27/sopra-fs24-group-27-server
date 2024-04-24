@@ -8,6 +8,7 @@ import ch.uzh.ifi.hase.soprafs24.entity.SongInfo;
 import ch.uzh.ifi.hase.soprafs24.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs24.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs24.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs24.repository.SongInfoRepository;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GamePostDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs24.service.SpotifyService;
@@ -39,13 +40,18 @@ public class GameService {
 
     private final UserRepository userRepository;
 
+    private final SongInfoRepository songInfoRepository;
+
     @Autowired
     public GameService(@Qualifier("gameRepository") GameRepository gameRepository,
             @Qualifier("playerRepository") PlayerRepository playerRepository,
-            @Qualifier("userRepository") UserRepository userRepository) {
+            @Qualifier("userRepository") UserRepository userRepository,
+            @Qualifier("songInfoRepository") SongInfoRepository songInfoRepository) {
         this.gameRepository = gameRepository;
         this.playerRepository = playerRepository;
         this.userRepository = userRepository;
+        this.songInfoRepository = songInfoRepository;
+
     }
 
     @Autowired
@@ -212,12 +218,8 @@ public class GameService {
         }
         // print logs to check if token is fetched
         log.info("Token: " + token);
-        List<SongInfo> songs = spotifyService.searchSong(
-            game.getSettings().getLanguage(),  // Pass language as the description
-            game.getSettings().getGenre(),
-            game.getSettings().getArtist(),
-            token
-        );
+        Settings settings = game.getSettings();
+        List<SongInfo> songs = spotifyService.searchSong(settings.getMarket(), settings.getGenre(), settings.getArtist(), token);
 
         // print logs to check if songs are fetched
         log.info("Searched songs: " + songs);
@@ -241,11 +243,13 @@ public class GameService {
         // Set the first player as the spy
         game.getPlayers().get(0).setSpy(true);
         // Assign the first song to the spy
-        game.getPlayers().get(0).setSongInfo(songs.get(0));
+        SongInfo spySong = songInfoRepository.save(songs.get(0));
+        game.getPlayers().get(0).setSongInfo(spySong);
     
         // Assign the second song to the rest of the players (players 2, 3, and 4)
+        SongInfo commonSong = songInfoRepository.save(songs.get(1));
         for (int i = 1; i < game.getPlayers().size(); i++) {
-            game.getPlayers().get(i).setSongInfo(songs.get(1));
+            game.getPlayers().get(i).setSongInfo(commonSong);
             game.getPlayers().get(i).setSpy(false); // Ensure only the first player is marked as the spy
         }
     
@@ -253,6 +257,11 @@ public class GameService {
         playerRepository.saveAll(game.getPlayers());
     }
     
+    public PlayerSongInfoDTO getCurrentSongInfo(Long playerId) {
+        Player player = playerRepository.findById(playerId)
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Player not found"));
+        return createPlayerSongInfoDTO(player);
+    }
 
     public Game sortTurnOrder(String gameId) {
         Game game = gameRepository.findByGameIdWithPlayers(gameId)

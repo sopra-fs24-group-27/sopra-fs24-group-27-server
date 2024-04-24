@@ -28,6 +28,7 @@ public class GameController {
     @ResponseBody
     public GameGetDTO createGame(@RequestBody GamePostDTO gamePostDTO, @RequestParam Long userId) {
         Game game = gameService.createRoom(gamePostDTO, userId);
+        System.out.println("Game created: " + game.toString());
         return DTOMapper.INSTANCE.convertEntityToGameGetDTO(game);
     } 
 

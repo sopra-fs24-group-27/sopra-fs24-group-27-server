@@ -74,7 +74,7 @@ public class SpotifyService {
         return lowerName;
     }
 
-    public List<SongInfo> searchSong(String language, String genre, String artist, String token) {
+    public List<SongInfo> searchSong(String market, String genre, String artist, String token) {
         // Returned example: "name, artist, imageUrl, href"
         // returned example with descrption = English, genre = pop, artist = Maroon 5 :
         // [
@@ -91,15 +91,16 @@ public class SpotifyService {
         //  "playUrl": "https://api.spotify.com/v1/tracks/4H52xXIWHfi68h8VqBcS4V"
         //}
         //]
-        String query = String.format("description:%s genre:%s artist:%s", language, genre, artist);
+        String query = String.format("genre:%s artist:%s", genre, artist);
 
         LOGGER.info("Searching for song with query: {}", query);
-        String searchResult = WebClient.create("https://api.spotify.com/v1")
+        String searchResult = WebClient.create("https://api.spotify.com")
                 .get()
-                .uri(uriBuilder -> uriBuilder.path("/search")
+                .uri(uriBuilder -> uriBuilder.path("/v1/search")
                         .queryParam("q", query)
                         .queryParam("type", "track") // Only search for tracks
                         .queryParam("limit", 20) // Limit to 10 results because we will filter duplicates
+                        .queryParam("market", market) 
                         .build())
                 .headers(headers -> headers.setBearerAuth(token))
                 .retrieve()
@@ -168,7 +169,7 @@ public class SpotifyService {
     
             // Authenticate and search for songs
             String token = spotifyService.authenticate();
-            List<SongInfo> songs = spotifyService.searchSong("English", "pop", "Maroon 5", token);
+            List<SongInfo> songs = spotifyService.searchSong("US", "pop", "Coldplay", token);
             System.out.println(songs);
         } catch (Exception e) {
             e.printStackTrace();

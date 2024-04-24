@@ -32,8 +32,8 @@ public class Player implements Serializable {
     @JsonBackReference
     private Game game;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    private SongInfo songInfo; // Song assigned to the player, different players can have the same song
+    @ManyToOne(cascade = CascadeType.ALL)  // Adjust the CascadeType based on your needs
+    private SongInfo songInfo;
 
     @Column
     private boolean isSpy; // True if the player is the spy, false otherwise.

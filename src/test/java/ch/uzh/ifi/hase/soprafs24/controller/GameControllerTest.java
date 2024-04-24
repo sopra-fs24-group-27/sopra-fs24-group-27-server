@@ -42,7 +42,7 @@ public class GameControllerTest {
     public void testCreateRoom() throws Exception {
         Game game = new Game();
         Settings settings = new Settings();
-        settings.setLanguage("English");
+        settings.setMarket("US");
         settings.setArtist("Maroon 5");
         settings.setGenre("Pop");
 
@@ -65,7 +65,7 @@ public class GameControllerTest {
         String jsonContent = """
             {
                 "settings": {
-                    "language": "English",
+                    "market": "US",
                     "artist": "Maroon 5",
                     "genre": "Pop"
                 },
@@ -78,7 +78,7 @@ public class GameControllerTest {
                         .content(jsonContent)
                         .param("userId", "1"))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.settings.language").value("English"))
+                .andExpect(jsonPath("$.settings.market").value("US"))
                 .andExpect(jsonPath("$.settings.artist").value("Maroon 5"))
                 .andExpect(jsonPath("$.settings.genre").value("Pop"))
                 .andExpect(jsonPath("$.currentRound").value(1));

@@ -17,6 +17,7 @@ import ch.uzh.ifi.hase.soprafs24.entity.SongInfo;
 import ch.uzh.ifi.hase.soprafs24.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs24.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs24.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs24.repository.SongInfoRepository;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GamePostDTO;
 
 import java.util.ArrayList;
@@ -35,6 +36,8 @@ public class GameServiceTest {
     @Mock
     private UserRepository userRepository;
     @Mock
+    private SongInfoRepository songInfoRepository;
+    @Mock
     private SpotifyService spotifyService;
 
     @InjectMocks
@@ -45,7 +48,7 @@ public class GameServiceTest {
     @BeforeEach
     public void setup() {
         // Manual setting of mocks if @Autowired is not effective in the test context
-        gameService = new GameService(gameRepository, playerRepository, userRepository);
+        gameService = new GameService(gameRepository, playerRepository, userRepository, songInfoRepository);
         gameService.setSpotifyService(spotifyService); 
         
         User host = new User();
@@ -77,7 +80,7 @@ public class GameServiceTest {
     @Test
     public void testCreateRoom_ShouldCreateRoom() {
         Settings settings = new Settings();
-        settings.setLanguage("English");
+        settings.setMarket("US");
         settings.setArtist("Maroon 5");
         settings.setGenre("Pop");
     

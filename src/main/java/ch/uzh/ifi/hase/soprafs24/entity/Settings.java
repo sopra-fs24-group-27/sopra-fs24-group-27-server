@@ -1,18 +1,18 @@
 package ch.uzh.ifi.hase.soprafs24.entity;
 
 public class Settings {
-    private String language;
+    private String market;
     private String artist;
     private String genre;
 
 
     // Getters and Setters
-    public String getLanguage() {
-        return language;
+    public String getMarket() {
+        return market;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
+    public void setMarket(String market) {
+        this.market = market;
     }
 
     public String getArtist() {

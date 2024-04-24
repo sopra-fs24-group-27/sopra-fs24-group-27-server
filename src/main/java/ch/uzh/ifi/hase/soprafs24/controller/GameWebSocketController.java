@@ -3,11 +3,16 @@ package ch.uzh.ifi.hase.soprafs24.controller;
 import ch.uzh.ifi.hase.soprafs24.service.GameService;
 import ch.uzh.ifi.hase.soprafs24.entity.Player;
 import ch.uzh.ifi.hase.soprafs24.entity.Settings;
+import ch.uzh.ifi.hase.soprafs24.entity.User;
 import ch.uzh.ifi.hase.soprafs24.entity.Game;
 import ch.uzh.ifi.hase.soprafs24.websocket.dto.*;
 import ch.uzh.ifi.hase.soprafs24.websocket.mapper.DTOMapper;
+import ch.uzh.ifi.hase.soprafs24.repository.PlayerRepository;
+import ch.uzh.ifi.hase.soprafs24.repository.UserRepository;
 
+import java.security.Principal;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,6 +26,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.stereotype.Controller;
@@ -35,6 +41,12 @@ public class GameWebSocketController {
     private GameService gameService;
 
     @Autowired
+    private PlayerRepository playerRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
     // populate the game response object and broadcast it to all subscribers of the game
@@ -43,11 +55,13 @@ public class GameWebSocketController {
         System.out.println("Broadcasting to /topic/games/" + gameId);
     }
     
-    private void broadcastError(String gameId, String message) {
-        simpMessagingTemplate.convertAndSend("/topic/games/" + gameId + "/errors", message);
-        System.out.println("Error broadcast to /topic/games/" + gameId + "/errors");
+    private void broadcastError(String gameId, String error) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", error);
+        simpMessagingTemplate.convertAndSend("/topic/games/" + gameId + "/errors", errorResponse);
+        System.out.println("Error broadcast to /topic/games/" + gameId + "/errors: " + error);
     }
-
+    
 
     @MessageMapping("/games/{gameId}/join")
     public void joinWaitingRoom(@DestinationVariable String gameId, @Payload JoinRoomPayloadDTO payload) {
@@ -65,23 +79,62 @@ public class GameWebSocketController {
     }
     
     @MessageMapping("/games/{gameId}/start")
-    public void startGame(@DestinationVariable String gameId, @Header("userId") Long userId) {
-        if (!gameService.isHost(userId, gameId)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Only the host can start the game");
-        }
+    public void startGame(@DestinationVariable String gameId) {
+        try {
+            Game gameStatus = gameService.startGame(gameId);
+            GameResponseDTO generalGameResponse = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(gameStatus);
+            broadcast(gameId + "/start", generalGameResponse);  // Make sure all needed info is sent
+            //print the general game response
+            System.out.println("General Game Response: " + generalGameResponse);
         
-        Game gameStatus = gameService.startGame(gameId);
-        GameResponseDTO generalGameResponse = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(gameStatus);
-        broadcast(gameId + "/start", generalGameResponse);  // Make sure all needed info is sent
-    
-        gameStatus.getPlayers().forEach(player -> {
-            PlayerSongInfoDTO songInfoDTO = DTOMapper.INSTANCE.convertEntityToPlayerSongInfoDTO(player);
-            simpMessagingTemplate.convertAndSendToUser(
-                player.getUser().getId().toString(),
-                "/queue/listen",  // Direct message to user queue for song info
-                songInfoDTO
-            );
+            gameStatus.getPlayers().forEach(player -> {
+                PlayerSongInfoDTO songInfoDTO = DTOMapper.INSTANCE.convertEntityToPlayerSongInfoDTO(player);
+                // print the player song info
+                System.out.println("Player Song Info: " + songInfoDTO);
+                simpMessagingTemplate.convertAndSendToUser(
+                    player.getUser().getId().toString(),
+                    "/queue/listen",  // Direct message to user queue for song info
+                    songInfoDTO
+                );
+                System.out.println("Sent song info to user " + player.getUser().getId());
+                // send again after 1 second to ensure that the player is added to the game
+                // Schedule a repeat send after 1 second
+                new Thread(() -> {
+                try {
+                    Thread.sleep(1000); // wait for 1 second
+                    System.out.println("Re-sending song info to user " + player.getUser().getId());
+                    simpMessagingTemplate.convertAndSendToUser(
+                        player.getUser().getId().toString(),
+                        "/queue/listen",
+                        songInfoDTO
+                    );
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    System.err.println("Error in delayed sending: " + e.getMessage());
+                }
+            }).start();
         });
+        } catch (Exception e) {
+            broadcastError(gameId, "Start failed: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Start failed", e);
+        }
+    }
+
+    @MessageMapping("/games/{gameId}/currentSong")
+    @SendToUser("/queue/currentSong")
+    public PlayerSongInfoDTO getCurrentSong(@DestinationVariable String gameId, Principal principal) {
+        if (principal == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
+        }
+    
+        // use userId to get player
+        Long userId = Long.valueOf(principal.getName());
+        User user = userRepository.findById(userId)
+                                  .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+    
+        Player player = playerRepository.findByUserId(user.getId())
+                                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Player not found"));
+        return gameService.getCurrentSongInfo(player.getId());
     }
     
 
