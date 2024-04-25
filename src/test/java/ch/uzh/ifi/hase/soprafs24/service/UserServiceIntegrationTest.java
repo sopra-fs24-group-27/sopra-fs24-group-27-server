@@ -36,7 +36,7 @@ public class UserServiceIntegrationTest {
 
   @Test
   public void createUser_validInputs_success() {
-    // given
+
     assertNull(userRepository.findByUsername("testUsername"));
 
     User testUser = new User();
@@ -44,10 +44,8 @@ public class UserServiceIntegrationTest {
     testUser.setPassword("password");
     testUser.setBirthDate(null);
 
-    // when
     User createdUser = userService.createUser(testUser);
 
-    // then
     assertEquals(testUser.getId(), createdUser.getId());
     assertEquals(testUser.getUsername(), createdUser.getUsername());
     assertNotNull(createdUser.getToken());
@@ -57,7 +55,7 @@ public class UserServiceIntegrationTest {
 
   @Test
   public void createUser_duplicateUsername_throwsException() {
-    // given
+
     assertNull(userRepository.findByUsername("testUsername"));
 
     User testUser = new User();
@@ -67,11 +65,45 @@ public class UserServiceIntegrationTest {
 
     User createdUser = userService.createUser(testUser);
 
-    // when
     User duplicateUser = new User();
     duplicateUser.setUsername("testUsername");
 
-    // then
-    assertThrows(ResponseStatusException.class, () -> userService.createUser(duplicateUser));
+    assertThrows(IllegalArgumentException.class, () -> userService.createUser(duplicateUser));
+  }
+
+  @Test
+  public void loginUser_validCredentials_success() {
+      
+      User testUser = new User();
+      testUser.setUsername("testUsername");
+      testUser.setPassword("testPassword");
+      testUser.setBirthDate(null);
+      testUser.setStatus(UserStatus.OFFLINE); 
+
+      userRepository.save(testUser);
+
+      User loggedInUser = userService.loginUser("testUsername", "testPassword");
+
+      assertNotNull(loggedInUser);
+      assertEquals(testUser.getId(), loggedInUser.getId());
+      assertEquals(testUser.getUsername(), loggedInUser.getUsername());
+      assertEquals(UserStatus.ONLINE, loggedInUser.getStatus());
+  }
+
+  @Test
+  public void logoutUser_validToken_success() {
+
+      User testUser = new User();
+      testUser.setUsername("testUsername");
+      testUser.setPassword("testPassword");
+      testUser.setStatus(UserStatus.ONLINE);
+
+      userRepository.save(testUser);
+
+      userService.logoutUser(testUser.getToken());
+
+      User loggedOutUser = userRepository.findByUsername("testUsername");
+      assertNotNull(loggedOutUser);
+      assertEquals(UserStatus.OFFLINE, loggedOutUser.getStatus());
   }
 }

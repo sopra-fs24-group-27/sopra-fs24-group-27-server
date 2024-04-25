@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
@@ -50,10 +48,10 @@ public class UserController {
       return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
   }
 
-  @GetMapping("/logout")
+  @PostMapping("/logout")
   @ResponseStatus(HttpStatus.OK)
-  public void logoutUser(@RequestBody Long userId) {
-
+  public void logoutUser(@RequestBody String token) {
+     userService.logoutUser(token); 
   }
 
   @GetMapping("/users/{userId}")

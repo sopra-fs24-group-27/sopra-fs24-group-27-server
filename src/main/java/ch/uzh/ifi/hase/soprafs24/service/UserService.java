@@ -55,9 +55,13 @@ public class UserService {
 }
 
   public User createUser(User newUser) {
+    if (newUser.getPassword() == null || newUser.getPassword().isEmpty()) {
+      throw new IllegalArgumentException("Password cannot be empty");
+  }
     newUser.setToken(UUID.randomUUID().toString());
     newUser.setStatus(UserStatus.ONLINE);
     newUser.setBirthDate(null);
+
     checkIfUserExists(newUser);
     // saves the given entity but data is only persisted in the database once
     // flush() is called
@@ -88,6 +92,8 @@ public class UserService {
     if (user == null || !user.getPassword().equals(password)) {
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password");
     }
+    user.setStatus(UserStatus.ONLINE); 
+    userRepository.save(user); 
     return user;
 }
 

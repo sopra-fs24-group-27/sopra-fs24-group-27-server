@@ -12,6 +12,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import java.util.Optional;
+
 
 public class UserServiceTest {
 
@@ -26,44 +29,87 @@ public class UserServiceTest {
   @BeforeEach
   public void setup() {
     MockitoAnnotations.initMocks(this);
-    // given
+
     testUser = new User();
     testUser.setId(1L);
     testUser.setBirthDate(null);
     testUser.setUsername("testUsername");
 
-    // when -> any object is being save in the userRepository -> return the dummy
-    // testUser
     Mockito.when(userRepository.save(Mockito.any())).thenReturn(testUser);
   }
 
+
   @Test
   public void createUser_validInputs_success() {
-    // when -> any object is being save in the userRepository -> return the dummy
-    // testUser
-    User createdUser = userService.createUser(testUser);
+    testUser.setUsername("testUsername");
+    testUser.setPassword("testPassword");
+    try {
+        User createdUser = userService.createUser(testUser);
 
-    // then
-    Mockito.verify(userRepository, Mockito.times(1)).save(Mockito.any());
+        Mockito.verify(userRepository, Mockito.times(1)).save(Mockito.any());
 
-    assertEquals(testUser.getId(), createdUser.getId());
-    assertEquals(testUser.getUsername(), createdUser.getUsername());
-    assertNotNull(createdUser.getToken());
-    assertEquals(UserStatus.ONLINE, createdUser.getStatus());
+        assertEquals(testUser.getId(), createdUser.getId());
+        assertEquals(testUser.getUsername(), createdUser.getUsername());
+        assertNotNull(createdUser.getToken());
+        assertEquals(UserStatus.ONLINE, createdUser.getStatus());
+    } catch (Exception e) {
+        fail("Unexpected exception occurred: " + e.getMessage());
+    }
   }
 
 
   @Test
   public void createUser_duplicateInputs_throwsException() {
-    // given -> a first user has already been created
+
+    testUser.setPassword("testPassword");
     userService.createUser(testUser);
 
-    // when -> setup additional mocks for UserRepository
     Mockito.when(userRepository.findByUsername(Mockito.any())).thenReturn(testUser);
+    
+    try {
+      userService.createUser(testUser);
+      fail("Expected IllegalArgumentException was not thrown");
+    } catch (ResponseStatusException e) {
+        assertTrue(e.getMessage().contains("Username is already taken, please choose another one"));
+    }
+  }
 
-    // then -> attempt to create second user with same user -> check that an error
-    // is thrown
-    assertThrows(ResponseStatusException.class, () -> userService.createUser(testUser));
+
+  @Test
+  public void loginUser_validCredentials_success() {
+
+     Mockito.when(userRepository.findByUsername("testUser")).thenReturn(testUser);
+
+    testUser.setPassword("testPassword");
+
+    User loggedInUser = userService.loginUser("testUser", "testPassword");
+    assertNotNull(loggedInUser);
+    assertEquals(testUser.getId(), loggedInUser.getId());
+    assertEquals(testUser.getUsername(), loggedInUser.getUsername());
+  }
+
+  @Test
+  public void loginUser_invalidCredentials_throwsException() {
+
+    Mockito.when(userRepository.findByUsername("testUser")).thenReturn(null);
+
+    assertThrows(ResponseStatusException.class, () -> userService.loginUser("testUser", "wrongPassword"));
+  }
+
+  @Test
+  public void logoutUser_validToken_success() {
+
+    Mockito.when(userRepository.findByToken(anyString())).thenReturn(Optional.of(testUser));
+
+    userService.logoutUser("testToken");
+    assertEquals(UserStatus.OFFLINE, testUser.getStatus());
+  }
+
+  @Test
+  public void logoutUser_invalidToken_throwsException() {
+
+    Mockito.when(userRepository.findByToken(anyString())).thenReturn(Optional.empty());
+    assertThrows(ResponseStatusException.class, () -> userService.logoutUser("invalidToken"));
   }
 
 }
