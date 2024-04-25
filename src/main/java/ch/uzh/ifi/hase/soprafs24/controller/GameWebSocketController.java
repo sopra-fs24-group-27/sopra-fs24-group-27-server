@@ -136,14 +136,16 @@ public class GameWebSocketController {
                                         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Player not found"));
         return gameService.getCurrentSongInfo(player.getId());
     }
-    
+
 
     @MessageMapping("/games/{gameId}/sortTurnOrder")
     public void sortTurnOrder(@DestinationVariable String gameId) {
         Game game = gameService.sortTurnOrder(gameId);
         GameResponseDTO gameResponse = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(game);
+        broadcast(gameId + "/round", gameResponse);
         broadcast(gameId, gameResponse);
     }
+
 
     @MessageMapping("/games/{gameId}/sendEmojis")
     public void sendEmojis(@DestinationVariable String gameId, @Payload SendEmojisPayloadDTO payload) {

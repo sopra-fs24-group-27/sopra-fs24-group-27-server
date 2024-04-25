@@ -44,9 +44,11 @@ public class Player implements Serializable {
     @Column
     private int turn;
 
-    @ElementCollection(fetch = FetchType.EAGER) // to sovlve the error:failed to lazily initialize a collection of role: ch.uzh.ifi.hase.soprafs24.entity.Player.emojis, could not initialize proxy - no Session
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "player_emojis", joinColumns = @JoinColumn(name = "player_id"))
+    @Column(name = "emoji")
     private List<String> emojis;
-    
+
 
     @Column
     private int votes;
