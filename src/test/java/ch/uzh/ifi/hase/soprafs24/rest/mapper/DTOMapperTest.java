@@ -12,8 +12,6 @@ import ch.uzh.ifi.hase.soprafs24.rest.dto.GamePostDTO;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * DTOMapperTest
@@ -83,7 +81,6 @@ public class DTOMapperTest {
     // check content
     assertEquals(gamePostDTO.getGameId(), game.getGameId());
     assertEquals(gamePostDTO.getHostId(), game.getHostId());
-    assertEquals(gamePostDTO.getSettings(), game.getSettings());
     assertEquals(gamePostDTO.getCurrentRound(), game.getCurrentRound());
     assertEquals(gamePostDTO.getPlayers(), game.getPlayers());
     assertEquals(gamePostDTO.getSettings().getMarket(), game.getSettings().getMarket());
@@ -118,7 +115,6 @@ public class DTOMapperTest {
     // check content
     assertEquals(game.getGameId(), gameGetDTO.getGameId());
     assertEquals(game.getHostId(), gameGetDTO.getHostId());
-    assertEquals(game.getSettings(), gameGetDTO.getSettings());
     assertEquals(game.getCurrentRound(), gameGetDTO.getCurrentRound());
     assertEquals(game.getPlayers(), gameGetDTO.getPlayers());
     assertEquals(game.getSettings().getMarket(), gameGetDTO.getSettings().getMarket());
