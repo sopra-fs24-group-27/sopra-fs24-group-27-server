@@ -19,7 +19,6 @@ public class Application {
     SpringApplication.run(Application.class, args);
   }
 
-  @CrossOrigin(origins = "http://localhost:3000")
   @GetMapping(value = "/", produces = MediaType.TEXT_PLAIN_VALUE)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
@@ -27,16 +26,14 @@ public class Application {
     return "The application is running.";
   }
 
-  
   @Bean
   public WebMvcConfigurer corsConfigurer() {
     return new WebMvcConfigurer() {
       @Override
       public void addCorsMappings(CorsRegistry registry) {
-        // Specific configuration for development environment
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000") // Allow frontend to communicate
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Specify allowed methods
+                .allowedOrigins("https://sopra-fs24-group-27-client.oa.r.appspot.com", "http://localhost:3000")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
       }
