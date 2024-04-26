@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         System.out.println("Configuring CORS");
         registry.addMapping("/**")
-                .allowedOrigins("https://sopra-fs24-group-27-server.oa.r.appspot.com", "http://localhost:8080")
+                .allowedOrigins("https://sopra-fs24-group-27-client.oa.r.appspot.com", "http://localhost:3000")
                 .allowCredentials(true)
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
