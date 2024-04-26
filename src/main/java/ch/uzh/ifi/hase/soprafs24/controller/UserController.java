@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
 public class UserController {
+
 
   private final UserService userService;
 
@@ -51,7 +54,7 @@ public class UserController {
   @PostMapping("/logout")
   @ResponseStatus(HttpStatus.OK)
   public void logoutUser(@RequestBody String token) {
-     userService.logoutUser(token); 
+    userService.logoutUser(token); 
   }
 
   @GetMapping("/users/{userId}")
@@ -70,7 +73,6 @@ public class UserController {
   public UserGetDTO updateUserDetails(@PathVariable Long userId, @RequestBody UserPostDTO userPostDTO) {
       // Update user details
       User updatedUser = userService.updateUserDetails(userId, userPostDTO);
-
       // Convert updated user to API representation
       return DTOMapper.INSTANCE.convertEntityToUserGetDTO(updatedUser);
   }
