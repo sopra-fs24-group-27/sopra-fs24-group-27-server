@@ -8,6 +8,7 @@ import ch.uzh.ifi.hase.soprafs24.websocket.dto.SendEmojisPayloadDTO;
 import ch.uzh.ifi.hase.soprafs24.websocket.dto.LeaveRoomPayloadDTO;
 import ch.uzh.ifi.hase.soprafs24.websocket.dto.PlayerInfoDTO;
 import ch.uzh.ifi.hase.soprafs24.websocket.dto.PlayerSongInfoDTO;
+import ch.uzh.ifi.hase.soprafs24.websocket.dto.PlayerSongBroadcastDTO;
 
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
@@ -49,5 +50,4 @@ public interface DTOMapper {
     @Mapping(source = "settings", target = "settings")
     @Mapping(source = "players", target = "players")
     GameResponseDTO convertEntityToGameResponseDTO(Game game);
-
 }

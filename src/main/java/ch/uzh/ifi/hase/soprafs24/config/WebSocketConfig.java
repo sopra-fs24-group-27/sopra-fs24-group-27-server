@@ -8,12 +8,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
-import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
-import org.springframework.http.server.ServerHttpRequest;
-import org.springframework.web.socket.WebSocketHandler;
-import java.security.Principal;
-import java.util.Map;
-import java.util.Optional;
 
 @Configuration
 @EnableWebSocketMessageBroker
@@ -23,14 +17,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws/games/{gameId}")
                 .setAllowedOrigins("http://localhost:3000") // Adjust for production environment
-                .setHandshakeHandler(new DefaultHandshakeHandler() {
-                    @Override
-                    protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
-                        return Optional.ofNullable(request.getHeaders().getFirst("userId"))
-                            .map(userId -> (Principal) () -> userId)
-                            .orElse(() -> "anonymousUser"); // Default user if none provided
-                    }
-                })
+                .setHandshakeHandler(new PrincipalHandshake())
                 .withSockJS();
     }
 

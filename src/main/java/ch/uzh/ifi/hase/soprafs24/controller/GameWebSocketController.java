@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs24.controller;
 
 import ch.uzh.ifi.hase.soprafs24.service.GameService;
+import ch.uzh.ifi.hase.soprafs24.service.SessionService;
 import ch.uzh.ifi.hase.soprafs24.entity.Player;
 import ch.uzh.ifi.hase.soprafs24.entity.Settings;
 import ch.uzh.ifi.hase.soprafs24.entity.User;
@@ -20,15 +21,18 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.stereotype.Controller;
 import org.springframework.messaging.handler.annotation.Header;
 
@@ -39,6 +43,9 @@ public class GameWebSocketController {
 
     @Autowired
     private GameService gameService;
+
+    @Autowired
+    private SessionService sessionService;
 
     @Autowired
     private PlayerRepository playerRepository;
@@ -77,23 +84,36 @@ public class GameWebSocketController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Join failed", e);
         }
     }
+
+    @EventListener
+    public void handleWebSocketConnectListener(SessionConnectedEvent event) {
+        SimpMessageHeaderAccessor sha = SimpMessageHeaderAccessor.wrap(event.getMessage());
+        // Access principal
+        Principal principal = sha.getUser(); // This retrieves the principal set during the handshake
+        if (principal != null) {
+            String sessionId = principal.getName();
+            System.out.println("Received a new web socket connection: " + sessionId);
+        }
+    }
     
     @MessageMapping("/games/{gameId}/start")
-    public void startGame(@DestinationVariable String gameId) {
+    public void startGame(@DestinationVariable String gameId, Principal principal) {
         try {
             Game gameStatus = gameService.startGame(gameId);
+            String sessionId = principal.getName();
             GameResponseDTO generalGameResponse = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(gameStatus);
             broadcast(gameId + "/start", generalGameResponse);  // Make sure all needed info is sent
             //print the general game response
             System.out.println("General Game Response: " + generalGameResponse);
-        
+            System.out.println("Session ID: " + sessionId);
             gameStatus.getPlayers().forEach(player -> {
                 PlayerSongInfoDTO songInfoDTO = DTOMapper.INSTANCE.convertEntityToPlayerSongInfoDTO(player);
                 // print the player song info
+                sessionService.registerPlayerSession(sessionId, player.getUser().getId());
                 System.out.println("Player Song Info: " + songInfoDTO);
                 simpMessagingTemplate.convertAndSendToUser(
-                    player.getUser().getId().toString(),
-                    "/queue/listen",  // Direct message to user queue for song info
+                    sessionId,
+                    "/topic/games/" + gameId + "/listen",
                     songInfoDTO
                 );
                 System.out.println("Sent song info to user " + player.getUser().getId());
@@ -101,24 +121,35 @@ public class GameWebSocketController {
                 // Schedule a repeat send after 1 second
                 new Thread(() -> {
                 try {
-                    Thread.sleep(1000); // wait for 1 second
-                    System.out.println("Re-sending song info to user " + player.getUser().getId());
-                    simpMessagingTemplate.convertAndSendToUser(
-                        player.getUser().getId().toString(),
-                        "/queue/listen",
-                        songInfoDTO
-                    );
+                    Thread.sleep(2000); // wait for 2 seconds
+                    // first broadcast the game response dto to all players to ensure that the player is added to the game
+                    broadcast(gameId, generalGameResponse);
+                    // then fetch the players from the gameresponse and get the player with the current user id
+                    gameStatus.getPlayers().forEach(player1 -> {
+                        if (player1.getUser().getId().equals(player.getUser().getId())) {
+                            // convert the player to a player song info dto
+                            PlayerSongInfoDTO songInfoDTO1 = DTOMapper.INSTANCE.convertEntityToPlayerSongInfoDTO(player1);
+                            // send the song info to the player
+                            System.out.println("Re-sending song info to user " + player1.getUser().getId());
+                            simpMessagingTemplate.convertAndSendToUser(
+                                sessionId,
+                                "/topic/games/" + gameId + "/listen",
+                                songInfoDTO1
+                            );
+                        }
+                    });
                 } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    System.err.println("Error in delayed sending: " + e.getMessage());
+                    e.printStackTrace();
                 }
-            }).start();
-        });
+                }).start();
+            });
         } catch (Exception e) {
             broadcastError(gameId, "Start failed: " + e.getMessage());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Start failed", e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Start failed", e);
         }
     }
+
+
 
     @MessageMapping("/games/{gameId}/currentSong")
     @SendToUser("/queue/currentSong")
