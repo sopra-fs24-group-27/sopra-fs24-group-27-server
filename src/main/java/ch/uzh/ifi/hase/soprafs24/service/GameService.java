@@ -10,6 +10,8 @@ import ch.uzh.ifi.hase.soprafs24.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs24.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs24.repository.SongInfoRepository;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GamePostDTO;
+import ch.uzh.ifi.hase.soprafs24.rest.dto.EmojiPostDTO;
+import ch.uzh.ifi.hase.soprafs24.rest.dto.VotePostDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs24.service.SpotifyService;
 import ch.uzh.ifi.hase.soprafs24.websocket.dto.PlayerInfoDTO;
@@ -80,12 +82,13 @@ public class GameService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
     }
 
-    public Game createRoom(GamePostDTO gamePostDTO, Long userId) {
+    // Create a game or room
+    public Game createRoom(GamePostDTO gamePostDTO) {
         Game newRoom = DTOMapper.INSTANCE.convertGamePostDTOtoEntity(gamePostDTO);
         newRoom.setGameId("game-" + System.currentTimeMillis()); // Generate a unique game ID
         newRoom.setPlayers(new ArrayList<>()); // Initialize the players list
         // get current user and set it as the host
-        User host = userRepository.findById(userId)
+        User host = userRepository.findById(newRoom.getHostId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
         Player hostPlayer = getOrCreatePlayerFromUser(host.getId());
         hostPlayer.setGame(newRoom);
@@ -96,10 +99,67 @@ public class GameService {
         return gameRepository.save(newRoom);
     }
 
+    // Get status of the created game or room
+    public Game getGameStatus(String gameId) {
+        return getGameByIdWithPlayers(gameId);
+    }
+
+    // Update the created game or room
+    public Game updateRoom(String gameId, GamePostDTO gamePostDTO) {
+        Game currentRoom = getGameByIdWithPlayers(gameId);
+        Game newRoom = DTOMapper.INSTANCE.convertGamePostDTOtoEntity(gamePostDTO);
+        currentRoom.setSettings(newRoom.getSettings());
+        return gameRepository.save(currentRoom);
+    }
+
+    // Delete the created game or room
     public void deleteRoom(String gameId) {
-        Game gameByGameId = gameRepository.findByGameIdWithPlayers(gameId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
-        gameRepository.delete(gameByGameId);
+        Game currentRoom = getGameByIdWithPlayers(gameId);
+        gameRepository.delete(currentRoom);
+    }
+
+    // Create a joined player, including host, in the created game or room
+    public Game join(String gameId, Long playerId) {
+        Game currentRoom = getGameByIdWithPlayers(gameId);
+        return currentRoom;
+    }
+
+    // Delete the joined player, including host, from the created game or room,
+    // if the player is the host, delete the game or room
+    public Game quit(String gameId, Long playerId) {
+        Game currentRoom = getGameByIdWithPlayers(gameId);
+        return currentRoom;
+    }
+
+    // Assign a song to each player, each player can only fetch their assigned one
+    public Game listen(String gameId, Long playerId) {
+        Game currentRoom = getGameByIdWithPlayers(gameId);
+        return currentRoom;
+    }
+
+    // Refresh current emoji round counter, assign random turns for each playr
+    public Game newEmojiRound(String gameId) {
+        Game currentRoom = getGameByIdWithPlayers(gameId);
+        return currentRoom;
+    }
+
+    // Store sent emojis from each player
+    public Game emoji(String gameId, Long playerId, EmojiPostDTO emojiPostDTO) {
+        Game currentRoom = getGameByIdWithPlayers(gameId);
+        return currentRoom;
+    }
+
+    // Store sent votes from each player, if all players have voted, compute scores
+    // for each player
+    public Game vote(String gameId, Long playerId, VotePostDTO votePostDTO) {
+        Game currentRoom = getGameByIdWithPlayers(gameId);
+        return currentRoom;
+    }
+
+    // Flush buffer for previous round, refresh current round counter
+    public Game newRound(String gameId) {
+        Game currentRoom = getGameByIdWithPlayers(gameId);
+        return currentRoom;
     }
 
     // check if the user is the host of the game
@@ -324,7 +384,7 @@ public class GameService {
         return playerEmojis;
     }
 
-    public Game vote(String gameId, Long votedPlayerId) {
+    public Game startVoting(String gameId, Long votedPlayerId) {
         Game game = gameRepository.findByGameIdWithPlayers(gameId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
         if (game == null) {
