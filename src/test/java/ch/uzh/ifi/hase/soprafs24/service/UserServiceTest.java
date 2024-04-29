@@ -3,6 +3,8 @@ package ch.uzh.ifi.hase.soprafs24.service;
 import ch.uzh.ifi.hase.soprafs24.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs24.entity.User;
 import ch.uzh.ifi.hase.soprafs24.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs24.rest.dto.UserPostDTO;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -12,8 +14,12 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 import java.util.Optional;
+
+import java.time.LocalDate;
 
 
 public class UserServiceTest {
@@ -111,5 +117,36 @@ public class UserServiceTest {
     Mockito.when(userRepository.findByToken(anyString())).thenReturn(Optional.empty());
     assertThrows(ResponseStatusException.class, () -> userService.logoutUser("invalidToken"));
   }
+
+  @Test
+  public void updateUserDetails_validInputs_success() {
+    when(userRepository.findById(anyLong())).thenReturn(Optional.of(testUser));
+
+    UserPostDTO userPostDTO = new UserPostDTO();
+    userPostDTO.setUsername("updatedUsername");
+    userPostDTO.setName("updatedName");
+    
+
+    User updatedUser = userService.updateUserDetails(testUser.getId(), userPostDTO);
+    Mockito.verify(userRepository, Mockito.times(1)).findById(testUser.getId());
+    Mockito.verify(userRepository, Mockito.times(1)).save(testUser);
+
+    assertEquals(userPostDTO.getUsername(), updatedUser.getUsername());
+    assertEquals(userPostDTO.getName(), updatedUser.getName());
+
+  }
+
+  @Test
+  public void updateUserDetails_invalidUserId_throwsException() {
+      when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
+      UserPostDTO userPostDTO = new UserPostDTO();
+      userPostDTO.setUsername("updatedUsername");
+      userPostDTO.setName("updatedName");
+
+      assertThrows(ResponseStatusException.class, () -> userService.updateUserDetails(999L, userPostDTO));
+      Mockito.verify(userRepository, Mockito.times(1)).findById(999L);
+
+    }
+
 
 }
