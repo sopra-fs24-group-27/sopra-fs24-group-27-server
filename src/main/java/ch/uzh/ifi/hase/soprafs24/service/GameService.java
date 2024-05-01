@@ -82,10 +82,21 @@ public class GameService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
     }
 
+    public class UniqueIDGenerator {
+        public static String generateID() {
+            Random random = new Random();
+            int id = 100000 + random.nextInt(900000); 
+            return String.valueOf(id);
+        }
+    }
+
     // Create a game or room
     public Game createRoom(GamePostDTO gamePostDTO) {
         Game newRoom = DTOMapper.INSTANCE.convertGamePostDTOtoEntity(gamePostDTO);
-        newRoom.setGameId("game-" + System.currentTimeMillis()); // Generate a unique game ID
+        //newRoom.setGameId("game-" + System.currentTimeMillis()); // Generate a unique game ID
+
+        newRoom.setGameId("game-" + UniqueIDGenerator.generateID());
+
         newRoom.setPlayers(new ArrayList<>()); // Initialize the players list
         // get current user and set it as the host
         User host = userRepository.findById(newRoom.getHostId())

@@ -48,6 +48,7 @@ public class UserService {
     if (optionalUser.isPresent()) {
         User user = optionalUser.get(); 
         user.setStatus(UserStatus.OFFLINE); 
+        user.setToken(null); 
         userRepository.save(user); 
     } else {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
