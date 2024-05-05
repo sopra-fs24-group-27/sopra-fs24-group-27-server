@@ -1,8 +1,4 @@
-/*package ch.uzh.ifi.hase.soprafs24.websocket.dto;
-
-// This DTO object contains the following information for a player:
-// id, isSpy, songTitle, songArtist, playUrl, imageUrl
-// This information will only be sent to the corresponding player, not all players in the game
+package ch.uzh.ifi.hase.soprafs24.rest.dto;
 
 public class PlayerSongInfoDTO {
     private Long id;
@@ -11,12 +7,9 @@ public class PlayerSongInfoDTO {
     private String songArtist;
     private String playUrl;
     private String imageUrl;
+    
+    public PlayerSongInfoDTO() {}
 
-    // Default constructor
-    public PlayerSongInfoDTO() {
-    }
-
-    // Constructor
     public PlayerSongInfoDTO(Long id, Boolean isSpy, String songTitle, String songArtist, String playUrl, String imageUrl) {
         this.id = id;
         this.isSpy = isSpy;
@@ -26,7 +19,6 @@ public class PlayerSongInfoDTO {
         this.imageUrl = imageUrl;
     }
 
-    // Getters
     public Long getId() {
         return id;
     }
@@ -47,7 +39,10 @@ public class PlayerSongInfoDTO {
         return playUrl;
     }
 
-    // Setters
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -68,12 +63,8 @@ public class PlayerSongInfoDTO {
         this.playUrl = playUrl;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
 }
-*/

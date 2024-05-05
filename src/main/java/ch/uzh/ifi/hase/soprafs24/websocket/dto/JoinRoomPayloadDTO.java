@@ -1,4 +1,4 @@
-package ch.uzh.ifi.hase.soprafs24.websocket.dto;
+/*package ch.uzh.ifi.hase.soprafs24.websocket.dto;
 
 public class JoinRoomPayloadDTO {
     private Long userId; // Renamed from 'id' to 'userId' to clarify its purpose
@@ -11,3 +11,4 @@ public class JoinRoomPayloadDTO {
         this.userId = userId;
     }
 }
+*/

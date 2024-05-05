@@ -1,4 +1,4 @@
-package ch.uzh.ifi.hase.soprafs24.config;
+/*package ch.uzh.ifi.hase.soprafs24.config;
 
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.web.socket.WebSocketHandler;
@@ -17,3 +17,4 @@ public class PrincipalHandshake extends DefaultHandshakeHandler {
     }
     
 }
+*/

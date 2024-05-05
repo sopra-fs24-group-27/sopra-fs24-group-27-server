@@ -12,10 +12,9 @@ import ch.uzh.ifi.hase.soprafs24.repository.SongInfoRepository;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GamePostDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.EmojiPostDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.VotePostDTO;
+import ch.uzh.ifi.hase.soprafs24.rest.dto.PlayerSongInfoDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs24.service.SpotifyService;
-import ch.uzh.ifi.hase.soprafs24.websocket.dto.PlayerInfoDTO;
-import ch.uzh.ifi.hase.soprafs24.websocket.dto.PlayerSongInfoDTO;
 
 import org.hibernate.type.TrueFalseType;
 import org.slf4j.Logger;
@@ -77,11 +76,6 @@ public class GameService {
         });
     }
 
-    public Game getGameByIdWithPlayers(String gameId) {
-        return gameRepository.findByGameIdWithPlayers(gameId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
-    }
-
     public class UniqueIDGenerator {
         public static String generateID() {
             Random random = new Random();
@@ -93,7 +87,6 @@ public class GameService {
     // Create a game or room
     public Game createRoom(GamePostDTO gamePostDTO) {
         Game newRoom = DTOMapper.INSTANCE.convertGamePostDTOtoEntity(gamePostDTO);
-        //newRoom.setGameId("game-" + System.currentTimeMillis()); // Generate a unique game ID
 
         newRoom.setGameId("game-" + UniqueIDGenerator.generateID());
 
@@ -110,6 +103,11 @@ public class GameService {
         return gameRepository.save(newRoom);
     }
 
+    public Game getGameByIdWithPlayers(String gameId) {
+        return gameRepository.findByGameIdWithPlayers(gameId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
+    }
+    
     // Get status of the created game or room
     public Game getGameStatus(String gameId) {
         return getGameByIdWithPlayers(gameId);
@@ -127,12 +125,6 @@ public class GameService {
     public void deleteRoom(String gameId) {
         Game currentRoom = getGameByIdWithPlayers(gameId);
         gameRepository.delete(currentRoom);
-    }
-
-    // Create a joined player, including host, in the created game or room
-    public Game join(String gameId, Long playerId) {
-        Game currentRoom = getGameByIdWithPlayers(gameId);
-        return currentRoom;
     }
 
     // Delete the joined player, including host, from the created game or room,
@@ -202,7 +194,7 @@ public class GameService {
         // Create a new player or get the existing one.
         Player player = getOrCreatePlayerFromUser(userId);
         player.setGame(game);
-        player.setHost(false); // Set host status for the player
+        player.setHost(false); // Set host status for the 
 
         // Add the player to the game and save it.
         game.getPlayers().add(player);
@@ -216,22 +208,6 @@ public class GameService {
         return playerRepository.findByUserId(userId).get().getGame() != null;
     }
 
-    public List<PlayerInfoDTO> getPlayerInfoForGame(String gameId) {
-        Game gameByGameId = gameRepository.findByGameIdWithPlayers(gameId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
-
-        return gameByGameId.getPlayers().stream()
-                .filter(player -> player.getUser() != null)
-                .map(player -> new PlayerInfoDTO(
-                        player.getId(),
-                        player.getUser().getId(),
-                        player.getUser().getUsername(),
-                        player.getUser().getAvatar(),
-                        player.getScore(),
-                        player.getEmojis(),
-                        player.getTurn()))
-                .collect(Collectors.toList());
-    }
 
     public PlayerSongInfoDTO createPlayerSongInfoDTO(Player player) {
         SongInfo songInfo = player.getSongInfo();

@@ -3,10 +3,7 @@ package ch.uzh.ifi.hase.soprafs24.controller;
 import ch.uzh.ifi.hase.soprafs24.entity.Game;
 import ch.uzh.ifi.hase.soprafs24.entity.Player;
 import ch.uzh.ifi.hase.soprafs24.service.GameService;
-import ch.uzh.ifi.hase.soprafs24.rest.dto.GameGetDTO;
-import ch.uzh.ifi.hase.soprafs24.rest.dto.GamePostDTO;
-import ch.uzh.ifi.hase.soprafs24.rest.dto.EmojiPostDTO;
-import ch.uzh.ifi.hase.soprafs24.rest.dto.VotePostDTO;
+import ch.uzh.ifi.hase.soprafs24.rest.dto.*;
 import ch.uzh.ifi.hase.soprafs24.rest.mapper.DTOMapper;
 
 import org.springframework.http.HttpStatus;
@@ -45,14 +42,14 @@ public class GameController {
 
     // `PUT /games/{gameId}`
     // Update the created game or room
-    @PutMapping("/games/{gameId}")
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public GameGetDTO updateGame(@PathVariable String gameId, @RequestBody GamePostDTO gamePostDTO) {
-        Game game = gameService.updateRoom(gameId, gamePostDTO);
-        System.out.println("Game modified: " + game.toString());
-        return DTOMapper.INSTANCE.convertEntityToGameGetDTO(game);
-    }
+    // @PutMapping("/games/{gameId}")
+    // @ResponseStatus(HttpStatus.OK)
+    // @ResponseBody
+    // public GameGetDTO updateGame(@PathVariable String gameId, @RequestBody GamePostDTO gamePostDTO) {
+    //     Game game = gameService.updateRoom(gameId, gamePostDTO);
+    //     System.out.println("Game modified: " + game.toString());
+    //    return DTOMapper.INSTANCE.convertEntityToGameGetDTO(game);
+    //}
 
     // `DELETE /games/{gameId}`
     // Delete the created game or room
@@ -69,8 +66,8 @@ public class GameController {
     @PostMapping("/games/{gameId}/join")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public GameGetDTO join(@PathVariable String gameId, @RequestParam(required = true) Long playerId) {
-        Game game = gameService.join(gameId, playerId);
+    public GameGetDTO join(@PathVariable String gameId, @RequestParam(required = true) Long userId) {
+        Game game = gameService.joinRoom(gameId, userId);
         System.out.println("Game status updated: " + game.toString());
         return DTOMapper.INSTANCE.convertEntityToGameGetDTO(game);
     }
@@ -87,16 +84,42 @@ public class GameController {
         return DTOMapper.INSTANCE.convertEntityToGameGetDTO(game);
     }
 
-    // `POST /games/{gameId}/listen?playerId={playerId}`
-    // Assign a song to each player, each player can only fetch their assigned one
-    @PostMapping("/games/{gameId}/listen")
+    // PUT /games/{gameId}
+    // Start game, assign song and spy to each player
+    // Contiditon: when there are 4 players in the game, the host can start the game
+    @PutMapping("/games/{gameId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public GameGetDTO listen(@PathVariable String gameId, @RequestParam(required = true) Long playerId) {
-        Game game = gameService.listen(gameId, playerId);
+    public GameGetDTO start(@PathVariable String gameId) {
+        Game game = gameService.startGame(gameId);
         System.out.println("Game status updated: " + game.toString());
         return DTOMapper.INSTANCE.convertEntityToGameGetDTO(game);
     }
+
+    // `GET /games/{gameId}/listen/{playerId}`
+    // Fetch the assigned song for a specific player
+    @GetMapping("/games/{gameId}/listen/{playerId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public PlayerSongInfoDTO listen(@PathVariable String gameId, @PathVariable Long playerId) {
+        // First, find the player within the game context
+        Player player = gameService.getPlayerById(gameId, playerId);
+        if (player == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Player not found");
+        }
+
+        // Convert the player's song information to SongInfoDTO
+        PlayerSongInfoDTO songInfoDTO = DTOMapper.INSTANCE.convertEntityToPlayerSongInfoDTO(player);
+        if (songInfoDTO == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Song info not available for the player");
+        }
+    
+        // Return the DTO which includes the song info and spy status
+        songInfoDTO.setSpy(player.isSpy()); // Set if the player is the spy
+        return songInfoDTO;
+    }
+
+
 
     // `POST /games/{gameId}/newEmojiRound`
     // Refresh current emoji round counter, assign random turns for each playr
