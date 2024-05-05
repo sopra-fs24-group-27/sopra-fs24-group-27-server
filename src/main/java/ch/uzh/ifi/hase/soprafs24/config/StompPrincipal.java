@@ -1,4 +1,4 @@
-package ch.uzh.ifi.hase.soprafs24.config;
+/*package ch.uzh.ifi.hase.soprafs24.config;
 
 import java.security.Principal;
 
@@ -14,3 +14,4 @@ class StompPrincipal implements Principal {
         return name;
     }
 }
+*/

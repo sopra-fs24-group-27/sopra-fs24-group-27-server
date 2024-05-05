@@ -1,3 +1,4 @@
+/*
 package ch.uzh.ifi.hase.soprafs24.controller;
 
 import ch.uzh.ifi.hase.soprafs24.service.GameService;
@@ -261,3 +262,4 @@ public class GameWebSocketController {
     }
 
 }
+*/

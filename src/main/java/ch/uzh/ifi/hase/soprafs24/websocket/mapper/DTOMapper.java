@@ -1,4 +1,4 @@
-package ch.uzh.ifi.hase.soprafs24.websocket.mapper;
+/*package ch.uzh.ifi.hase.soprafs24.websocket.mapper;
 
 import ch.uzh.ifi.hase.soprafs24.entity.Game;
 import ch.uzh.ifi.hase.soprafs24.entity.Player;
@@ -51,3 +51,4 @@ public interface DTOMapper {
     @Mapping(source = "players", target = "players")
     GameResponseDTO convertEntityToGameResponseDTO(Game game);
 }
+*/

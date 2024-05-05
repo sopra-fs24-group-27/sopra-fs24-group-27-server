@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 import java.io.Serializable;
@@ -22,6 +23,7 @@ public class Player implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY) // many players can belong to one user
     @JoinColumn(name = "user_id") // This column links Player to a specific User
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
     @Column

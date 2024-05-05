@@ -1,4 +1,4 @@
-package ch.uzh.ifi.hase.soprafs24.service;
+/*package ch.uzh.ifi.hase.soprafs24.service;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,3 +21,4 @@ public class SessionService {
         sessionPlayerMap.remove(sessionId);
     }
 }
+*/

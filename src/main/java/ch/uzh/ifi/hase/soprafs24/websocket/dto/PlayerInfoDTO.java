@@ -1,4 +1,4 @@
-package ch.uzh.ifi.hase.soprafs24.websocket.dto;
+/*package ch.uzh.ifi.hase.soprafs24.websocket.dto;
 
 import java.util.List;
 
@@ -88,3 +88,4 @@ public class PlayerInfoDTO {
         this.turn = turn;
     }
 }
+*/

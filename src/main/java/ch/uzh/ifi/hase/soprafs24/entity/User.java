@@ -3,11 +3,15 @@ package ch.uzh.ifi.hase.soprafs24.entity;
 import ch.uzh.ifi.hase.soprafs24.constant.UserStatus;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED) // Use JOINED inheritance strategy
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "USER")
 public class User implements Serializable {
 
