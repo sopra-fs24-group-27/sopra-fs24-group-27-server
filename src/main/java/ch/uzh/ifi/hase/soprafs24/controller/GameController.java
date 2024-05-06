@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 public class GameController {
 
@@ -120,31 +123,38 @@ public class GameController {
         return songInfoDTO;
     }
 
-
-
-    // `POST /games/{gameId}/newEmojiRound`
-    // Refresh current emoji round counter, assign random turns for each playr
-    @PostMapping("/games/{gameId}/newEmojiRound")
+    @PostMapping("/games/{gameId}/sortTurnOrder")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public GameGetDTO newEmojiRound(@PathVariable String gameId) {
-        Game game = gameService.newEmojiRound(gameId);
-        System.out.println("Game status updated: " + game.toString());
+    public GameGetDTO sortTurnOrder(@PathVariable String gameId) {
+        Game game = gameService.sortTurnOrder(gameId);
         return DTOMapper.INSTANCE.convertEntityToGameGetDTO(game);
     }
 
-    // `POST /games/{gameId}/emoji?playerId={playerId}`
-    // Store sent emojis from each player
-    @PostMapping("/games/{gameId}/emoji")
+    @PostMapping("/games/{gameId}/emojis")
+    @ResponseStatus(HttpStatus.OK)
+    public void savePlayerEmojis(
+            @PathVariable String gameId,
+            @RequestParam Long playerId,
+            @RequestBody List<String> emojis) {
+        gameService.savePlayerEmojis(gameId, playerId, emojis);
+    }
+
+    @PutMapping("/games/{gameId}/new-emoji-round")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public GameGetDTO emoji(@PathVariable String gameId,
-            @RequestParam(required = true) Long playerId,
-            @RequestBody EmojiPostDTO emojiPostDTO) {
-        Game game = gameService.emoji(gameId, playerId, emojiPostDTO);
-        System.out.println("Game status updated: " + game.toString());
+    public GameGetDTO startNewEmojisRound(@PathVariable String gameId) {
+        Game game = gameService.startNewEmojisRound(gameId);
         return DTOMapper.INSTANCE.convertEntityToGameGetDTO(game);
     }
+
+    @GetMapping("/games/{gameId}/emojis")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Map<String, List<String>> viewEmojis(@PathVariable Long gameId) {
+        return gameService.viewEmojis(gameId);
+    }
+
 
     // `POST /games/{gameId}/vote?playerId={playerId}`
     // Store sent votes from each player, if all players have voted, compute scores

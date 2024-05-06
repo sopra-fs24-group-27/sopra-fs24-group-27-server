@@ -31,7 +31,7 @@ public class Game {
 
     private int currentEmojiRound;
 
-    private int currentTurn;
+    private int currentTurn = 1;
 
     private int votedPlayers;
 

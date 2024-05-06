@@ -57,6 +57,7 @@ public interface DTOMapper {
   @Mapping(source = "currentRound", target = "currentRound")
   @Mapping(source = "settings", target = "settings")
   @Mapping(source = "players", target = "players")
+  @Mapping(source = "currentTurn", target = "currentTurn")
   @Mapping(target = "settings.market", source = "settings.market")
   @Mapping(target = "settings.artist", source = "settings.artist")
   @Mapping(target = "settings.genre", source = "settings.genre")

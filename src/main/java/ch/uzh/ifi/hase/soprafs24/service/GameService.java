@@ -326,23 +326,43 @@ public class GameService {
         return gameRepository.save(game); // Save the changes to the database
     }
 
-    public Game sendEmojis(Long playerId, List<String> emojis) {
-        Player player = playerRepository.findById(playerId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Player not found"));
+    public void savePlayerEmojis(String gameId, Long playerId, List<String> emojis) {
+        Player player = getPlayerById(gameId, playerId);
 
-        Game game = player.getGame();
-        if (game.getCurrentTurn() != player.getTurn()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "It's not this player's turn");
+        // Check if it's player's turn
+        if (player.getGame().getCurrentTurn() != player.getTurn()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "It's not this player's turn");
         }
 
+        // Check the number of emojis
         if (emojis.size() > 5) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cannot send more than 5 emojis");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot send more than 5 emojis");
         }
 
+        // Save emojis to player
         player.setEmojis(emojis);
         playerRepository.save(player);
 
-        return game;
+        // Increment current turn
+        Game game = player.getGame();
+        int nextTurn = game.getCurrentTurn() + 1;
+        if (nextTurn > game.getPlayers().size()) {
+            nextTurn = 1; // Wrap around if it exceeds the number of players
+        }
+        game.setCurrentTurn(nextTurn);
+        gameRepository.save(game);
+    }
+
+    public Game setCurrentTurn(String gameId) {
+        Game game = gameRepository.findByGameIdWithPlayers(gameId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
+        game.setCurrentTurn(game.getCurrentTurn() + 1);
+        // Reset emojis for all players
+        for (Player player : game.getPlayers()) {
+            player.setEmojis(new ArrayList<>());
+            playerRepository.save(player);
+        }
+        return gameRepository.save(game);
     }
 
     public Game startNewEmojisRound(String gameId) {
