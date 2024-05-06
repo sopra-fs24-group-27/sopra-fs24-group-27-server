@@ -8,7 +8,6 @@ import ch.uzh.ifi.hase.soprafs24.rest.dto.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GameGetDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GamePostDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.PlayerSongInfoDTO;
-import ch.uzh.ifi.hase.soprafs24.rest.dto.PlayerInfoDTO;
 
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
@@ -66,8 +65,8 @@ public interface DTOMapper {
   @Mapping(source = "id", target = "id")
   @Mapping(source = "songInfo.title", target = "songTitle")
   @Mapping(source = "songInfo.artist", target = "songArtist")
-  @Mapping(source = "songInfo.playUrl", target = "playUrl")
   @Mapping(source = "songInfo.imageUrl", target = "imageUrl")
+  @Mapping(source = "songInfo.playUrl", target = "playUrl")
   PlayerSongInfoDTO convertEntityToPlayerSongInfoDTO(Player player);
 
   @Mapping(source = "id", target = "id")

@@ -5,18 +5,18 @@ public class PlayerSongInfoDTO {
     private Boolean isSpy;
     private String songTitle;
     private String songArtist;
-    private String playUrl;
     private String imageUrl;
+    private String playUrl;
     
     public PlayerSongInfoDTO() {}
 
-    public PlayerSongInfoDTO(Long id, Boolean isSpy, String songTitle, String songArtist, String playUrl, String imageUrl) {
+    public PlayerSongInfoDTO(Long id, Boolean isSpy, String songTitle, String songArtist, String imageUrl, String playUrl) {
         this.id = id;
         this.isSpy = isSpy;
         this.songTitle = songTitle;
         this.songArtist = songArtist;
-        this.playUrl = playUrl;
         this.imageUrl = imageUrl;
+        this.playUrl = playUrl;
     }
 
     public Long getId() {
@@ -35,12 +35,12 @@ public class PlayerSongInfoDTO {
         return songArtist;
     }
 
-    public String getPlayUrl() {
-        return playUrl;
-    }
-
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public String getPlayUrl() {
+        return playUrl;
     }
 
     public void setId(Long id) {
@@ -59,12 +59,11 @@ public class PlayerSongInfoDTO {
         this.songArtist = songArtist;
     }
 
-    public void setPlayUrl(String playUrl) {
-        this.playUrl = playUrl;
-    }
-
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
+    public void setPlayUrl(String playUrl) {
+        this.playUrl = playUrl;
+    }
 }
