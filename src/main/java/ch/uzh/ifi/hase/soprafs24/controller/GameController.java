@@ -116,6 +116,7 @@ public class GameController {
     
         // Return the DTO which includes the song info and spy status
         songInfoDTO.setSpy(player.isSpy()); // Set if the player is the spy
+        System.out.println("Player song info: " + songInfoDTO.toString());
         return songInfoDTO;
     }
 
