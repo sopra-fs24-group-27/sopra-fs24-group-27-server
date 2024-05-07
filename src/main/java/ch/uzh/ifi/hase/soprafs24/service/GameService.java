@@ -348,6 +348,7 @@ public class GameService {
         int nextTurn = game.getCurrentTurn() + 1;
         if (nextTurn > game.getPlayers().size()) {
             nextTurn = 1; // Wrap around if it exceeds the number of players
+            game.incrementRound(); // Increment round after all players have played
         }
         game.setCurrentTurn(nextTurn);
         gameRepository.save(game);
