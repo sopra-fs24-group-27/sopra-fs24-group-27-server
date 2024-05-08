@@ -41,6 +41,9 @@ public class Player implements Serializable {
     private boolean isSpy; // True if the player is the spy, false otherwise.
 
     @Column
+    private boolean isWinner; // True if the player is the winner, false otherwise.
+
+    @Column
     private int score;
 
     @Column
@@ -53,7 +56,7 @@ public class Player implements Serializable {
 
 
     @Column
-    private int votes;
+    private int votes = 0;
 
     // Constructor, getters, and setters
     public Long getId() {
@@ -134,5 +137,13 @@ public class Player implements Serializable {
 
     public void setVotes(int votes) {
         this.votes = votes;
+    }
+
+    public boolean isWinner() {
+        return isWinner;
+    }
+
+    public void setWinner(boolean winner) {
+        isWinner = winner;
     }
 }

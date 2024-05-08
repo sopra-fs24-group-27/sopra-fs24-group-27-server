@@ -362,43 +362,99 @@ public class GameService {
         gameRepository.save(game);
     }
 
-    public Game setCurrentTurn(String gameId) {
+    public void vote(String gameId, Long voterId, Long votedPlayerId) {
         Game game = gameRepository.findByGameIdWithPlayers(gameId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
-        game.setCurrentTurn(game.getCurrentTurn() + 1);
-        // Reset emojis for all players
-        for (Player player : game.getPlayers()) {
-            player.setEmojis(new ArrayList<>());
-            playerRepository.save(player);
+
+        Player votedPlayer = game.getPlayers().stream()
+                .filter(player -> player.getId().equals(votedPlayerId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Voted player not found in game: " + gameId));
+
+        if (voterId.equals(votedPlayerId)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You cannot vote for yourself");
         }
-        return gameRepository.save(game);
+
+        // Increment votes
+        votedPlayer.setVotes(votedPlayer.getVotes() + 1);
+        playerRepository.save(votedPlayer);
+
+        // Increment votedPlayers count
+        game.setVotedPlayers(game.getVotedPlayers() + 1);
+        gameRepository.save(game);
+
+        // Check if all players have voted
+        if (game.getVotedPlayers() == game.getPlayers().size()) {
+            determineWinner(game);
+            System.out.println(game.getVotedPlayers());
+            System.out.println(game.getPlayers().size());
+        }
     }
 
-    public Game startNewEmojisRound(String gameId) {
-        Game game = gameRepository.findByGameIdWithPlayers(gameId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
-        game.setCurrentEmojiRound(game.getCurrentEmojiRound() + 1);
-        // Reset emojis for all players
-        for (Player player : game.getPlayers()) {
-            player.setEmojis(new ArrayList<>());
-            playerRepository.save(player);
-        }
-        return gameRepository.save(game);
-    }
-
-    public Map<String, List<String>> viewEmojis(Long gameId) {
-        Game game = gameRepository.findById(gameId)
-                .orElseThrow(() -> new IllegalArgumentException("Game not found"));
-
+    private void determineWinner(Game game) {
         List<Player> players = game.getPlayers();
-        Map<String, List<String>> playerEmojis = new HashMap<>();
+        Player spy = players.stream().filter(Player::isSpy).findFirst().orElse(null);
 
-        for (Player player : players) {
-            playerEmojis.put(player.getUser().getUsername(), player.getEmojis());
+        if (spy != null && spy.getVotes() < 2) {
+            // Spy wins
+            spy.setScore(spy.getScore() + 3);
+            spy.setWinner(true);
+            players.forEach(p -> p.setWinner(p.getId().equals(spy.getId())));
+        } else {
+            // Non-spies win
+            players.stream().filter(p -> !p.isSpy()).forEach(player -> {
+                player.setScore(player.getScore() + 3);
+                player.setWinner(true);
+            });
+            if (spy != null) {
+                spy.setWinner(false);
+            }
         }
 
-        return playerEmojis;
+        // Save all player changes
+        players.forEach(playerRepository::save);
+        gameRepository.save(game);
     }
+
+
+
+//    public Game setCurrentTurn(String gameId) {
+//        Game game = gameRepository.findByGameIdWithPlayers(gameId)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
+//        game.setCurrentTurn(game.getCurrentTurn() + 1);
+//        // Reset emojis for all players
+//        for (Player player : game.getPlayers()) {
+//            player.setEmojis(new ArrayList<>());
+//            playerRepository.save(player);
+//        }
+//        return gameRepository.save(game);
+//    }
+
+//    public Game startNewEmojisRound(String gameId) {
+//        Game game = gameRepository.findByGameIdWithPlayers(gameId)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
+//        game.setCurrentEmojiRound(game.getCurrentEmojiRound() + 1);
+//        // Reset emojis for all players
+//        for (Player player : game.getPlayers()) {
+//            player.setEmojis(new ArrayList<>());
+//            playerRepository.save(player);
+//        }
+//        return gameRepository.save(game);
+//    }
+//
+//    public Map<String, List<String>> viewEmojis(Long gameId) {
+//        Game game = gameRepository.findById(gameId)
+//                .orElseThrow(() -> new IllegalArgumentException("Game not found"));
+//
+//        List<Player> players = game.getPlayers();
+//        Map<String, List<String>> playerEmojis = new HashMap<>();
+//
+//        for (Player player : players) {
+//            playerEmojis.put(player.getUser().getUsername(), player.getEmojis());
+//        }
+//
+//        return playerEmojis;
+//    }
 
     public Game startVoting(String gameId, Long votedPlayerId) {
         Game game = gameRepository.findByGameIdWithPlayers(gameId)
