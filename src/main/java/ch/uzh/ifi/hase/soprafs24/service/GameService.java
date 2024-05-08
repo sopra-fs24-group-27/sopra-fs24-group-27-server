@@ -79,7 +79,7 @@ public class GameService {
     public class UniqueIDGenerator {
         public static String generateID() {
             Random random = new Random();
-            int id = 100000 + random.nextInt(900000); 
+            int id = 100000 + random.nextInt(900000);
             return String.valueOf(id);
         }
     }
@@ -107,7 +107,7 @@ public class GameService {
         return gameRepository.findByGameIdWithPlayers(gameId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
     }
-    
+
     // Get status of the created game or room
     public Game getGameStatus(String gameId) {
         return getGameByIdWithPlayers(gameId);
@@ -131,6 +131,11 @@ public class GameService {
     // if the player is the host, delete the game or room
     public Game quit(String gameId, Long playerId) {
         Game currentRoom = getGameByIdWithPlayers(gameId);
+        currentRoom.getPlayers().removeIf(player -> player.getId().equals(playerId));
+        // if (currentRoom.getHostId().equals(playerId)) {
+        // gameRepository.delete(currentRoom);
+        // }
+        gameRepository.save(currentRoom);
         return currentRoom;
     }
 
@@ -194,7 +199,7 @@ public class GameService {
         // Create a new player or get the existing one.
         Player player = getOrCreatePlayerFromUser(userId);
         player.setGame(game);
-        player.setHost(false); // Set host status for the 
+        player.setHost(false); // Set host status for the
 
         // Add the player to the game and save it.
         game.getPlayers().add(player);
@@ -207,7 +212,6 @@ public class GameService {
         // not null
         return playerRepository.findByUserId(userId).get().getGame() != null;
     }
-
 
     public PlayerSongInfoDTO createPlayerSongInfoDTO(Player player) {
         SongInfo songInfo = player.getSongInfo();
