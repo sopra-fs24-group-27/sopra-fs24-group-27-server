@@ -18,6 +18,9 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
+        if (request.getMethod().equals("OPTIONS")) {
+            return true;
+        }
         String token = request.getHeader("Authorization");
         if (tokenUtils.isEmpty(token)) {
             response.getWriter().print("You must log in first.");

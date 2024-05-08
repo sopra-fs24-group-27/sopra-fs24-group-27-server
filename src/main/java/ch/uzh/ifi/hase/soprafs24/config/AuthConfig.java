@@ -18,6 +18,6 @@ public class AuthConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor())
                 .addPathPatterns("/users/**", "/games/**", "/logout/**")
-                .excludePathPatterns("/register/**", "/login/**", "/users/**", "/games/**");
+                .excludePathPatterns("/register/**", "/login/**");
     }
 }
