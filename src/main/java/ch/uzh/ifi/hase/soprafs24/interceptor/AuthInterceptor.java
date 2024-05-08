@@ -1,5 +1,7 @@
 package ch.uzh.ifi.hase.soprafs24.interceptor;
 
+import ch.uzh.ifi.hase.soprafs24.entity.User;
+import ch.uzh.ifi.hase.soprafs24.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs24.security.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,9 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Autowired
     private TokenUtils tokenUtils;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
@@ -26,7 +31,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             response.getWriter().print("You must log in first.");
             return false;
         }
-        if (!tokenUtils.isValid(token)) {
+        if (!userRepository.findByToken(token).isPresent()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized");
         }
         return true;
