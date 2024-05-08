@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 
 
@@ -14,6 +15,7 @@ import org.springframework.http.MediaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Properties;
+import java.util.Random;
 import java.io.FileInputStream;
 import java.net.URI;
 
@@ -94,7 +96,7 @@ public class SpotifyService {
                 .uri(uriBuilder -> uriBuilder.path("/v1/search")
                         .queryParam("q", query)
                         .queryParam("type", "track")
-                        .queryParam("limit", 20)
+                        .queryParam("limit", 20) // get 20 songs
                         .queryParam("market", market)
                         .build())
                 .headers(headers -> headers.setBearerAuth(token))
@@ -105,6 +107,7 @@ public class SpotifyService {
         LOGGER.info("Received search result");
         List<SongInfo> songsInfo = new ArrayList<>();
         Set<String> normalizedSongNames = new HashSet<>();
+        // randomly select 2 songs among the 20 songs
 
         try {
             JsonNode searchJson = objectMapper.readTree(searchResult);
@@ -123,16 +126,19 @@ public class SpotifyService {
                     songsInfo.add(new SongInfo(name, artistName, imageUrl, previewUrl));
                     System.out.println("Song Name: " + name + " Artist Name: " + artistName + " Image URL: " + imageUrl + " Preview URL: " + previewUrl);  // Print the song name, artist name, image URL, and preview URL to console
                     normalizedSongNames.add(normalized);
-                    if (normalizedSongNames.size() >= 2) {
-                        break;
-                    }
                 }
             }
         } catch (Exception e) {
             LOGGER.error("Error parsing search result", e);
             throw new RuntimeException("Error parsing search result", e);
         }
-
+        
+    // Randomly select 2 songs from the list
+    Collections.shuffle(songsInfo, new Random());
+    if (songsInfo.size() > 2) {
+        LOGGER.info("2 randomly selected songs: {}", songsInfo.subList(0, 2));
+        return songsInfo.subList(0, 2);
+    }
         return songsInfo;
     }
     

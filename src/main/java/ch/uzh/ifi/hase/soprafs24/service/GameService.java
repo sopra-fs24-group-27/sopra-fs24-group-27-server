@@ -311,6 +311,14 @@ public class GameService {
         return createPlayerSongInfoDTO(player);
     }
 
+    public List<PlayerSongInfoDTO> getSongs(String gameId) {
+        Game game = gameRepository.findByGameIdWithPlayers(gameId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
+        return game.getPlayers().stream()
+                .map(this::createPlayerSongInfoDTO)
+                .collect(Collectors.toList());
+    }
+
     public Game sortTurnOrder(String gameId) {
         Game game = gameRepository.findByGameIdWithPlayers(gameId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
