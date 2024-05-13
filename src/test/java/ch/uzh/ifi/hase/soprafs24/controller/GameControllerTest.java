@@ -18,7 +18,9 @@ import ch.uzh.ifi.hase.soprafs24.entity.Game;
 import ch.uzh.ifi.hase.soprafs24.entity.Player;
 import ch.uzh.ifi.hase.soprafs24.entity.Settings;
 import ch.uzh.ifi.hase.soprafs24.entity.User;
+import ch.uzh.ifi.hase.soprafs24.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GamePostDTO;
+import ch.uzh.ifi.hase.soprafs24.security.TokenUtils;
 import ch.uzh.ifi.hase.soprafs24.service.GameService;
 import ch.uzh.ifi.hase.soprafs24.service.UserService;
 import ch.uzh.ifi.hase.soprafs24.constant.UserStatus;
@@ -37,8 +39,14 @@ public class GameControllerTest {
     @MockBean
     private UserService userService;
 
+    @MockBean
+    private TokenUtils tokenUtils;
+
+    @MockBean
+    private UserRepository userRepository;
+
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
+    @WithMockUser(username = "user")
     public void testCreateRoom() throws Exception {
         Game game = new Game();
         Settings settings = new Settings();
@@ -60,7 +68,7 @@ public class GameControllerTest {
         game.setPlayers(Collections.singletonList(hostPlayer));
         game.setHostId(host.getId());
 
-        when(gameService.createRoom(any(GamePostDTO.class), any(Long.class))).thenReturn(game);
+        when(gameService.createRoom(any(GamePostDTO.class))).thenReturn(game);
 
         String jsonContent = """
             {

@@ -19,10 +19,13 @@ import ch.uzh.ifi.hase.soprafs24.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs24.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs24.repository.SongInfoRepository;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GamePostDTO;
+import ch.uzh.ifi.hase.soprafs24.rest.dto.PlayerSongInfoDTO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.List;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -89,7 +92,7 @@ public class GameServiceTest {
 
         // Assuming the mapper is working correctly and we have stubbed
         // gameRepository.save() to return the saved entity
-        Game createdGame = gameService.createRoom(gamePostDTO, 1L);
+        Game createdGame = gameService.createRoom(gamePostDTO);
 
         assertNotNull(createdGame, "Game should not be null");
         dynamicGameId = createdGame.getGameId();
