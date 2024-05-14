@@ -471,53 +471,53 @@ public class GameService {
 //        return playerEmojis;
 //    }
 
-    public Game startVoting(String gameId, Long votedPlayerId) {
-        Game game = gameRepository.findByGameIdWithPlayers(gameId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
-        if (game == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
-        }
-        Player votedPlayer = playerRepository.findById(votedPlayerId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Voted player not found"));
-        votedPlayer.setVotes(votedPlayer.getVotes() + 1); // Increment the votes for the voted player
-        playerRepository.save(votedPlayer); // Save the voted player's state
-        return game;
-    }
-
-    public Game endVoting(String gameId) {
-        Game game = gameRepository.findByGameIdWithPlayers(gameId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
-        if (game == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
-        }
-        return game;
-    }
-
-    public Game declareWinner(String gameId) {
-        Game game = gameRepository.findByGameIdWithPlayers(gameId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
-        if (game == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
-        }
-        Player winner = game.getPlayers().stream().max(Comparator.comparing(Player::getVotes)).orElse(null);
-        game.setWinner(winner);
-        return gameRepository.save(game);
-    }
-
-    public Game endRound(String gameId) {
-        Game game = gameRepository.findByGameIdWithPlayers(gameId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
-        if (game == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
-        }
-        // Update scores for all players based on the round results
-        for (Player player : game.getPlayers()) {
-            // Update logic based on your game rules
-            player.setScore(player.getScore() + 1); // Example increment
-        }
-        playerRepository.saveAll(game.getPlayers());
-        return gameRepository.save(game);
-    }
+//    public Game startVoting(String gameId, Long votedPlayerId) {
+//        Game game = gameRepository.findByGameIdWithPlayers(gameId)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
+//        if (game == null) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
+//        }
+//        Player votedPlayer = playerRepository.findById(votedPlayerId)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Voted player not found"));
+//        votedPlayer.setVotes(votedPlayer.getVotes() + 1); // Increment the votes for the voted player
+//        playerRepository.save(votedPlayer); // Save the voted player's state
+//        return game;
+//    }
+//
+//    public Game endVoting(String gameId) {
+//        Game game = gameRepository.findByGameIdWithPlayers(gameId)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
+//        if (game == null) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
+//        }
+//        return game;
+//    }
+//
+//    public Game declareWinner(String gameId) {
+//        Game game = gameRepository.findByGameIdWithPlayers(gameId)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
+//        if (game == null) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
+//        }
+//        Player winner = game.getPlayers().stream().max(Comparator.comparing(Player::getVotes)).orElse(null);
+//        game.setWinner(winner);
+//        return gameRepository.save(game);
+//    }
+//
+//    public Game endRound(String gameId) {
+//        Game game = gameRepository.findByGameIdWithPlayers(gameId)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
+//        if (game == null) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found");
+//        }
+//        // Update scores for all players based on the round results
+//        for (Player player : game.getPlayers()) {
+//            // Update logic based on your game rules
+//            player.setScore(player.getScore() + 1); // Example increment
+//        }
+//        playerRepository.saveAll(game.getPlayers());
+//        return gameRepository.save(game);
+//    }
 
     // Players except host can leave the room by pressing Quit button
     public Game leaveRoom(String gameId, Player player) {

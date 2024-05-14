@@ -298,5 +298,59 @@ public class GameServiceTest {
     verify(gameRepository, times(1)).save(game); 
     }
 
+    @Test
+    public void testSortTurnOrder_ShouldSortPlayersTurnOrder() {
+        Game game = new Game();
+        game.setGameId("test-game");
+        List<Player> players = new ArrayList<>();
+        for (int i = 1; i <= 4; i++) {
+            Player player = new Player();
+            player.setId((long) i);
+            players.add(player);
+        }
+        game.setPlayers(players);
+
+        when(gameRepository.findByGameIdWithPlayers("test-game")).thenReturn(Optional.of(game));
+
+        Game sortedGame = gameService.sortTurnOrder("test-game");
+
+        List<Player> sortedPlayers = sortedGame.getPlayers();
+        assertNotNull(sortedPlayers);
+        assertEquals(4, sortedPlayers.size());
+        for (int i = 0; i < sortedPlayers.size(); i++) {
+            assertEquals(i + 1, sortedPlayers.get(i).getTurn());
+        }
+
+        verify(gameRepository).save(game);
+    }
+
+    @Test
+    public void testSavePlayerEmojis_ShouldSaveEmojis() {
+        Game game = new Game();
+        game.setGameId("test-game");
+        game.setCurrentTurn(1);
+        game.setCurrentRound(1);
+        List<Player> players = new ArrayList<>();
+        for (int i = 1; i <= 4; i++) {
+            Player player = new Player();
+            player.setId((long) i);
+            player.setTurn(i);
+            player.setGame(game);
+            players.add(player);
+        }
+        game.setPlayers(players);
+
+        when(gameRepository.findByGameIdWithPlayers("test-game")).thenReturn(Optional.of(game));
+
+        List<String> emojis = Arrays.asList("😀", "🎉");
+
+        gameService.savePlayerEmojis("test-game", 1L, emojis, 1);
+
+        assertEquals(emojis, players.get(0).getEmojis());
+        assertEquals(2, game.getCurrentTurn());
+
+        verify(playerRepository).save(players.get(0));
+        verify(gameRepository).save(game);
+    }
 
 }

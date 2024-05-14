@@ -110,11 +110,11 @@ public class GameControllerTest {
         String gameId = "game-123456";
         Game game = new Game();
         when(gameService.startGame(anyString())).thenReturn(game);
-        GameController gameController = new GameController(gameService); 
+        GameController gameController = new GameController(gameService);
 
         GameGetDTO result = gameController.start(gameId);
 
-        assertEquals(game.getId(), result.getGameId()); 
+        assertEquals(game.getId(), result.getGameId());
         verify(gameService, times(1)).startGame(gameId);
     }
 
@@ -123,7 +123,7 @@ public class GameControllerTest {
 
         String gameId = "nonexistentGameId";
         when(gameService.startGame(anyString())).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
-        GameController gameController = new GameController(gameService); 
+        GameController gameController = new GameController(gameService);
 
         assertThrows(ResponseStatusException.class, () -> gameController.start(gameId));
     }
