@@ -152,8 +152,9 @@ public class GameController {
     public void savePlayerEmojis(
             @PathVariable String gameId,
             @RequestParam Long playerId,
+            @RequestParam int round,
             @RequestBody List<String> emojis) {
-        gameService.savePlayerEmojis(gameId, playerId, emojis);
+        gameService.savePlayerEmojis(gameId, playerId, emojis, round);
     }
 
 //    @PutMapping("/games/{gameId}/new-emoji-round")

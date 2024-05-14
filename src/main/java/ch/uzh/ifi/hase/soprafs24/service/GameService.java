@@ -338,7 +338,7 @@ public class GameService {
         return gameRepository.save(game); // Save the changes to the database
     }
 
-    public void savePlayerEmojis(String gameId, Long playerId, List<String> emojis) {
+    public void savePlayerEmojis(String gameId, Long playerId, List<String> emojis, int round) {
         Player player = getPlayerById(gameId, playerId);
 
         // Check if it's player's turn
@@ -352,8 +352,19 @@ public class GameService {
         }
 
         // Save emojis to player
-        player.setEmojis(emojis);
+//        player.setEmojis(emojis);
+//        playerRepository.save(player);
+
+        // Save emojis to player based on the round
+        if (round == 1) {
+            player.setEmojis(emojis);
+        } else if (round == 2) {
+            player.setEmojis2(emojis);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid round number");
+        }
         playerRepository.save(player);
+
 
         // Increment current turn
         Game game = player.getGame();

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 // We set the relation betwwen "Player" and "User" to "Association", to seperate the game related characteristics from the user related characteristics.
 
@@ -54,9 +55,15 @@ public class Player implements Serializable {
     @Column(name = "emoji")
     private List<String> emojis;
 
+    @ElementCollection
+    private List<String> emojis2 = new ArrayList<>();
+
 
     @Column
     private int votes = 0;
+
+    public Player() {
+    }
 
     // Constructor, getters, and setters
     public Long getId() {
@@ -129,6 +136,14 @@ public class Player implements Serializable {
 
     public void setEmojis(List<String> emojis) {
         this.emojis = emojis;
+    }
+
+    public List<String> getEmojis2() {
+        return emojis2;
+    }
+
+    public void setEmojis2(List<String> emojis2) {
+        this.emojis2 = emojis2;
     }
 
     public int getVotes() {
