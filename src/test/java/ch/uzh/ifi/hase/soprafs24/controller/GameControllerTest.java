@@ -1,17 +1,25 @@
 package ch.uzh.ifi.hase.soprafs24.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import ch.uzh.ifi.hase.soprafs24.entity.Game;
@@ -19,6 +27,7 @@ import ch.uzh.ifi.hase.soprafs24.entity.Player;
 import ch.uzh.ifi.hase.soprafs24.entity.Settings;
 import ch.uzh.ifi.hase.soprafs24.entity.User;
 import ch.uzh.ifi.hase.soprafs24.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs24.rest.dto.GameGetDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GamePostDTO;
 import ch.uzh.ifi.hase.soprafs24.security.TokenUtils;
 import ch.uzh.ifi.hase.soprafs24.service.GameService;
@@ -44,6 +53,9 @@ public class GameControllerTest {
 
     @MockBean
     private UserRepository userRepository;
+
+    @InjectMocks
+    private GameController gameController;
 
     @Test
     @WithMockUser(username = "user")
@@ -91,4 +103,29 @@ public class GameControllerTest {
                 .andExpect(jsonPath("$.settings.genre").value("Pop"))
                 .andExpect(jsonPath("$.currentRound").value(1));
     }
+
+    @Test
+    public void testStartGame_Success() {
+
+        String gameId = "game-123456";
+        Game game = new Game();
+        when(gameService.startGame(anyString())).thenReturn(game);
+        GameController gameController = new GameController(gameService); 
+
+        GameGetDTO result = gameController.start(gameId);
+
+        assertEquals(game.getId(), result.getGameId()); 
+        verify(gameService, times(1)).startGame(gameId);
+    }
+
+    @Test
+    public void testStartGame_GameNotFound() {
+
+        String gameId = "nonexistentGameId";
+        when(gameService.startGame(anyString())).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
+        GameController gameController = new GameController(gameService); 
+
+        assertThrows(ResponseStatusException.class, () -> gameController.start(gameId));
+    }
+
 }

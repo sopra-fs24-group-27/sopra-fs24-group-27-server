@@ -5,8 +5,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.server.ResponseStatusException;
+
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 import ch.uzh.ifi.hase.soprafs24.entity.Game;
@@ -73,7 +79,7 @@ public class GameServiceTest {
         lenient().when(gameRepository.save(any(Game.class))).thenAnswer(invocation -> {
             Game savedGame = invocation.getArgument(0);
             dynamicGameId = savedGame.getGameId(); // Capture dynamically generated game ID
-            when(gameRepository.findByGameIdWithPlayers(dynamicGameId)).thenReturn(Optional.of(savedGame));
+            lenient().when(gameRepository.findByGameIdWithPlayers(dynamicGameId)).thenReturn(Optional.of(savedGame));
             return savedGame;
         });
 
@@ -237,4 +243,60 @@ public class GameServiceTest {
     // startedGame.getPlayers().get(3).getSongInfo().getTitle(), "The fourth player
     // should have the second song");
     // }
+
+    
+    @Test
+    public void testStartGame_GameNotFound() {
+
+        String gameId = "nonexistentGameId";
+        when(gameRepository.findByGameIdWithPlayers(anyString())).thenReturn(Optional.empty());
+        assertThrows(ResponseStatusException.class, () -> gameService.startGame(gameId));
+    }
+
+    @Test
+    public void testStartGame_NotEnoughPlayers() {
+
+        String gameId = "existingGameId";
+        Game game = new Game();
+        game.setPlayers(new ArrayList<>());
+        when(gameRepository.findByGameIdWithPlayers(anyString())).thenReturn(Optional.of(game));
+
+        assertThrows(IllegalStateException.class, () -> gameService.startGame(gameId));
+    }
+
+    @Test
+    public void testStartGame_SpotifyAuthenticationFailed() {
+
+        String gameId = "existingGameId";
+        Game game = new Game();
+        game.setPlayers(Arrays.asList(new Player(), new Player(), new Player(), new Player())); 
+        when(gameRepository.findByGameIdWithPlayers(anyString())).thenReturn(Optional.of(game));
+        when(spotifyService.authenticate()).thenReturn(null); // Simulating authentication failure
+
+        assertThrows(IllegalStateException.class, () -> gameService.startGame(gameId));
+    }
+
+    @Test
+    public void testStartGame_Success() {
+
+    String gameId = "game-123456";
+    Game game = new Game();
+    Settings settings = new Settings();
+    settings.setMarket("US");
+    settings.setArtist("Maroon 5");
+    settings.setGenre("Pop");
+    game.setSettings(settings);
+    game.setPlayers(Arrays.asList(new Player(), new Player(), new Player(), new Player())); // 4 players
+    when(gameRepository.findByGameIdWithPlayers(Mockito.anyString())).thenReturn(Optional.of(game));
+    when(spotifyService.authenticate()).thenReturn("mockedToken"); 
+    when(spotifyService.searchSong(eq("US"), eq("Pop"), eq("Maroon 5"), anyString()))
+            .thenReturn(Arrays.asList(new SongInfo(), new SongInfo())); 
+
+    Game startedGame = gameService.startGame(gameId);
+
+    assertEquals(1, startedGame.getCurrentRound()); 
+    verify(gameRepository, times(1)).save(game); 
+    }
+
+
 }
