@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs24.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -8,6 +9,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -20,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import ch.uzh.ifi.hase.soprafs24.entity.Game;
@@ -33,6 +36,7 @@ import ch.uzh.ifi.hase.soprafs24.security.TokenUtils;
 import ch.uzh.ifi.hase.soprafs24.service.GameService;
 import ch.uzh.ifi.hase.soprafs24.service.UserService;
 import ch.uzh.ifi.hase.soprafs24.constant.UserStatus;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collections;
 
@@ -127,5 +131,33 @@ public class GameControllerTest {
 
         assertThrows(ResponseStatusException.class, () -> gameController.start(gameId));
     }
+
+
+    @Test
+    @WithMockUser(username = "user", roles = {"USER"})
+    public void testGetGame_Success() throws Exception {
+
+        String gameId = "game-123456";
+        Game game = new Game();
+        when(gameService.getGameStatus(anyString())).thenReturn(game);
+        GameController gameController = new GameController(gameService);
+
+        GameGetDTO result = gameController.getGame(gameId);
+        assertNotNull(result);
+  
+    }
+
+
+    @Test
+    public void testGetGame_GameNotFound() {
+
+        String gameId = "nonexistentGameId";
+        when(gameService.getGameStatus(anyString())).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
+        GameController gameController = new GameController(gameService);
+
+        assertThrows(ResponseStatusException.class, () -> gameController.getGame(gameId));
+        
+    }
+
 
 }
