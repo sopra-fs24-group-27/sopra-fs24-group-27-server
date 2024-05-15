@@ -12,6 +12,8 @@ public class GameGetDTO {
     private int currentRound;
     private Settings settings;
     private int currentTurn;
+
+    private int votedPlayers;
     private List<Player> players = new ArrayList<>();
 
     public String getGameId() {
@@ -60,5 +62,13 @@ public class GameGetDTO {
 
     public void setCurrentTurn(int currentTurn) {
         this.currentTurn = currentTurn;
+    }
+
+    public int getVotedPlayers() {
+        return votedPlayers;
+    }
+
+    public void setVotedPlayers(int votedPlayers) {
+        this.votedPlayers = votedPlayers;
     }
 }
