@@ -427,7 +427,17 @@ public class GameService {
         }
 
         // Save all player changes
-        players.forEach(playerRepository::save);
+//        players.forEach(playerRepository::save);
+
+        players.forEach(player -> {
+            User user = player.getUser();
+            if (user != null) {
+                user.setScore(user.getScore() + player.getScore());
+                userRepository.save(user);
+            }
+            playerRepository.save(player);
+        });
+
         gameRepository.save(game);
     }
 

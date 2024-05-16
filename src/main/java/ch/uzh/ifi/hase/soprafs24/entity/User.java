@@ -47,6 +47,8 @@ public class User implements Serializable {
     @Column
     private String avatar;
 
+    @Column
+    private int score;
 
     // Standard getters and setters
     public Long getId() {
@@ -111,5 +113,13 @@ public class User implements Serializable {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }
