@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /**
  * User Service
@@ -56,6 +57,10 @@ public class UserService {
     if (newUser.getPassword() == null || newUser.getPassword().isEmpty()) {
       throw new IllegalArgumentException("Password cannot be empty");
     }
+    Random random = new Random();
+    int randomNumber = random.nextInt(27) + 1;
+    String avatar = "https://cdn.jsdelivr.net/gh/alohe/avatars/png/vibrent_" + randomNumber + ".png";
+    newUser.setAvatar(avatar);
     newUser.setToken(tokenUtils.generate());
     newUser.setStatus(UserStatus.ONLINE);
     newUser.setBirthDate(null);
