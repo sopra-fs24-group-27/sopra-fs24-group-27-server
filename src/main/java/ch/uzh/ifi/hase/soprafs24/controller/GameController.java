@@ -14,7 +14,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Map;
 
-
 @RestController
 public class GameController {
 
@@ -51,11 +50,12 @@ public class GameController {
     // @PutMapping("/games/{gameId}")
     // @ResponseStatus(HttpStatus.OK)
     // @ResponseBody
-    // public GameGetDTO updateGame(@PathVariable String gameId, @RequestBody GamePostDTO gamePostDTO) {
-    //     Game game = gameService.updateRoom(gameId, gamePostDTO);
-    //     System.out.println("Game modified: " + game.toString());
-    //    return DTOMapper.INSTANCE.convertEntityToGameGetDTO(game);
-    //}
+    // public GameGetDTO updateGame(@PathVariable String gameId, @RequestBody
+    // GamePostDTO gamePostDTO) {
+    // Game game = gameService.updateRoom(gameId, gamePostDTO);
+    // System.out.println("Game modified: " + game.toString());
+    // return DTOMapper.INSTANCE.convertEntityToGameGetDTO(game);
+    // }
 
     // `DELETE /games/{gameId}`
     // Delete the created game or room
@@ -67,7 +67,7 @@ public class GameController {
         System.out.println("Game deleted: " + gameId);
     }
 
-    // `POST /games/{gameId}/join?playerId={playerId}`
+    // `POST /games/{gameId}/join?userId={userId}`
     // Create a joined player, including host, in the created game or room
     @PostMapping("/games/{gameId}/join")
     @ResponseStatus(HttpStatus.CREATED)
@@ -119,7 +119,7 @@ public class GameController {
         if (songInfoDTO == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Song info not available for the player");
         }
-    
+
         // Return the DTO which includes the song info and spy status
         songInfoDTO.setSpy(player.isSpy()); // Set if the player is the spy
         System.out.println("Player song info: " + songInfoDTO.toString());
@@ -134,10 +134,9 @@ public class GameController {
         return songs;
     }
 
-//    public String getMethodName(@RequestParam String param) {
-//        return new String();
-//    }
-    
+    // public String getMethodName(@RequestParam String param) {
+    // return new String();
+    // }
 
     @PostMapping("/games/{gameId}/sortTurnOrder")
     @ResponseStatus(HttpStatus.OK)
@@ -157,20 +156,20 @@ public class GameController {
         gameService.savePlayerEmojis(gameId, playerId, emojis, round);
     }
 
-//    @PutMapping("/games/{gameId}/new-emoji-round")
-//    @ResponseStatus(HttpStatus.OK)
-//    @ResponseBody
-//    public GameGetDTO startNewEmojisRound(@PathVariable String gameId) {
-//        Game game = gameService.startNewEmojisRound(gameId);
-//        return DTOMapper.INSTANCE.convertEntityToGameGetDTO(game);
-//    }
-//
-//    @GetMapping("/games/{gameId}/emojis")
-//    @ResponseStatus(HttpStatus.OK)
-//    @ResponseBody
-//    public Map<String, List<String>> viewEmojis(@PathVariable Long gameId) {
-//        return gameService.viewEmojis(gameId);
-//    }
+    // @PutMapping("/games/{gameId}/new-emoji-round")
+    // @ResponseStatus(HttpStatus.OK)
+    // @ResponseBody
+    // public GameGetDTO startNewEmojisRound(@PathVariable String gameId) {
+    // Game game = gameService.startNewEmojisRound(gameId);
+    // return DTOMapper.INSTANCE.convertEntityToGameGetDTO(game);
+    // }
+    //
+    // @GetMapping("/games/{gameId}/emojis")
+    // @ResponseStatus(HttpStatus.OK)
+    // @ResponseBody
+    // public Map<String, List<String>> viewEmojis(@PathVariable Long gameId) {
+    // return gameService.viewEmojis(gameId);
+    // }
 
     // In GameController.java
 
@@ -183,30 +182,29 @@ public class GameController {
         gameService.vote(gameId, voterId, votedPlayerId);
     }
 
-
     // `POST /games/{gameId}/vote?playerId={playerId}`
     // Store sent votes from each player, if all players have voted, compute scores
     // for each player
-//    @PostMapping("/games/{gameId}/vote")
-//    @ResponseStatus(HttpStatus.OK)
-//    @ResponseBody
-//    public GameGetDTO vote(@PathVariable String gameId,
-//            @RequestParam(required = true) Long playerId,
-//            @RequestBody VotePostDTO votePostDTO) {
-//        Game game = gameService.vote(gameId, playerId, votePostDTO);
-//        System.out.println("Game status updated: " + game.toString());
-//        return DTOMapper.INSTANCE.convertEntityToGameGetDTO(game);
-//    }
+    // @PostMapping("/games/{gameId}/vote")
+    // @ResponseStatus(HttpStatus.OK)
+    // @ResponseBody
+    // public GameGetDTO vote(@PathVariable String gameId,
+    // @RequestParam(required = true) Long playerId,
+    // @RequestBody VotePostDTO votePostDTO) {
+    // Game game = gameService.vote(gameId, playerId, votePostDTO);
+    // System.out.println("Game status updated: " + game.toString());
+    // return DTOMapper.INSTANCE.convertEntityToGameGetDTO(game);
+    // }
 
     // `POST /games/{gameId}/newRound`
     // Flush buffer for previous round, refresh current round counter
-//    @PostMapping("/games/{gameId}/newRound")
-//    @ResponseStatus(HttpStatus.OK)
-//    @ResponseBody
-//    public GameGetDTO newRound(@PathVariable String gameId) {
-//        Game game = gameService.newRound(gameId);
-//        System.out.println("Game status updated: " + game.toString());
-//        return DTOMapper.INSTANCE.convertEntityToGameGetDTO(game);
-//    }
+    // @PostMapping("/games/{gameId}/newRound")
+    // @ResponseStatus(HttpStatus.OK)
+    // @ResponseBody
+    // public GameGetDTO newRound(@PathVariable String gameId) {
+    // Game game = gameService.newRound(gameId);
+    // System.out.println("Game status updated: " + game.toString());
+    // return DTOMapper.INSTANCE.convertEntityToGameGetDTO(game);
+    // }
 
 }

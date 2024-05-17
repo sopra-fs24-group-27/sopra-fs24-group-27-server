@@ -47,6 +47,7 @@ public class UserService {
   }
 
   public void logoutUser(String token) {
+    checkIfUserWithTokenExists(token);
     User user = userRepository.findByToken(token).get();
     user.setStatus(UserStatus.OFFLINE);
     user.setToken(null);
@@ -54,9 +55,8 @@ public class UserService {
   }
 
   public User createUser(User newUser) {
-    if (newUser.getPassword() == null || newUser.getPassword().isEmpty()) {
-      throw new IllegalArgumentException("Password cannot be empty");
-    }
+    checkIfUserExists(newUser);
+    checkIfPasswordIsEmpty(newUser.getPassword());
     Random random = new Random();
     int randomNumber = random.nextInt(27) + 1;
     String avatar = "https://cdn.jsdelivr.net/gh/alohe/avatars/png/vibrent_" + randomNumber + ".png";
@@ -64,13 +64,10 @@ public class UserService {
     newUser.setToken(tokenUtils.generate());
     newUser.setStatus(UserStatus.ONLINE);
     newUser.setBirthDate(null);
-
-    checkIfUserExists(newUser);
     // saves the given entity but data is only persisted in the database once
     // flush() is called
     newUser = userRepository.save(newUser);
     userRepository.flush();
-
     log.debug("Created Information for User: {}", newUser);
     return newUser;
   }
@@ -89,6 +86,19 @@ public class UserService {
     User checkUsername = userRepository.findByUsername(userToBeCreated.getUsername());
     if (checkUsername != null) {
       throw new ResponseStatusException(HttpStatus.CONFLICT, "Username is already taken, please choose another one");
+    }
+  }
+
+  private void checkIfPasswordIsEmpty(String password) {
+    if (password == null || password.isEmpty()) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "Password cannot be empty");
+    }
+  }
+
+  // Just for test
+  private void checkIfUserWithTokenExists(String token) {
+    if (!userRepository.findByToken(token).isPresent()) {
+      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
     }
   }
 

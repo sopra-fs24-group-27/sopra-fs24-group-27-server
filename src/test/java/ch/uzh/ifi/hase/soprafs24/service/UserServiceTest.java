@@ -21,7 +21,6 @@ import java.util.Optional;
 
 import java.time.LocalDate;
 
-
 public class UserServiceTest {
 
   @Mock
@@ -34,7 +33,7 @@ public class UserServiceTest {
 
   @BeforeEach
   public void setup() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
 
     testUser = new User();
     testUser.setId(1L);
@@ -44,25 +43,33 @@ public class UserServiceTest {
     Mockito.when(userRepository.save(Mockito.any())).thenReturn(testUser);
   }
 
-
   @Test
   public void createUser_validInputs_success() {
-    testUser.setUsername("testUsername");
     testUser.setPassword("testPassword");
-    try {
-        User createdUser = userService.createUser(testUser);
 
-        Mockito.verify(userRepository, Mockito.times(1)).save(Mockito.any());
+    User createdUser = userService.createUser(testUser);
 
-        assertEquals(testUser.getId(), createdUser.getId());
-        assertEquals(testUser.getUsername(), createdUser.getUsername());
-        assertNotNull(createdUser.getToken());
-        assertEquals(UserStatus.ONLINE, createdUser.getStatus());
-    } catch (Exception e) {
-        fail("Unexpected exception occurred: " + e.getMessage());
-    }
+    Mockito.verify(userRepository, Mockito.times(1)).save(Mockito.any());
+
+    assertEquals(testUser.getId(), createdUser.getId());
+    assertEquals(testUser.getUsername(), createdUser.getUsername());
+    assertNotNull(createdUser.getAvatar());
+    assertNotNull(createdUser.getToken());
+    assertEquals(UserStatus.ONLINE, createdUser.getStatus());
+    // try {
+    // User createdUser = userService.createUser(testUser);
+
+    // Mockito.verify(userRepository, Mockito.times(1)).save(Mockito.any());
+
+    // assertEquals(testUser.getId(), createdUser.getId());
+    // assertEquals(testUser.getUsername(), createdUser.getUsername());
+    // assertNotNull(createdUser.getAvatar());
+    // assertNotNull(createdUser.getToken());
+    // assertEquals(UserStatus.ONLINE, createdUser.getStatus());
+    // } catch (Exception e) {
+    // fail("Unexpected exception occurred: " + e.getMessage());
+    // }
   }
-
 
   @Test
   public void createUser_duplicateInputs_throwsException() {
@@ -71,20 +78,19 @@ public class UserServiceTest {
     userService.createUser(testUser);
 
     Mockito.when(userRepository.findByUsername(Mockito.any())).thenReturn(testUser);
-    
+
     try {
       userService.createUser(testUser);
       fail("Expected IllegalArgumentException was not thrown");
     } catch (ResponseStatusException e) {
-        assertTrue(e.getMessage().contains("Username is already taken, please choose another one"));
+      assertTrue(e.getMessage().contains("Username is already taken, please choose another one"));
     }
   }
-
 
   @Test
   public void loginUser_validCredentials_success() {
 
-     Mockito.when(userRepository.findByUsername("testUser")).thenReturn(testUser);
+    Mockito.when(userRepository.findByUsername("testUser")).thenReturn(testUser);
 
     testUser.setPassword("testPassword");
 
@@ -113,7 +119,6 @@ public class UserServiceTest {
 
   @Test
   public void logoutUser_invalidToken_throwsException() {
-
     Mockito.when(userRepository.findByToken(anyString())).thenReturn(Optional.empty());
     assertThrows(ResponseStatusException.class, () -> userService.logoutUser("invalidToken"));
   }
@@ -125,7 +130,6 @@ public class UserServiceTest {
     UserPostDTO userPostDTO = new UserPostDTO();
     userPostDTO.setUsername("updatedUsername");
     userPostDTO.setName("updatedName");
-    
 
     User updatedUser = userService.updateUserDetails(testUser.getId(), userPostDTO);
     Mockito.verify(userRepository, Mockito.times(1)).findById(testUser.getId());
@@ -138,15 +142,14 @@ public class UserServiceTest {
 
   @Test
   public void updateUserDetails_invalidUserId_throwsException() {
-      when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
-      UserPostDTO userPostDTO = new UserPostDTO();
-      userPostDTO.setUsername("updatedUsername");
-      userPostDTO.setName("updatedName");
+    when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
+    UserPostDTO userPostDTO = new UserPostDTO();
+    userPostDTO.setUsername("updatedUsername");
+    userPostDTO.setName("updatedName");
 
-      assertThrows(ResponseStatusException.class, () -> userService.updateUserDetails(999L, userPostDTO));
-      Mockito.verify(userRepository, Mockito.times(1)).findById(999L);
+    assertThrows(ResponseStatusException.class, () -> userService.updateUserDetails(999L, userPostDTO));
+    Mockito.verify(userRepository, Mockito.times(1)).findById(999L);
 
-    }
-
+  }
 
 }
