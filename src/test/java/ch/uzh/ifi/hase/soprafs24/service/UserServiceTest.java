@@ -4,7 +4,9 @@ import ch.uzh.ifi.hase.soprafs24.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs24.entity.User;
 import ch.uzh.ifi.hase.soprafs24.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.UserPostDTO;
+import ch.uzh.ifi.hase.soprafs24.security.TokenUtils;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -26,14 +28,19 @@ public class UserServiceTest {
   @Mock
   private UserRepository userRepository;
 
+  @Mock
+  private TokenUtils tokenUtils;
+
   @InjectMocks
   private UserService userService;
+
+  private AutoCloseable closeable;
 
   private User testUser;
 
   @BeforeEach
   public void setup() {
-    MockitoAnnotations.openMocks(this);
+    closeable = MockitoAnnotations.openMocks(this);
 
     testUser = new User();
     testUser.setId(1L);
@@ -41,6 +48,12 @@ public class UserServiceTest {
     testUser.setUsername("testUsername");
 
     Mockito.when(userRepository.save(Mockito.any())).thenReturn(testUser);
+    Mockito.when(tokenUtils.generate()).thenReturn("testToken");
+  }
+
+  @AfterEach
+  public void releaseMocks() throws Exception {
+    closeable.close(); 
   }
 
   @Test

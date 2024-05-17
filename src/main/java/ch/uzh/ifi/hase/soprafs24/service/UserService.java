@@ -33,14 +33,14 @@ public class UserService {
   private final Logger log = LoggerFactory.getLogger(UserService.class);
 
   private final UserRepository userRepository;
+  private final TokenUtils tokenUtils; 
 
   @Autowired
-  public UserService(@Qualifier("userRepository") UserRepository userRepository) {
+  public UserService(@Qualifier("userRepository") UserRepository userRepository, TokenUtils tokenUtils) {
     this.userRepository = userRepository;
+    this.tokenUtils = tokenUtils;
   }
 
-  @Autowired
-  private TokenUtils tokenUtils;
 
   public List<User> getUsers() {
     return this.userRepository.findAll();
