@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -29,6 +30,7 @@ import ch.uzh.ifi.hase.soprafs24.entity.Game;
 import ch.uzh.ifi.hase.soprafs24.entity.Player;
 import ch.uzh.ifi.hase.soprafs24.entity.Settings;
 import ch.uzh.ifi.hase.soprafs24.entity.User;
+import ch.uzh.ifi.hase.soprafs24.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs24.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GameGetDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GamePostDTO;
@@ -59,12 +61,14 @@ public class GameControllerTest {
     @MockBean
     private UserRepository userRepository;
 
+    @MockBean
+    private GameRepository gameRepository;
+
     @InjectMocks
     private GameController gameController;
 
     @Test
-    @WithMockUser(username = "user")
-    public void testCreateRoom() throws Exception {
+    public void testCreateRoom_Success() throws Exception {
         User user = new User();
         user.setId(1L);
         user.setUsername("existingUser");
@@ -74,6 +78,8 @@ public class GameControllerTest {
         when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
 
         Game game = new Game();
+        game.setGameId("game-123456");
+
         Settings settings = new Settings();
         settings.setMarket("US");
         settings.setArtist("Maroon 5");
@@ -87,11 +93,13 @@ public class GameControllerTest {
         host.setUsername("user");
         host.setStatus(UserStatus.ONLINE);
 
+        game.setHostId(host.getId());
+
         Player hostPlayer = new Player();
         hostPlayer.setUser(host);
         hostPlayer.setHost(true);
+
         game.setPlayers(Collections.singletonList(hostPlayer));
-        game.setHostId(host.getId());
 
         when(gameService.createRoom(any(GamePostDTO.class))).thenReturn(game);
 
@@ -115,7 +123,154 @@ public class GameControllerTest {
                 .andExpect(jsonPath("$.settings.market").value("US"))
                 .andExpect(jsonPath("$.settings.artist").value("Maroon 5"))
                 .andExpect(jsonPath("$.settings.genre").value("Pop"))
-                .andExpect(jsonPath("$.currentRound").value(1));
+                .andExpect(jsonPath("$.currentRound").value(1))
+                .andExpect(jsonPath("$.gameId").value("game-123456"))
+                .andExpect(jsonPath("$.hostId").value(1));
+    }
+
+    @Test
+    public void testJoinRoomAsHost_Success() throws Exception {
+        Game game = new Game();
+        game.setGameId("game-123456");
+
+        Settings settings = new Settings();
+        settings.setMarket("US");
+        settings.setArtist("Maroon 5");
+        settings.setGenre("Pop");
+
+        game.setSettings(settings);
+        game.setCurrentRound(1);
+
+        User host = new User();
+        host.setId(1L);
+        host.setUsername("user");
+        host.setStatus(UserStatus.ONLINE);
+        String token = "existingToken";
+        host.setToken(token);
+
+        when(userRepository.findByToken(token)).thenReturn(Optional.of(host));
+
+        game.setHostId(host.getId());
+
+        Player hostPlayer = new Player();
+        hostPlayer.setUser(host);
+        hostPlayer.setHost(true);
+
+        game.getPlayers().add(hostPlayer);
+
+        when(gameService.joinRoom(anyString(), anyLong())).thenReturn(game);
+
+        mockMvc.perform(post("/games/game-123456/join")
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("userId", "1"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.settings.market").value("US"))
+                .andExpect(jsonPath("$.settings.artist").value("Maroon 5"))
+                .andExpect(jsonPath("$.settings.genre").value("Pop"))
+                .andExpect(jsonPath("$.currentRound").value(1))
+                .andExpect(jsonPath("$.hostId").value(1));
+    }
+
+    @Test
+    public void testJoinRoomAsSecondPlayer_Success() throws Exception {
+        User user = new User();
+        user.setId(2L);
+        user.setUsername("existingUser");
+        String token = "existingToken";
+        user.setToken(token);
+
+        when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
+
+        Game game = new Game();
+        game.setGameId("game-123456");
+
+        Settings settings = new Settings();
+        settings.setMarket("US");
+        settings.setArtist("Maroon 5");
+        settings.setGenre("Pop");
+
+        game.setSettings(settings);
+        game.setCurrentRound(1);
+
+        User host = new User();
+        host.setId(1L);
+        host.setUsername("user");
+        host.setStatus(UserStatus.ONLINE);
+
+        game.setHostId(host.getId());
+
+        Player hostPlayer = new Player();
+        hostPlayer.setUser(host);
+        hostPlayer.setHost(true);
+
+        Player player = new Player();
+        player.setUser(user);
+        player.setHost(false);
+
+        game.getPlayers().add(hostPlayer);
+        game.getPlayers().add(player);
+
+        when(gameService.joinRoom(anyString(), anyLong())).thenReturn(game);
+
+        mockMvc.perform(post("/games/game-123456/join")
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("userId", "2"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.settings.market").value("US"))
+                .andExpect(jsonPath("$.settings.artist").value("Maroon 5"))
+                .andExpect(jsonPath("$.settings.genre").value("Pop"))
+                .andExpect(jsonPath("$.currentRound").value(1))
+                .andExpect(jsonPath("$.hostId").value(1));
+    }
+
+    @Test
+    public void testLeaveRoomAsSecondPlayer_Success() throws Exception {
+        User user = new User();
+        user.setId(2L);
+        user.setUsername("existingUser");
+        String token = "existingToken";
+        user.setToken(token);
+
+        when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
+
+        Game game = new Game();
+        game.setGameId("game-123456");
+
+        Settings settings = new Settings();
+        settings.setMarket("US");
+        settings.setArtist("Maroon 5");
+        settings.setGenre("Pop");
+
+        game.setSettings(settings);
+        game.setCurrentRound(1);
+
+        User host = new User();
+        host.setId(1L);
+        host.setUsername("user");
+        host.setStatus(UserStatus.ONLINE);
+
+        game.setHostId(host.getId());
+
+        Player hostPlayer = new Player();
+        hostPlayer.setUser(host);
+        hostPlayer.setHost(true);
+
+        game.getPlayers().add(hostPlayer);
+
+        when(gameService.quit(anyString(), anyLong())).thenReturn(game);
+
+        mockMvc.perform(post("/games/game-123456/quit")
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("playerId", "2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.settings.market").value("US"))
+                .andExpect(jsonPath("$.settings.artist").value("Maroon 5"))
+                .andExpect(jsonPath("$.settings.genre").value("Pop"))
+                .andExpect(jsonPath("$.currentRound").value(1))
+                .andExpect(jsonPath("$.hostId").value(1));
     }
 
     @Test
@@ -143,16 +298,27 @@ public class GameControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = { "USER" })
     public void testGetGame_Success() throws Exception {
+        User user = new User();
+        user.setId(2L);
+        user.setUsername("existingUser");
+        String token = "existingToken";
+        user.setToken(token);
 
-        String gameId = "game-123456";
+        when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
+
         Game game = new Game();
-        when(gameService.getGameStatus(anyString())).thenReturn(game);
-        GameController gameController = new GameController(gameService);
+        game.setGameId("game-123456");
+        game.setHostId(1L);
 
-        GameGetDTO result = gameController.getGame(gameId);
-        assertNotNull(result);
+        when(gameService.getGameStatus(anyString())).thenReturn(game);
+
+        mockMvc.perform(get("/games/game-123456")
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.gameId").value("game-123456"))
+                .andExpect(jsonPath("$.hostId").value("1"));
 
     }
 
