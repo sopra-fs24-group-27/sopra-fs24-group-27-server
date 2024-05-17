@@ -69,12 +69,16 @@ public class UserControllerTest {
   public void givenUsers_whenGetUsers_thenReturnJsonArray() throws Exception {
     User user = new User();
     user.setUsername("username");
-    user.setBirthDate(java.sql.Date.valueOf(LocalDate.now()));
+    String token = "existingToken";
+    user.setToken(token);
+
+    when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
 
     List<User> allUsers = Collections.singletonList(user);
     given(userService.getUsers()).willReturn(allUsers);
 
     MockHttpServletRequestBuilder getRequest = get("/users")
+        .header("Authorization", token)
         .contentType(MediaType.APPLICATION_JSON);
 
     mockMvc.perform(getRequest)
@@ -113,10 +117,15 @@ public class UserControllerTest {
     User user = new User();
     user.setId(1L);
     user.setUsername("existingUser");
+    String token = "existingToken";
+    user.setToken(token);
+
+    when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
 
     given(userService.getUserById(1L)).willReturn(user);
 
     mockMvc.perform(get("/users/1")
+        .header("Authorization", token)
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.username", is("existingUser")));
@@ -133,9 +142,15 @@ public class UserControllerTest {
     updatedUser.setId(userId);
     updatedUser.setUsername("UpdatedUsername");
 
+    String token = "existingToken";
+    updatedUser.setToken(token);
+
+    when(userRepository.findByToken(token)).thenReturn(Optional.of(updatedUser));
+
     given(userService.updateUserDetails(userId, userPostDTO)).willReturn(updatedUser);
 
     mockMvc.perform(put("/users/{userId}", userId)
+        .header("Authorization", token)
         .contentType(MediaType.APPLICATION_JSON)
         .content(asJsonString(userPostDTO)))
         .andExpect(status().isOk());

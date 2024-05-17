@@ -39,6 +39,7 @@ import ch.uzh.ifi.hase.soprafs24.constant.UserStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @WebMvcTest(value = GameController.class)
 public class GameControllerTest {
@@ -64,6 +65,14 @@ public class GameControllerTest {
     @Test
     @WithMockUser(username = "user")
     public void testCreateRoom() throws Exception {
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("existingUser");
+        String token = "existingToken";
+        user.setToken(token);
+
+        when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
+
         Game game = new Game();
         Settings settings = new Settings();
         settings.setMarket("US");
@@ -87,20 +96,21 @@ public class GameControllerTest {
         when(gameService.createRoom(any(GamePostDTO.class))).thenReturn(game);
 
         String jsonContent = """
-            {
-                "settings": {
-                    "market": "US",
-                    "artist": "Maroon 5",
-                    "genre": "Pop"
-                },
-                "currentRound": 0
-            }
-            """;
+                {
+                    "settings": {
+                        "market": "US",
+                        "artist": "Maroon 5",
+                        "genre": "Pop"
+                    },
+                    "currentRound": 0
+                }
+                """;
 
         mockMvc.perform(post("/games")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonContent)
-                        .param("userId", "1"))
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonContent)
+                .param("userId", "1"))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.settings.market").value("US"))
                 .andExpect(jsonPath("$.settings.artist").value("Maroon 5"))
@@ -132,9 +142,8 @@ public class GameControllerTest {
         assertThrows(ResponseStatusException.class, () -> gameController.start(gameId));
     }
 
-
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
+    @WithMockUser(username = "user", roles = { "USER" })
     public void testGetGame_Success() throws Exception {
 
         String gameId = "game-123456";
@@ -144,9 +153,8 @@ public class GameControllerTest {
 
         GameGetDTO result = gameController.getGame(gameId);
         assertNotNull(result);
-  
-    }
 
+    }
 
     @Test
     public void testGetGame_GameNotFound() {
@@ -156,8 +164,7 @@ public class GameControllerTest {
         GameController gameController = new GameController(gameService);
 
         assertThrows(ResponseStatusException.class, () -> gameController.getGame(gameId));
-        
-    }
 
+    }
 
 }
