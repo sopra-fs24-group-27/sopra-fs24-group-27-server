@@ -84,6 +84,59 @@ public class GameServiceTest {
         });
 
     }
+    @Test
+    public void testDeleteRoom() {
+        String gameId = "123";
+        Game game = new Game();
+        game.setGameId(gameId);
+
+        when(gameRepository.findByGameIdWithPlayers(gameId)).thenReturn(Optional.of(game));
+
+        gameService.deleteRoom(gameId);
+
+        verify(gameRepository, times(1)).delete(game);
+    }
+
+    @Test
+    public void testQuit_PlayerIsHost() {
+        String gameId = "123";
+        Long playerId = 1L;
+        Game game = new Game();
+        game.setGameId(gameId);
+        game.setHostId(playerId);
+
+        Player player = new Player();
+        player.setId(playerId);
+        game.getPlayers().add(player);
+
+        when(gameRepository.findByGameIdWithPlayers(gameId)).thenReturn(Optional.of(game));
+
+        Game updatedGame = gameService.quit(gameId, playerId);
+
+        assertTrue(updatedGame.getPlayers().isEmpty(), "All players should be removed from the game");
+        verify(gameRepository, times(1)).save(updatedGame);
+    }
+
+    @Test
+    public void testQuit_PlayerIsNotHost() {
+        String gameId = "123";
+        Long playerId = 1L;
+        Long hostId = 2L;
+        Game game = new Game();
+        game.setGameId(gameId);
+        game.setHostId(hostId);
+
+        Player player = new Player();
+        player.setId(playerId);
+        game.getPlayers().add(player);
+
+        when(gameRepository.findByGameIdWithPlayers(gameId)).thenReturn(Optional.of(game));
+
+        Game updatedGame = gameService.quit(gameId, playerId);
+
+        assertTrue(updatedGame.getPlayers().isEmpty(), "All players should be removed from the game");
+        verify(gameRepository, times(1)).save(updatedGame);
+    }
 
     @Test
     public void testCreateRoom_ShouldCreateRoom() {
@@ -109,7 +162,7 @@ public class GameServiceTest {
         assertEquals(createdGame, gameRepository.findByGameIdWithPlayers(dynamicGameId).get(),
                 "Game should be saved in the repository");
     }
-
+    
     @Test
     public void testAddHost_ShouldAddPlayerToRoom() {
         testCreateRoom_ShouldCreateRoom(); // Ensure room is created and ID is set
