@@ -44,7 +44,7 @@ public class User implements Serializable {
     private Date birthDate;
 
     // Avatar
-    @Column
+    @Column(nullable = false)
     private String avatar;
 
     @Column

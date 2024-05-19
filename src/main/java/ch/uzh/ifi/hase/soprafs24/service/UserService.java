@@ -122,11 +122,16 @@ public class UserService {
     User user = userRepository.findById(userId)
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
+    System.out.println("Updating user details: " + userPostDTO);
+
     user.setBirthDate(userPostDTO.getBirthDate());
 
     user.setUsername(userPostDTO.getUsername());
 
     user.setName(userPostDTO.getName());
+
+    user.setAvatar(userPostDTO.getAvatar());
+
     // Save the updated user to the database
     userRepository.save(user);
 

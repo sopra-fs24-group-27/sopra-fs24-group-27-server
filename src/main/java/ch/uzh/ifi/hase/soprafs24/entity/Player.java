@@ -50,6 +50,9 @@ public class Player implements Serializable {
     @Column
     private int turn;
 
+    @Column
+    private String avatar;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "player_emojis", joinColumns = @JoinColumn(name = "player_id"))
     @Column(name = "emoji")
@@ -161,4 +164,8 @@ public class Player implements Serializable {
     public void setWinner(boolean winner) {
         isWinner = winner;
     }
+
+    public String getAvatar() {
+        return avatar;
+      }
 }
