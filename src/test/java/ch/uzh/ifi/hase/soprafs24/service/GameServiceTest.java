@@ -84,6 +84,7 @@ public class GameServiceTest {
         });
 
     }
+
     @Test
     public void testDeleteRoom() {
         String gameId = "123";
@@ -162,7 +163,7 @@ public class GameServiceTest {
         assertEquals(createdGame, gameRepository.findByGameIdWithPlayers(dynamicGameId).get(),
                 "Game should be saved in the repository");
     }
-    
+
     @Test
     public void testAddHost_ShouldAddPlayerToRoom() {
         testCreateRoom_ShouldCreateRoom(); // Ensure room is created and ID is set
@@ -297,7 +298,6 @@ public class GameServiceTest {
     // should have the second song");
     // }
 
-    
     @Test
     public void testStartGame_GameNotFound() {
 
@@ -322,7 +322,7 @@ public class GameServiceTest {
 
         String gameId = "existingGameId";
         Game game = new Game();
-        game.setPlayers(Arrays.asList(new Player(), new Player(), new Player(), new Player())); 
+        game.setPlayers(Arrays.asList(new Player(), new Player(), new Player(), new Player()));
         when(gameRepository.findByGameIdWithPlayers(anyString())).thenReturn(Optional.of(game));
         when(spotifyService.authenticate()).thenReturn(null); // Simulating authentication failure
 
@@ -341,15 +341,15 @@ public class GameServiceTest {
         game.setSettings(settings);
         game.setPlayers(Arrays.asList(new Player(), new Player(), new Player(), new Player())); // 4 players
         when(gameRepository.findByGameIdWithPlayers(Mockito.anyString())).thenReturn(Optional.of(game));
-        when(spotifyService.authenticate()).thenReturn("mockedToken"); 
+        when(spotifyService.authenticate()).thenReturn("mockedToken");
         when(spotifyService.searchSong(eq("US"), eq("Pop"), eq("Maroon 5"), anyString()))
-                .thenReturn(Arrays.asList(new SongInfo(), new SongInfo())); 
+                .thenReturn(Arrays.asList(new SongInfo(), new SongInfo()));
 
         Game startedGame = gameService.startGame(gameId);
 
-        assertEquals(1, startedGame.getCurrentRound()); 
-        verify(gameRepository, times(1)).save(game); 
-        }
+        assertEquals(1, startedGame.getCurrentRound());
+        verify(gameRepository, times(1)).save(game);
+    }
 
     @Test
     public void testSortTurnOrder_ShouldSortPlayersTurnOrder() {
@@ -426,23 +426,70 @@ public class GameServiceTest {
         assertThrows(ResponseStatusException.class, () -> gameService.getGameByIdWithPlayers(gameId));
     }
 
+    @Test
+    public void testGetSongs_Success() {
+
+        String gameId = "game-123456";
+        Game game = new Game();
+        game.setGameId(gameId);
+        game.setPlayers(Arrays.asList(new Player(), new Player(), new Player(), new Player()));
+
+        when(gameRepository.findByGameIdWithPlayers(eq(gameId))).thenReturn(Optional.of(game));
+
+        List<PlayerSongInfoDTO> result = gameService.getSongs(gameId);
+
+        assertNotNull(result);
+    }
 
     @Test
-    public void testListen_Success() {
-        String gameId = "testGameId";
-        Long playerId = 1L;
+    public void testGetSongs_GameNotFound() {
+        String gameId = "nonexistentGameId";
+        when(gameRepository.findByGameIdWithPlayers(eq(gameId))).thenReturn(Optional.empty());
+        assertThrows(ResponseStatusException.class, () -> gameService.getSongs(gameId));
+    }
 
+    @Test
+    public void testGetPlayerById_Success() {
+        String gameId = "game-123456";
         Game game = new Game();
         game.setGameId(gameId);
 
-        when(gameRepository.findByGameIdWithPlayers(gameId)).thenReturn(Optional.of(game));
+        when(gameRepository.findByGameIdWithPlayers(eq(gameId))).thenReturn(Optional.of(game));
 
-        Game result = gameService.listen(gameId, playerId);
+        Long playerId = 1L;
+        Player player = new Player();
+        player.setId(playerId);
+        game.getPlayers().add(player);
 
-        assertNotNull(result);
-        assertEquals(game, result);
-        verify(gameRepository, times(1)).findByGameIdWithPlayers(gameId);
+        Player returnedPlayer = gameService.getPlayerById(gameId, playerId);
+
+        assertEquals(player, returnedPlayer);
     }
+
+    @Test
+    public void testGetPlayerById_GameNotFound() {
+        String gameId = "nonexistentGameId";
+        Long playerId = 1L;
+        when(gameRepository.findByGameIdWithPlayers(eq(gameId))).thenReturn(Optional.empty());
+        assertThrows(ResponseStatusException.class, () -> gameService.getPlayerById(gameId, playerId));
+    }
+
+    // @Test
+    // public void testListen_Success() {
+    // String gameId = "testGameId";
+    // Long playerId = 1L;
+
+    // Game game = new Game();
+    // game.setGameId(gameId);
+
+    // when(gameRepository.findByGameIdWithPlayers(gameId)).thenReturn(Optional.of(game));
+
+    // Game result = gameService.listen(gameId, playerId);
+
+    // assertNotNull(result);
+    // assertEquals(game, result);
+    // verify(gameRepository, times(1)).findByGameIdWithPlayers(gameId);
+    // }
 
     @Test
     public void testVote_Success() {

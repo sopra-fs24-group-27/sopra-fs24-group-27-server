@@ -315,7 +315,8 @@ public class GameControllerTest {
         game.setGameId("game-123456");
         game.setHostId(1L);
 
-        when(gameService.getGameStatus(anyString())).thenReturn(game);
+        when(gameService.getGameByIdWithPlayers(anyString())).thenReturn(game);
+        // when(gameService.getGameStatus(anyString())).thenReturn(game);
 
         mockMvc.perform(get("/games/game-123456")
                 .header("Authorization", token)
@@ -330,7 +331,10 @@ public class GameControllerTest {
     public void testGetGame_GameNotFound() {
 
         String gameId = "nonexistentGameId";
-        when(gameService.getGameStatus(anyString())).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
+        when(gameService.getGameByIdWithPlayers(anyString()))
+                .thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
+        // when(gameService.getGameStatus(anyString())).thenThrow(new
+        // ResponseStatusException(HttpStatus.NOT_FOUND));
         GameController gameController = new GameController(gameService);
 
         assertThrows(ResponseStatusException.class, () -> gameController.getGame(gameId));
@@ -454,7 +458,8 @@ public class GameControllerTest {
 
         when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
 
-        doThrow(new ResponseStatusException(HttpStatus.NOT_FOUND)).when(gameService).vote(gameId, voterId, votedPlayerId);
+        doThrow(new ResponseStatusException(HttpStatus.NOT_FOUND)).when(gameService).vote(gameId, voterId,
+                votedPlayerId);
 
         mockMvc.perform(post("/games/" + gameId + "/vote")
                 .header("Authorization", token)
@@ -480,7 +485,8 @@ public class GameControllerTest {
 
         when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
 
-        doThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST)).when(gameService).vote(gameId, voterId, votedPlayerId);
+        doThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST)).when(gameService).vote(gameId, voterId,
+                votedPlayerId);
 
         mockMvc.perform(post("/games/" + gameId + "/vote")
                 .header("Authorization", token)
