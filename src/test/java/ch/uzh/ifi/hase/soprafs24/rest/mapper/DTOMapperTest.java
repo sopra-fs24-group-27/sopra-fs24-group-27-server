@@ -9,9 +9,15 @@ import ch.uzh.ifi.hase.soprafs24.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GameGetDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GamePostDTO;
+import ch.uzh.ifi.hase.soprafs24.rest.dto.EmojiPostDTO;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * DTOMapperTest
@@ -120,5 +126,40 @@ public class DTOMapperTest {
     assertEquals(game.getSettings().getMarket(), gameGetDTO.getSettings().getMarket());
     assertEquals(game.getSettings().getArtist(), gameGetDTO.getSettings().getArtist());
     assertEquals(game.getSettings().getGenre(), gameGetDTO.getSettings().getGenre());
+  }
+
+  private EmojiPostDTO emojiPostDTO;
+
+  @BeforeEach
+  public void setup() {
+    emojiPostDTO = new EmojiPostDTO();
+  }
+
+  @Test
+  public void testGetEmojis() {
+    List<String> emojis = Arrays.asList("😀", "😂", "😍");
+    emojiPostDTO.setEmojis(emojis);
+
+    List<String> result = emojiPostDTO.getEmojis();
+
+    assertNotNull(result);
+    assertEquals(3, result.size());
+    assertEquals("😀", result.get(0));
+    assertEquals("😂", result.get(1));
+    assertEquals("😍", result.get(2));
+  }
+
+  @Test
+  public void testSetEmojis() {
+    List<String> emojis = Arrays.asList("😀", "😂", "😍");
+    emojiPostDTO.setEmojis(emojis);
+
+    List<String> result = emojiPostDTO.getEmojis();
+
+    assertNotNull(result);
+    assertEquals(3, result.size());
+    assertEquals("😀", result.get(0));
+    assertEquals("😂", result.get(1));
+    assertEquals("😍", result.get(2));
   }
 }
