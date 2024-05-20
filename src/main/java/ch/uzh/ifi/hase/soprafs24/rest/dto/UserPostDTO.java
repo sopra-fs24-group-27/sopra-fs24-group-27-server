@@ -10,6 +10,8 @@ public class UserPostDTO {
   private String password;
   private Date birthDate;
   private String token;
+  private String avatar;
+  private int score;
 
   public Long getId() {
     return id;
@@ -58,4 +60,20 @@ public class UserPostDTO {
   public void setBirthDate(Date birthDate) {
     this.birthDate = birthDate;
   }
+
+  public String getAvatar() {
+    return avatar;
+  }
+
+  public void setAvatar(String avatar) {
+    this.avatar = avatar;
+  }
+
+  public int getScore() {
+        return score;
+    }
+
+  public void setScore(int score) {
+        this.score = score;
+    }
 }

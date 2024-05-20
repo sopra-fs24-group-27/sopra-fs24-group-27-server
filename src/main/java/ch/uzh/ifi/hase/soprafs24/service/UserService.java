@@ -1,5 +1,6 @@
 package ch.uzh.ifi.hase.soprafs24.service;
 
+import ch.uzh.ifi.hase.soprafs24.security.TokenUtils;
 import ch.uzh.ifi.hase.soprafs24.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs24.entity.User;
 import ch.uzh.ifi.hase.soprafs24.repository.UserRepository;
@@ -11,13 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-import java.util.Optional;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.UserPostDTO;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
+import java.util.Random;
 
 /**
  * User Service
@@ -33,48 +33,50 @@ public class UserService {
   private final Logger log = LoggerFactory.getLogger(UserService.class);
 
   private final UserRepository userRepository;
+  private final TokenUtils tokenUtils; 
 
   @Autowired
-  public UserService(@Qualifier("userRepository") UserRepository userRepository) {
+  public UserService(@Qualifier("userRepository") UserRepository userRepository, TokenUtils tokenUtils) {
     this.userRepository = userRepository;
+    this.tokenUtils = tokenUtils;
   }
+
 
   public List<User> getUsers() {
     return this.userRepository.findAll();
   }
-  public void logoutUser(String token) {
-    Optional<User> optionalUser = userRepository.findByToken(token);
 
-    if (optionalUser.isPresent()) {
-        User user = optionalUser.get(); 
-        user.setStatus(UserStatus.OFFLINE); 
-        userRepository.save(user); 
-    } else {
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-    }
-}
+  public void logoutUser(String token) {
+    checkIfUserWithTokenExists(token);
+    User user = userRepository.findByToken(token).get();
+    user.setStatus(UserStatus.OFFLINE);
+    user.setToken(null);
+    userRepository.save(user);
+  }
 
   public User createUser(User newUser) {
-    if (newUser.getPassword() == null || newUser.getPassword().isEmpty()) {
-      throw new IllegalArgumentException("Password cannot be empty");
-  }
-    newUser.setToken(UUID.randomUUID().toString());
+    checkIfUserExists(newUser);
+    checkIfPasswordIsEmpty(newUser.getPassword());
+    Random random = new Random();
+    int randomNumber = random.nextInt(27) + 1;
+    String avatar = "https://cdn.jsdelivr.net/gh/alohe/avatars/png/vibrent_" + randomNumber + ".png";
+    newUser.setAvatar(avatar);
+    newUser.setToken(tokenUtils.generate());
     newUser.setStatus(UserStatus.ONLINE);
     newUser.setBirthDate(null);
-
-    checkIfUserExists(newUser);
     // saves the given entity but data is only persisted in the database once
     // flush() is called
     newUser = userRepository.save(newUser);
     userRepository.flush();
-
     log.debug("Created Information for User: {}", newUser);
     return newUser;
   }
 
   /**
-   * This is a helper method that will check the uniqueness criteria of the username defined in the User entity. The method will do nothing if the input is unique and throw an error otherwise.
-
+   * This is a helper method that will check the uniqueness criteria of the
+   * username defined in the User entity. The method will do nothing if the input
+   * is unique and throw an error otherwise.
+   * 
    * @param userToBeCreated
    * @throws org.springframework.web.server.ResponseStatusException
    * @see User
@@ -87,41 +89,52 @@ public class UserService {
     }
   }
 
+  private void checkIfPasswordIsEmpty(String password) {
+    if (password == null || password.isEmpty()) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "Password cannot be empty");
+    }
+  }
+
+  // Just for test
+  private void checkIfUserWithTokenExists(String token) {
+    if (!userRepository.findByToken(token).isPresent()) {
+      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+    }
+  }
+
   public User loginUser(String username, String password) {
     User user = userRepository.findByUsername(username);
     if (user == null || !user.getPassword().equals(password)) {
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password");
+      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password");
     }
-    user.setStatus(UserStatus.ONLINE); 
-    userRepository.save(user); 
+    user.setStatus(UserStatus.ONLINE);
+    userRepository.save(user);
     return user;
-}
+  }
 
-public User getUserById(Long userId) {
+  public User getUserById(Long userId) {
     return userRepository.findById(userId)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-}
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+  }
 
-public User getUserByToken(String token) {
-    return userRepository.findByToken(token)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-}
+  public User updateUserDetails(long userId, @RequestBody UserPostDTO userPostDTO) {
 
-public User updateUserDetails(long userId, @RequestBody UserPostDTO userPostDTO) {
+    User user = userRepository.findById(userId)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
+    System.out.println("Updating user details: " + userPostDTO);
 
-  User user = userRepository.findById(userId)
-      .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+    user.setBirthDate(userPostDTO.getBirthDate());
 
-  user.setBirthDate(userPostDTO.getBirthDate());
+    user.setUsername(userPostDTO.getUsername());
 
+    user.setName(userPostDTO.getName());
 
-  user.setUsername(userPostDTO.getUsername());
-  
-  user.setName(userPostDTO.getName());
-  // Save the updated user to the database
-  userRepository.save(user);
+    user.setAvatar(userPostDTO.getAvatar());
 
-  return user;
-}
+    // Save the updated user to the database
+    userRepository.save(user);
+
+    return user;
+  }
 }

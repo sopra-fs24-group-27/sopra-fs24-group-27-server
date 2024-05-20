@@ -1,4 +1,4 @@
-package ch.uzh.ifi.hase.soprafs24.config;
+/*package ch.uzh.ifi.hase.soprafs24.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,3 +37,4 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         return scheduler;
     }
 }
+*/

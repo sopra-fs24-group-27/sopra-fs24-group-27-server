@@ -1,5 +1,6 @@
 package ch.uzh.ifi.hase.soprafs24.controller;
 
+import ch.uzh.ifi.hase.soprafs24.security.TokenUtils;
 import ch.uzh.ifi.hase.soprafs24.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs24.entity.User;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.UserPostDTO;
@@ -8,6 +9,8 @@ import ch.uzh.ifi.hase.soprafs24.service.UserService;
 import ch.uzh.ifi.hase.soprafs24.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import java.beans.BeanProperty;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -29,6 +33,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 import static org.hamcrest.Matchers.*;
 
 @WebMvcTest(value = UserController.class)
@@ -46,6 +52,9 @@ public class UserControllerTest {
   @MockBean
   private PasswordEncoder passwordEncoder;
 
+  @MockBean
+  private TokenUtils tokenUtils;
+
   // Helper method to convert objects to JSON strings
   private String asJsonString(final Object object) {
     try {
@@ -58,18 +67,24 @@ public class UserControllerTest {
   // Test method for GET /users endpoint
   @Test
   public void givenUsers_whenGetUsers_thenReturnJsonArray() throws Exception {
-      User user = new User();
-      user.setUsername("username");
-      user.setBirthDate(java.sql.Date.valueOf(LocalDate.now()));
+    User user = new User();
+    user.setUsername("username");
+    String token = "existingToken";
+    user.setToken(token);
 
-      List<User> allUsers = Collections.singletonList(user);
-      given(userService.getUsers()).willReturn(allUsers);
+    when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
 
-      mockMvc.perform(get("/users")
-              .contentType(MediaType.APPLICATION_JSON))
-          .andExpect(status().isOk())
-          .andExpect(jsonPath("$", hasSize(1)))
-          .andExpect(jsonPath("$[0].username", is(user.getUsername())));
+    List<User> allUsers = Collections.singletonList(user);
+    given(userService.getUsers()).willReturn(allUsers);
+
+    MockHttpServletRequestBuilder getRequest = get("/users")
+        .header("Authorization", token)
+        .contentType(MediaType.APPLICATION_JSON);
+
+    mockMvc.perform(getRequest)
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$", hasSize(1)))
+        .andExpect(jsonPath("$[0].username", is(user.getUsername())));
   }
 
   // Test method for POST /register endpoint
@@ -102,10 +117,15 @@ public class UserControllerTest {
     User user = new User();
     user.setId(1L);
     user.setUsername("existingUser");
+    String token = "existingToken";
+    user.setToken(token);
+
+    when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
 
     given(userService.getUserById(1L)).willReturn(user);
 
     mockMvc.perform(get("/users/1")
+        .header("Authorization", token)
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.username", is("existingUser")));
@@ -122,9 +142,15 @@ public class UserControllerTest {
     updatedUser.setId(userId);
     updatedUser.setUsername("UpdatedUsername");
 
+    String token = "existingToken";
+    updatedUser.setToken(token);
+
+    when(userRepository.findByToken(token)).thenReturn(Optional.of(updatedUser));
+
     given(userService.updateUserDetails(userId, userPostDTO)).willReturn(updatedUser);
 
     mockMvc.perform(put("/users/{userId}", userId)
+        .header("Authorization", token)
         .contentType(MediaType.APPLICATION_JSON)
         .content(asJsonString(userPostDTO)))
         .andExpect(status().isOk());
@@ -145,31 +171,31 @@ public class UserControllerTest {
 
     given(userService.loginUser("testUser", "testPassword")).willReturn(user);
 
-
     mockMvc.perform(post("/login")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(asJsonString(requestDTO)))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.id").value(user.getId().intValue()))
-            .andExpect(jsonPath("$.username").value(user.getUsername()));
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(asJsonString(requestDTO)))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.id").value(user.getId().intValue()))
+        .andExpect(jsonPath("$.username").value(user.getUsername()));
   }
 
   // Test method for POST /logout endpoint
   @Test
   public void testLogout() throws Exception {
-    String token = "testToken";
-
     User user = new User();
     user.setId(1L);
     user.setStatus(UserStatus.ONLINE);
+    String token = "existingToken";
+    user.setToken(token);
 
     when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
 
     doNothing().when(userService).logoutUser(token);
 
     mockMvc.perform(post("/logout")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(token))
-            .andExpect(status().isOk());
+        .header("Authorization", token)
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(token))
+        .andExpect(status().isOk());
   }
 }

@@ -1,3 +1,4 @@
+/*
 package ch.uzh.ifi.hase.soprafs24.websocket.dto;
 
 import ch.uzh.ifi.hase.soprafs24.entity.Settings;
@@ -53,3 +54,4 @@ public class GameResponseDTO {
     }
 
 }
+*/

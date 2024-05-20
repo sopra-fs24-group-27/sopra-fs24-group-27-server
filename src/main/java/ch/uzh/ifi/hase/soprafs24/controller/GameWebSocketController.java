@@ -1,3 +1,4 @@
+/*
 package ch.uzh.ifi.hase.soprafs24.controller;
 
 import ch.uzh.ifi.hase.soprafs24.service.GameService;
@@ -36,7 +37,6 @@ import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.stereotype.Controller;
 import org.springframework.messaging.handler.annotation.Header;
 
-
 @Transactional
 @Controller
 public class GameWebSocketController {
@@ -56,19 +56,19 @@ public class GameWebSocketController {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    // populate the game response object and broadcast it to all subscribers of the game
+    // populate the game response object and broadcast it to all subscribers of the
+    // game
     private void broadcast(String gameId, GameResponseDTO gameResponse) {
         simpMessagingTemplate.convertAndSend("/topic/games/" + gameId, gameResponse);
         System.out.println("Broadcasting to /topic/games/" + gameId);
     }
-    
+
     private void broadcastError(String gameId, String error) {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("error", error);
         simpMessagingTemplate.convertAndSend("/topic/games/" + gameId + "/errors", errorResponse);
         System.out.println("Error broadcast to /topic/games/" + gameId + "/errors: " + error);
     }
-    
 
     @MessageMapping("/games/{gameId}/join")
     public void joinWaitingRoom(@DestinationVariable String gameId, @Payload JoinRoomPayloadDTO payload) {
@@ -95,15 +95,15 @@ public class GameWebSocketController {
             System.out.println("Received a new web socket connection: " + sessionId);
         }
     }
-    
+
     @MessageMapping("/games/{gameId}/start")
     public void startGame(@DestinationVariable String gameId, Principal principal) {
         try {
             Game gameStatus = gameService.startGame(gameId);
             String sessionId = principal.getName();
             GameResponseDTO generalGameResponse = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(gameStatus);
-            broadcast(gameId + "/start", generalGameResponse);  // Make sure all needed info is sent
-            //print the general game response
+            broadcast(gameId + "/start", generalGameResponse); // Make sure all needed info is sent
+            // print the general game response
             System.out.println("General Game Response: " + generalGameResponse);
             System.out.println("Session ID: " + sessionId);
             gameStatus.getPlayers().forEach(player -> {
@@ -112,35 +112,36 @@ public class GameWebSocketController {
                 sessionService.registerPlayerSession(sessionId, player.getUser().getId());
                 System.out.println("Player Song Info: " + songInfoDTO);
                 simpMessagingTemplate.convertAndSendToUser(
-                    sessionId,
-                    "/topic/games/" + gameId + "/listen",
-                    songInfoDTO
-                );
+                        sessionId,
+                        "/topic/games/" + gameId + "/listen",
+                        songInfoDTO);
                 System.out.println("Sent song info to user " + player.getUser().getId());
                 // send again after 1 second to ensure that the player is added to the game
                 // Schedule a repeat send after 1 second
                 new Thread(() -> {
-                try {
-                    Thread.sleep(2000); // wait for 2 seconds
-                    // first broadcast the game response dto to all players to ensure that the player is added to the game
-                    broadcast(gameId, generalGameResponse);
-                    // then fetch the players from the gameresponse and get the player with the current user id
-                    gameStatus.getPlayers().forEach(player1 -> {
-                        if (player1.getUser().getId().equals(player.getUser().getId())) {
-                            // convert the player to a player song info dto
-                            PlayerSongInfoDTO songInfoDTO1 = DTOMapper.INSTANCE.convertEntityToPlayerSongInfoDTO(player1);
-                            // send the song info to the player
-                            System.out.println("Re-sending song info to user " + player1.getUser().getId());
-                            simpMessagingTemplate.convertAndSendToUser(
-                                sessionId,
-                                "/topic/games/" + gameId + "/listen",
-                                songInfoDTO1
-                            );
-                        }
-                    });
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                    try {
+                        Thread.sleep(2000); // wait for 2 seconds
+                        // first broadcast the game response dto to all players to ensure that the
+                        // player is added to the game
+                        broadcast(gameId, generalGameResponse);
+                        // then fetch the players from the gameresponse and get the player with the
+                        // current user id
+                        gameStatus.getPlayers().forEach(player1 -> {
+                            if (player1.getUser().getId().equals(player.getUser().getId())) {
+                                // convert the player to a player song info dto
+                                PlayerSongInfoDTO songInfoDTO1 = DTOMapper.INSTANCE
+                                        .convertEntityToPlayerSongInfoDTO(player1);
+                                // send the song info to the player
+                                System.out.println("Re-sending song info to user " + player1.getUser().getId());
+                                simpMessagingTemplate.convertAndSendToUser(
+                                        sessionId,
+                                        "/topic/games/" + gameId + "/listen",
+                                        songInfoDTO1);
+                            }
+                        });
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }).start();
             });
         } catch (Exception e) {
@@ -149,25 +150,22 @@ public class GameWebSocketController {
         }
     }
 
-
-
     @MessageMapping("/games/{gameId}/currentSong")
     @SendToUser("/queue/currentSong")
     public PlayerSongInfoDTO getCurrentSong(@DestinationVariable String gameId, Principal principal) {
         if (principal == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
         }
-    
+
         // use userId to get player
         Long userId = Long.valueOf(principal.getName());
         User user = userRepository.findById(userId)
-                                  .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-    
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
         Player player = playerRepository.findByUserId(user.getId())
-                                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Player not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Player not found"));
         return gameService.getCurrentSongInfo(player.getId());
     }
-
 
     @MessageMapping("/games/{gameId}/sortTurnOrder")
     public void sortTurnOrder(@DestinationVariable String gameId) {
@@ -177,14 +175,12 @@ public class GameWebSocketController {
         broadcast(gameId, gameResponse);
     }
 
-
     @MessageMapping("/games/{gameId}/sendEmojis")
     public void sendEmojis(@DestinationVariable String gameId, @Payload SendEmojisPayloadDTO payload) {
         Game game = gameService.sendEmojis(payload.getPlayerId(), payload.getEmojis());
         GameResponseDTO gameResponse = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(game);
         broadcast(gameId, gameResponse);
     }
-
 
     @MessageMapping("/games/{gameId}/viewEmojis")
     public void viewEmojis(@DestinationVariable String gameId) {
@@ -207,12 +203,11 @@ public class GameWebSocketController {
         broadcast(gameId, response);
     }
 
-
     // Who voted matters as well!
     @MessageMapping("/games/{gameId}/vote")
     public void vote(@DestinationVariable String gameId, @Payload Player player) {
         // Process the player voting logic here
-        Game gameStatus = gameService.vote(gameId, player.getId());
+        Game gameStatus = gameService.startVoting(gameId, player.getId());
 
         GameResponseDTO gameResponse = DTOMapper.INSTANCE.convertEntityToGameResponseDTO(gameStatus);
 
@@ -267,3 +262,4 @@ public class GameWebSocketController {
     }
 
 }
+*/

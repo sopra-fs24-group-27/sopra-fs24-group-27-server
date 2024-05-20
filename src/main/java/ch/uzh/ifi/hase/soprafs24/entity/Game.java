@@ -29,9 +29,7 @@ public class Game {
     @JsonManagedReference
     private List<Player> players = new ArrayList<>();
 
-    private int currentEmojiRound;
-
-    private int currentTurn;
+    private int currentTurn = 1;
 
     private int votedPlayers;
 
@@ -87,14 +85,6 @@ public class Game {
         this.players = players;
     }
 
-    public int getCurrentEmojiRound() {
-        return currentEmojiRound;
-    }
-
-    public void setCurrentEmojiRound(int currentEmojiRound) {
-        this.currentEmojiRound = currentEmojiRound;
-    }
-
     public int getCurrentTurn() {
         return currentTurn;
     }
@@ -117,5 +107,9 @@ public class Game {
 
     public void setWinner(Player winner) {
         this.winner = winner;
+    }
+
+    public void incrementRound() {
+        this.currentRound++;
     }
 }

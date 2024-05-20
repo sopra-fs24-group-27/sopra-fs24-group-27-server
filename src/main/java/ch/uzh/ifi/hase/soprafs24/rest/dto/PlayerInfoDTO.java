@@ -1,26 +1,26 @@
-/*package ch.uzh.ifi.hase.soprafs24.websocket.dto;
+package ch.uzh.ifi.hase.soprafs24.rest.dto;
 
 import java.util.List;
 
-public class PlayerSongBroadcastDTO {
-    private Long id; // player ID
+// This DTO object contains the following information for a player:
+// id, username, avatar, score, emojis, turn
+// These information will be sent to all players in the game
+
+public class PlayerInfoDTO {
+    private Long id;
     private Long userId;
     private String username;
     private String avatar;
     private int score;
     private List<String> emojis;
     private int turn;
-    private String songTitle;
-    private String songArtist;
-    private String imageUrl;
-    private String playUrl;
 
-    public PlayerSongBroadcastDTO() {
+    public PlayerInfoDTO() {
         // Default constructor
     }
 
-    public PlayerSongBroadcastDTO(Long id, Long userId, String username, String avatar, int score, List<String> emojis,
-            int turn, String songTitle, String songArtist, String imageUrl, String playUrl) {
+    public PlayerInfoDTO(Long id, Long userId, String username, String avatar, int score, List<String> emojis,
+            int turn) {
         this.id = id;
         this.userId = userId;
         this.username = username;
@@ -28,13 +28,10 @@ public class PlayerSongBroadcastDTO {
         this.score = score;
         this.emojis = emojis;
         this.turn = turn;
-        this.songTitle = songTitle;
-        this.songArtist = songArtist;
-        this.imageUrl = imageUrl;
-        this.playUrl = playUrl;
     }
 
     // Standard getters and setters
+
     public Long getId() {
         return id;
     }
@@ -90,38 +87,4 @@ public class PlayerSongBroadcastDTO {
     public void setTurn(int turn) {
         this.turn = turn;
     }
-
-    public String getSongTitle() {
-        return songTitle;
-    }
-
-    public void setSongTitle(String songTitle) {
-        this.songTitle = songTitle;
-    }
-
-    public String getSongArtist() {
-        return songArtist;
-    }
-
-    public void setSongArtist(String songArtist) {
-        this.songArtist = songArtist;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getPlayUrl() {
-        return playUrl;
-    }
-
-    public void setPlayUrl(String playUrl) {
-        this.playUrl = playUrl;
-    }
-
 }
-*/

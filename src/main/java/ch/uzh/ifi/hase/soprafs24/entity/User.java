@@ -3,11 +3,15 @@ package ch.uzh.ifi.hase.soprafs24.entity;
 import ch.uzh.ifi.hase.soprafs24.constant.UserStatus;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED) // Use JOINED inheritance strategy
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "USER")
 public class User implements Serializable {
 
@@ -40,9 +44,11 @@ public class User implements Serializable {
     private Date birthDate;
 
     // Avatar
-    @Column
+    @Column(nullable = false)
     private String avatar;
 
+    @Column
+    private int score;
 
     // Standard getters and setters
     public Long getId() {
@@ -107,5 +113,13 @@ public class User implements Serializable {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

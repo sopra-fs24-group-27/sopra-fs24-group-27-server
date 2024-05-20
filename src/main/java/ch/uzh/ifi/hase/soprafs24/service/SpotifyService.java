@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +15,10 @@ import org.springframework.http.MediaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Properties;
+import java.util.Random;
 import java.io.FileInputStream;
+import java.net.URI;
+
 import org.springframework.core.io.ClassPathResource;
 
 import ch.uzh.ifi.hase.soprafs24.entity.SongInfo;
@@ -21,6 +26,7 @@ import ch.uzh.ifi.hase.soprafs24.entity.SongInfo;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 @Service
 public class SpotifyService {
@@ -37,11 +43,16 @@ public class SpotifyService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public String authenticate() {
-        LOGGER.info("Using clientId: {} and clientSecret: {}", clientId, clientSecret);
-        if (clientId == null || clientSecret == null) {
-            throw new IllegalStateException("Spotify clientId or clientSecret is not set!");
+    // Token Caching
+    private String cachedToken;
+    private long tokenExpiryTime = 0;
+
+    public synchronized String authenticate() {
+        if (System.currentTimeMillis() < tokenExpiryTime && cachedToken != null) {
+            return cachedToken;
         }
+
+        LOGGER.info("Using clientId: {} and clientSecret: {}", clientId, clientSecret);
         String tokenResponse = webClient.post()
                 .uri("/api/token")
                 .headers(headers -> {
@@ -53,95 +64,113 @@ public class SpotifyService {
                 .bodyToMono(String.class)
                 .block(); // Consider using async handling with Mono instead of block
 
-        LOGGER.info("Received token response");
-        try {
-            JsonNode rootNode = objectMapper.readTree(tokenResponse);
-            String token = rootNode.path("access_token").asText();
-            return token;
-        } catch (Exception e) {
-            LOGGER.error("Error parsing token response", e);
-            throw new RuntimeException("Error parsing token response", e);
-        }
+    LOGGER.info("Received token response");
+    try {
+        JsonNode rootNode = objectMapper.readTree(tokenResponse);
+        cachedToken = rootNode.path("access_token").asText();
+        int expiresIn = rootNode.path("expires_in").asInt();
+        tokenExpiryTime = System.currentTimeMillis() + (expiresIn * 1000);
+
+        System.out.println("Complete Token: " + cachedToken);  // Print the complete token to console
+
+        return cachedToken;
+    } catch (Exception e) {
+        LOGGER.error("Error parsing token response", e);
+        throw new RuntimeException("Error parsing token response", e);
+    }
     }
 
     private String normalizeSongName(String name) {
-        // Lowercase the name for case-insensitive comparison
         String lowerName = name.toLowerCase();
-        // Remove common variant descriptors and additional spaces
         lowerName = lowerName.replaceAll("\\s*-?\\s*(live|remix|acoustic|version|edit|radio)\\b", "")
-        .replaceAll("\\s{2,}", " ") // Replace multiple spaces with a single space
-        .trim();
+                .replaceAll("\\s{2,}", " ")
+                .trim();
         return lowerName;
     }
 
     public List<SongInfo> searchSong(String market, String genre, String artist, String token) {
-        // Returned example: "name, artist, imageUrl, href"
-        // returned example with descrption = English, genre = pop, artist = Maroon 5 :
-        // [
-        // {
-        //  "title": "Girls Like You",
-        //  "artist": "Maroon 5",
-        //  "imageUrl": "https://i.scdn.co/image/ab67616d0000b273c41f2b16c718388133a7e994",
-        //  "playUrl": "https://api.spotify.com/v1/tracks/5xzGT3Zg5QDlRqgNDPrumy"
-        //},
-        //{
-        //  "title": "Animals",g
-        //  "artist": "Maroon 5",
-        //  "imageUrl": "https://i.scdn.co/image/ab67616d0000b2737a2a4b225ad828477e358206",
-        //  "playUrl": "https://api.spotify.com/v1/tracks/4H52xXIWHfi68h8VqBcS4V"
-        //}
-        //]
         String query = String.format("genre:%s artist:%s", genre, artist);
-
         LOGGER.info("Searching for song with query: {}", query);
         String searchResult = WebClient.create("https://api.spotify.com")
                 .get()
                 .uri(uriBuilder -> uriBuilder.path("/v1/search")
                         .queryParam("q", query)
-                        .queryParam("type", "track") // Only search for tracks
-                        .queryParam("limit", 20) // Limit to 10 results because we will filter duplicates
-                        .queryParam("market", market) 
+                        .queryParam("type", "track")
+                        .queryParam("limit", 20) // get 20 songs
+                        .queryParam("market", market)
                         .build())
                 .headers(headers -> headers.setBearerAuth(token))
                 .retrieve()
                 .bodyToMono(String.class)
-                .block(); // Consider using async handling with Mono instead of block
+                .block();
 
         LOGGER.info("Received search result");
-
         List<SongInfo> songsInfo = new ArrayList<>();
-        Set<String> normalizedSongNames = new HashSet<>();// Track added song names to filter duplicates: one song can have multiple versions, like remixes, lives...
+        Set<String> normalizedSongNames = new HashSet<>();
+        // randomly select 2 songs among the 20 songs
 
         try {
             JsonNode searchJson = objectMapper.readTree(searchResult);
             JsonNode items = searchJson.path("tracks").path("items");
             for (JsonNode item : items) {
-                // utf-8 encoding for songs' name
                 String name = item.path("name").asText();
                 String normalized = normalizeSongName(name);
-                // filter to ensure only add songs with different names
                 if (!normalizedSongNames.contains(normalized)) {
                     String artistName = item.path("artists").get(0).path("name").asText();
                     String imageUrl = item.path("album").path("images").get(0).path("url").asText();
                     String href = item.path("href").asText();
-                    songsInfo.add(new SongInfo(name, artistName, imageUrl, href));
-                    // print the songs' name, artist name, image url and href
-                    LOGGER.info("Song name: {}, Artist name: {}, Image URL: {}, Href: {}", normalized, artistName, imageUrl, href);
+                    // get the track id from href Href: https://api.spotify.com/v1/tracks/6ECp64rv50XVz93WvxXMGF  
+                    String[] hrefParts = href.split("/");
+                    String trackId = hrefParts[hrefParts.length - 1];
+                    String previewUrl = fetchPreviewUrl(trackId);
+                    songsInfo.add(new SongInfo(name, artistName, imageUrl, previewUrl));
+                    System.out.println("Song Name: " + name + " Artist Name: " + artistName + " Image URL: " + imageUrl + " Preview URL: " + previewUrl);  // Print the song name, artist name, image URL, and preview URL to console
                     normalizedSongNames.add(normalized);
-                } 
-                if (normalizedSongNames.size() >= 2) {
-                    break;
                 }
             }
         } catch (Exception e) {
             LOGGER.error("Error parsing search result", e);
             throw new RuntimeException("Error parsing search result", e);
         }
-
-        LOGGER.info("Parsed search results successfully");
-        // return the list of songs
+        
+    // Randomly select 2 songs from the list
+    Collections.shuffle(songsInfo, new Random());
+    if (songsInfo.size() > 2) {
+        LOGGER.info("2 randomly selected songs: {}", songsInfo.subList(0, 2));
+        return songsInfo.subList(0, 2);
+    }
         return songsInfo;
     }
+    
+    // get preview url with track id
+    public String fetchPreviewUrl(String trackId) {
+        String embedUrl = String.format("https://open.spotify.com/embed/track/%s", trackId);
+        LOGGER.debug("Fetching preview URL from: {}", embedUrl);
+        try {
+            String htmlContent = WebClient.create()
+                .get()
+                .uri(URI.create(embedUrl))
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+            LOGGER.debug("HTML Content: {}", htmlContent);
+
+            // Parsing HTML to extract the preview URL from JSON embedded in the script
+            Pattern pattern = Pattern.compile("\"audioPreview\":\\{\"url\":\"(.*?)\"\\}");
+            Matcher matcher = pattern.matcher(htmlContent);
+            if (matcher.find()) {
+                String previewUrl = matcher.group(1);
+                System.out.println("Preview URL: " + previewUrl);  // Print the preview URL to console
+                return previewUrl;
+            } else {
+                LOGGER.warn("No preview URL found in HTML content for trackId: {}", trackId);
+            }
+        } catch (Exception e) {
+            LOGGER.error("Failed to fetch or parse preview URL for trackId: {}", trackId, e);
+        }
+        return null;
+    }
+
 
     public void setClientId(String clientId) {
         this.clientId = clientId;
@@ -169,7 +198,7 @@ public class SpotifyService {
     
             // Authenticate and search for songs
             String token = spotifyService.authenticate();
-            List<SongInfo> songs = spotifyService.searchSong("US", "pop", "Coldplay", token);
+            List<SongInfo> songs = spotifyService.searchSong("US", "Pop", "Maroon 5", token);
             System.out.println(songs);
         } catch (Exception e) {
             e.printStackTrace();

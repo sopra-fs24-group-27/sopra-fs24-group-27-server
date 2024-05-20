@@ -12,6 +12,9 @@ public class UserGetDTO {
   private String token;
   private Date birthDate;
   private String name;
+  private String avatar;
+  private int score;
+
   public Long getId() {
     return id;
   }
@@ -23,6 +26,7 @@ public class UserGetDTO {
   public String getUsername() {
     return username;
   }
+
   public String getName() {
     return name;
   }
@@ -59,4 +63,19 @@ public class UserGetDTO {
     this.birthDate = birthDate;
   }
 
+  public String getAvatar() {
+    return avatar;
+  }
+
+  public void setAvatar(String avatar) {
+    this.avatar = avatar;
+  }
+
+  public int getScore() {
+        return score;
+    }
+
+  public void setScore(int score) {
+        this.score = score;
+    }
 }

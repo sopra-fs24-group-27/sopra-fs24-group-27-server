@@ -5,8 +5,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.server.ResponseStatusException;
+
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 import ch.uzh.ifi.hase.soprafs24.entity.Game;
@@ -19,10 +25,13 @@ import ch.uzh.ifi.hase.soprafs24.repository.PlayerRepository;
 import ch.uzh.ifi.hase.soprafs24.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs24.repository.SongInfoRepository;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GamePostDTO;
+import ch.uzh.ifi.hase.soprafs24.rest.dto.PlayerSongInfoDTO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.List;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -70,10 +79,63 @@ public class GameServiceTest {
         lenient().when(gameRepository.save(any(Game.class))).thenAnswer(invocation -> {
             Game savedGame = invocation.getArgument(0);
             dynamicGameId = savedGame.getGameId(); // Capture dynamically generated game ID
-            when(gameRepository.findByGameIdWithPlayers(dynamicGameId)).thenReturn(Optional.of(savedGame));
+            lenient().when(gameRepository.findByGameIdWithPlayers(dynamicGameId)).thenReturn(Optional.of(savedGame));
             return savedGame;
         });
 
+    }
+    @Test
+    public void testDeleteRoom() {
+        String gameId = "123";
+        Game game = new Game();
+        game.setGameId(gameId);
+
+        when(gameRepository.findByGameIdWithPlayers(gameId)).thenReturn(Optional.of(game));
+
+        gameService.deleteRoom(gameId);
+
+        verify(gameRepository, times(1)).delete(game);
+    }
+
+    @Test
+    public void testQuit_PlayerIsHost() {
+        String gameId = "123";
+        Long playerId = 1L;
+        Game game = new Game();
+        game.setGameId(gameId);
+        game.setHostId(playerId);
+
+        Player player = new Player();
+        player.setId(playerId);
+        game.getPlayers().add(player);
+
+        when(gameRepository.findByGameIdWithPlayers(gameId)).thenReturn(Optional.of(game));
+
+        Game updatedGame = gameService.quit(gameId, playerId);
+
+        assertTrue(updatedGame.getPlayers().isEmpty(), "All players should be removed from the game");
+        verify(gameRepository, times(1)).save(updatedGame);
+    }
+
+    @Test
+    public void testQuit_PlayerIsNotHost() {
+        String gameId = "123";
+        Long playerId = 1L;
+        Long hostId = 2L;
+        Game game = new Game();
+        game.setGameId(gameId);
+        game.setHostId(hostId);
+
+        Player player = new Player();
+        player.setId(playerId);
+        game.getPlayers().add(player);
+
+        when(gameRepository.findByGameIdWithPlayers(gameId)).thenReturn(Optional.of(game));
+
+        Game updatedGame = gameService.quit(gameId, playerId);
+
+        assertTrue(updatedGame.getPlayers().isEmpty(), "All players should be removed from the game");
+        verify(gameRepository, times(1)).save(updatedGame);
     }
 
     @Test
@@ -89,7 +151,7 @@ public class GameServiceTest {
 
         // Assuming the mapper is working correctly and we have stubbed
         // gameRepository.save() to return the saved entity
-        Game createdGame = gameService.createRoom(gamePostDTO, 1L);
+        Game createdGame = gameService.createRoom(gamePostDTO);
 
         assertNotNull(createdGame, "Game should not be null");
         dynamicGameId = createdGame.getGameId();
@@ -100,7 +162,7 @@ public class GameServiceTest {
         assertEquals(createdGame, gameRepository.findByGameIdWithPlayers(dynamicGameId).get(),
                 "Game should be saved in the repository");
     }
-
+    
     @Test
     public void testAddHost_ShouldAddPlayerToRoom() {
         testCreateRoom_ShouldCreateRoom(); // Ensure room is created and ID is set
@@ -234,4 +296,135 @@ public class GameServiceTest {
     // startedGame.getPlayers().get(3).getSongInfo().getTitle(), "The fourth player
     // should have the second song");
     // }
+
+    
+    @Test
+    public void testStartGame_GameNotFound() {
+
+        String gameId = "nonexistentGameId";
+        when(gameRepository.findByGameIdWithPlayers(anyString())).thenReturn(Optional.empty());
+        assertThrows(ResponseStatusException.class, () -> gameService.startGame(gameId));
+    }
+
+    @Test
+    public void testStartGame_NotEnoughPlayers() {
+
+        String gameId = "existingGameId";
+        Game game = new Game();
+        game.setPlayers(new ArrayList<>());
+        when(gameRepository.findByGameIdWithPlayers(anyString())).thenReturn(Optional.of(game));
+
+        assertThrows(IllegalStateException.class, () -> gameService.startGame(gameId));
+    }
+
+    @Test
+    public void testStartGame_SpotifyAuthenticationFailed() {
+
+        String gameId = "existingGameId";
+        Game game = new Game();
+        game.setPlayers(Arrays.asList(new Player(), new Player(), new Player(), new Player())); 
+        when(gameRepository.findByGameIdWithPlayers(anyString())).thenReturn(Optional.of(game));
+        when(spotifyService.authenticate()).thenReturn(null); // Simulating authentication failure
+
+        assertThrows(IllegalStateException.class, () -> gameService.startGame(gameId));
+    }
+
+    @Test
+    public void testStartGame_Success() {
+
+        String gameId = "game-123456";
+        Game game = new Game();
+        Settings settings = new Settings();
+        settings.setMarket("US");
+        settings.setArtist("Maroon 5");
+        settings.setGenre("Pop");
+        game.setSettings(settings);
+        game.setPlayers(Arrays.asList(new Player(), new Player(), new Player(), new Player())); // 4 players
+        when(gameRepository.findByGameIdWithPlayers(Mockito.anyString())).thenReturn(Optional.of(game));
+        when(spotifyService.authenticate()).thenReturn("mockedToken"); 
+        when(spotifyService.searchSong(eq("US"), eq("Pop"), eq("Maroon 5"), anyString()))
+                .thenReturn(Arrays.asList(new SongInfo(), new SongInfo())); 
+
+        Game startedGame = gameService.startGame(gameId);
+
+        assertEquals(1, startedGame.getCurrentRound()); 
+        verify(gameRepository, times(1)).save(game); 
+        }
+
+    @Test
+    public void testSortTurnOrder_ShouldSortPlayersTurnOrder() {
+        Game game = new Game();
+        game.setGameId("test-game");
+        List<Player> players = new ArrayList<>();
+        for (int i = 1; i <= 4; i++) {
+            Player player = new Player();
+            player.setId((long) i);
+            players.add(player);
+        }
+        game.setPlayers(players);
+
+        when(gameRepository.findByGameIdWithPlayers("test-game")).thenReturn(Optional.of(game));
+
+        Game sortedGame = gameService.sortTurnOrder("test-game");
+
+        List<Player> sortedPlayers = sortedGame.getPlayers();
+        assertNotNull(sortedPlayers);
+        assertEquals(4, sortedPlayers.size());
+        for (int i = 0; i < sortedPlayers.size(); i++) {
+            assertEquals(i + 1, sortedPlayers.get(i).getTurn());
+        }
+
+        verify(gameRepository).save(game);
+    }
+
+    @Test
+    public void testSavePlayerEmojis_ShouldSaveEmojis() {
+        Game game = new Game();
+        game.setGameId("test-game");
+        game.setCurrentTurn(1);
+        game.setCurrentRound(1);
+        List<Player> players = new ArrayList<>();
+        for (int i = 1; i <= 4; i++) {
+            Player player = new Player();
+            player.setId((long) i);
+            player.setTurn(i);
+            player.setGame(game);
+            players.add(player);
+        }
+        game.setPlayers(players);
+
+        when(gameRepository.findByGameIdWithPlayers("test-game")).thenReturn(Optional.of(game));
+
+        List<String> emojis = Arrays.asList("😀", "🎉");
+
+        gameService.savePlayerEmojis("test-game", 1L, emojis, 1);
+
+        assertEquals(emojis, players.get(0).getEmojis());
+        assertEquals(2, game.getCurrentTurn());
+
+        verify(playerRepository).save(players.get(0));
+        verify(gameRepository).save(game);
+    }
+
+    @Test
+    public void testGetGameByIdWithPlayers_Success() {
+
+        String gameId = "game-123456";
+        Game expectedGame = new Game();
+        when(gameRepository.findByGameIdWithPlayers(eq(gameId))).thenReturn(Optional.of(expectedGame));
+
+        Game retrievedGame = gameService.getGameByIdWithPlayers(gameId);
+        assertEquals(expectedGame, retrievedGame);
+    }
+
+    @Test
+    public void testGetGameByIdWithPlayers_GameNotFound() {
+
+        String gameId = "nonexistentGameId";
+        when(gameRepository.findByGameIdWithPlayers(eq(gameId))).thenReturn(Optional.empty());
+
+        assertThrows(ResponseStatusException.class, () -> gameService.getGameByIdWithPlayers(gameId));
+    }
+
+
 }
