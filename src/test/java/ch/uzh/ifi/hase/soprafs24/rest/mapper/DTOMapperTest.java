@@ -7,6 +7,7 @@ import ch.uzh.ifi.hase.soprafs24.entity.Player;
 import ch.uzh.ifi.hase.soprafs24.entity.Settings;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.UserPostDTO;
+import ch.uzh.ifi.hase.soprafs24.rest.dto.VotePostDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GameGetDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GamePostDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.PlayerInfoDTO;
@@ -128,6 +129,20 @@ public class DTOMapperTest {
   }
 
   @Test
+  public void testPlayerInfoDTO_ConstructorAndGetters() {
+    PlayerInfoDTO playerInfoDTO = new PlayerInfoDTO(1L, 1L, "firstname@lastname", "avatar_url", 100, Arrays.asList("😀", "🎉"), 1);
+
+    assertEquals(1L, playerInfoDTO.getId());
+    assertEquals(1L, playerInfoDTO.getUserId());
+    assertEquals("firstname@lastname", playerInfoDTO.getUsername());
+    assertEquals("avatar_url", playerInfoDTO.getAvatar());
+    assertEquals(100, playerInfoDTO.getScore());
+    assertEquals(Arrays.asList("😀", "🎉"), playerInfoDTO.getEmojis());
+    assertEquals(1, playerInfoDTO.getTurn());
+  }
+
+
+  @Test
   public void testCreatePlayerInfoDTO_fromPlayer_success() {
     User user = new User();
     user.setId(1L);
@@ -159,4 +174,21 @@ public class DTOMapperTest {
     assertEquals(player.getTurn(), playerInfoDTO.getTurn());
   }
 
+  @Test
+    public void testVotePostDTO_SettersAndGetters() {
+        VotePostDTO votePostDTO = new VotePostDTO();
+        
+        votePostDTO.setPlayerId(1L);
+
+        assertEquals(1L, votePostDTO.getPlayerId());
+    }
+
+    @Test
+    public void testVotePostDTO_Constructor() {
+        VotePostDTO votePostDTO = new VotePostDTO();
+        votePostDTO.setPlayerId(2L);
+
+        assertEquals(2L, votePostDTO.getPlayerId());
+    }
+  
 }
