@@ -11,13 +11,15 @@ import ch.uzh.ifi.hase.soprafs24.rest.dto.VotePostDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GameGetDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GamePostDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.PlayerInfoDTO;
+import ch.uzh.ifi.hase.soprafs24.rest.dto.EmojiPostDTO;
 import java.util.Arrays;
 import java.util.List;
 
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * DTOMapperTest
@@ -141,7 +143,6 @@ public class DTOMapperTest {
     assertEquals(1, playerInfoDTO.getTurn());
   }
 
-
   @Test
   public void testCreatePlayerInfoDTO_fromPlayer_success() {
     User user = new User();
@@ -175,20 +176,54 @@ public class DTOMapperTest {
   }
 
   @Test
-    public void testVotePostDTO_SettersAndGetters() {
-        VotePostDTO votePostDTO = new VotePostDTO();
-        
-        votePostDTO.setPlayerId(1L);
+  public void testVotePostDTO_SettersAndGetters() {
+    VotePostDTO votePostDTO = new VotePostDTO();
+    
+    votePostDTO.setPlayerId(1L);
 
-        assertEquals(1L, votePostDTO.getPlayerId());
-    }
+    assertEquals(1L, votePostDTO.getPlayerId());
+  }
 
-    @Test
-    public void testVotePostDTO_Constructor() {
-        VotePostDTO votePostDTO = new VotePostDTO();
-        votePostDTO.setPlayerId(2L);
+  @Test
+  public void testVotePostDTO_Constructor() {
+    VotePostDTO votePostDTO = new VotePostDTO();
+    votePostDTO.setPlayerId(2L);
 
-        assertEquals(2L, votePostDTO.getPlayerId());
-    }
-  
+    assertEquals(2L, votePostDTO.getPlayerId());
+  }
+
+  private EmojiPostDTO emojiPostDTO;
+
+  @BeforeEach
+  public void setup() {
+    emojiPostDTO = new EmojiPostDTO();
+  }
+
+  @Test
+  public void testGetEmojis() {
+    List<String> emojis = Arrays.asList("😀", "😂", "😍");
+    emojiPostDTO.setEmojis(emojis);
+
+    List<String> result = emojiPostDTO.getEmojis();
+
+    assertNotNull(result);
+    assertEquals(3, result.size());
+    assertEquals("😀", result.get(0));
+    assertEquals("😂", result.get(1));
+    assertEquals("😍", result.get(2));
+  }
+
+  @Test
+  public void testSetEmojis() {
+    List<String> emojis = Arrays.asList("😀", "😂", "😍");
+    emojiPostDTO.setEmojis(emojis);
+
+    List<String> result = emojiPostDTO.getEmojis();
+
+    assertNotNull(result);
+    assertEquals(3, result.size());
+    assertEquals("😀", result.get(0));
+    assertEquals("😂", result.get(1));
+    assertEquals("😍", result.get(2));
+  }
 }
