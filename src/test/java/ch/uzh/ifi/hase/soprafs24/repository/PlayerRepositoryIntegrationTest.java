@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/*@ExtendWith(SpringExtension.class)
+@ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class PlayerRepositoryIntegrationTest {
 
@@ -35,6 +35,7 @@ public class PlayerRepositoryIntegrationTest {
         User user = new User();
         user.setUsername("testuser");
         user.setPassword("password");
+        user.setAvatar("avatar");
         entityManager.persist(user);
 
         Player player = new Player();
@@ -57,6 +58,7 @@ public class PlayerRepositoryIntegrationTest {
         User user = new User();
         user.setUsername("testuser2");
         user.setPassword("password2");
+        user.setAvatar("avatar");
         entityManager.persist(user);
 
         Game game = new Game();
@@ -77,4 +79,3 @@ public class PlayerRepositoryIntegrationTest {
         assertThat(found.get().getUser().getId()).isEqualTo(user.getId());
     }
 }
-*/

@@ -427,4 +427,95 @@ public class GameServiceTest {
     }
 
 
+    @Test
+    public void testListen_Success() {
+        String gameId = "testGameId";
+        Long playerId = 1L;
+
+        Game game = new Game();
+        game.setGameId(gameId);
+
+        when(gameRepository.findByGameIdWithPlayers(gameId)).thenReturn(Optional.of(game));
+
+        Game result = gameService.listen(gameId, playerId);
+
+        assertNotNull(result);
+        assertEquals(game, result);
+        verify(gameRepository, times(1)).findByGameIdWithPlayers(gameId);
+    }
+
+    @Test
+    public void testVote_Success() {
+        String gameId = "testGameId";
+        Long voterId = 1L;
+        Long votedPlayerId = 2L;
+
+        Game game = new Game();
+        game.setGameId(gameId);
+        game.setVotedPlayers(0);
+
+        Player voter = new Player();
+        voter.setId(voterId);
+
+        Player votedPlayer = new Player();
+        votedPlayer.setId(votedPlayerId);
+        votedPlayer.setVotes(0);
+
+        game.setPlayers(Arrays.asList(voter, votedPlayer));
+
+        when(gameRepository.findByGameIdWithPlayers(gameId)).thenReturn(Optional.of(game));
+        when(playerRepository.save(any(Player.class))).thenReturn(votedPlayer);
+        when(gameRepository.save(any(Game.class))).thenReturn(game);
+
+        gameService.vote(gameId, voterId, votedPlayerId);
+
+        assertEquals(1, votedPlayer.getVotes());
+        assertEquals(1, game.getVotedPlayers());
+        verify(playerRepository, times(1)).save(votedPlayer);
+        verify(gameRepository, times(1)).save(game);
+    }
+
+    @Test
+    public void testVote_PlayerNotFound() {
+        String gameId = "testGameId";
+        Long voterId = 1L;
+        Long votedPlayerId = 2L;
+
+        Game game = new Game();
+        game.setGameId(gameId);
+        game.setVotedPlayers(0);
+
+        Player voter = new Player();
+        voter.setId(voterId);
+
+        game.setPlayers(Arrays.asList(voter));
+
+        when(gameRepository.findByGameIdWithPlayers(gameId)).thenReturn(Optional.of(game));
+
+        assertThrows(IllegalStateException.class, () -> gameService.vote(gameId, voterId, votedPlayerId));
+        verify(playerRepository, never()).save(any(Player.class));
+        verify(gameRepository, never()).save(any(Game.class));
+    }
+
+    @Test
+    public void testVote_SelfVote() {
+        String gameId = "testGameId";
+        Long voterId = 1L;
+
+        Game game = new Game();
+        game.setGameId(gameId);
+        game.setVotedPlayers(0);
+
+        Player voter = new Player();
+        voter.setId(voterId);
+
+        game.setPlayers(Arrays.asList(voter));
+
+        when(gameRepository.findByGameIdWithPlayers(gameId)).thenReturn(Optional.of(game));
+
+        assertThrows(ResponseStatusException.class, () -> gameService.vote(gameId, voterId, voterId));
+        verify(playerRepository, never()).save(any(Player.class));
+        verify(gameRepository, never()).save(any(Game.class));
+    }
+
 }

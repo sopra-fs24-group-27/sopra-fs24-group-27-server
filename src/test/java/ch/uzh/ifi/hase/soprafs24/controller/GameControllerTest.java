@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -34,6 +35,7 @@ import ch.uzh.ifi.hase.soprafs24.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs24.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GameGetDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GamePostDTO;
+import ch.uzh.ifi.hase.soprafs24.rest.dto.PlayerSongInfoDTO;
 import ch.uzh.ifi.hase.soprafs24.security.TokenUtils;
 import ch.uzh.ifi.hase.soprafs24.service.GameService;
 import ch.uzh.ifi.hase.soprafs24.service.UserService;
@@ -42,6 +44,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collections;
 import java.util.Optional;
+import java.util.Arrays;
+import java.util.List;
 
 @WebMvcTest(value = GameController.class)
 public class GameControllerTest {
@@ -333,4 +337,158 @@ public class GameControllerTest {
 
     }
 
+    @Test
+    public void testListen_Success() throws Exception {
+        String gameId = "game-123456";
+        Long playerId = 1L;
+        String token = "existingToken";
+
+        User user = new User();
+        user.setId(playerId);
+        user.setUsername("user");
+        user.setToken(token);
+
+        when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
+
+        Player player = new Player();
+        player.setId(playerId);
+        player.setUser(user);
+        player.setSpy(false);
+
+        PlayerSongInfoDTO songInfoDTO = new PlayerSongInfoDTO();
+        songInfoDTO.setSpy(false);
+
+        when(gameService.getPlayerById(gameId, playerId)).thenReturn(player);
+        when(gameService.createPlayerSongInfoDTO(player)).thenReturn(songInfoDTO);
+
+        mockMvc.perform(get("/games/" + gameId + "/listen/" + playerId)
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.spy").value(false));
+    }
+
+    @Test
+    public void testListen_PlayerNotFound() throws Exception {
+        String gameId = "game-123456";
+        Long playerId = 1L;
+        String token = "existingToken";
+
+        User user = new User();
+        user.setId(playerId);
+        user.setUsername("user");
+        user.setToken(token);
+
+        when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
+
+        when(gameService.getPlayerById(gameId, playerId)).thenReturn(null);
+
+        mockMvc.perform(get("/games/" + gameId + "/listen/" + playerId)
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testGetSongs_Success() throws Exception {
+        String gameId = "game-123456";
+        Long playerId = 1L;
+        String token = "existingToken";
+
+        User user = new User();
+        user.setId(playerId);
+        user.setUsername("user");
+        user.setToken(token);
+
+        when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
+
+        PlayerSongInfoDTO songInfoDTO = new PlayerSongInfoDTO();
+        songInfoDTO.setSpy(false);
+
+        List<PlayerSongInfoDTO> songs = Arrays.asList(songInfoDTO);
+
+        when(gameService.getSongs(gameId)).thenReturn(songs);
+
+        mockMvc.perform(get("/games/" + gameId + "/songs")
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].spy").value(false));
+    }
+
+    @Test
+    public void testVote_Success() throws Exception {
+        String gameId = "game-123456";
+        Long voterId = 1L;
+        Long votedPlayerId = 2L;
+        String token = "existingToken";
+
+        User user = new User();
+        user.setId(voterId);
+        user.setUsername("user");
+        user.setToken(token);
+
+        when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
+
+        mockMvc.perform(post("/games/" + gameId + "/vote")
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("voterId", voterId.toString())
+                .content(votedPlayerId.toString()))
+                .andExpect(status().isOk());
+
+        verify(gameService, times(1)).vote(gameId, voterId, votedPlayerId);
+    }
+
+    @Test
+    public void testVote_PlayerNotFound() throws Exception {
+        String gameId = "game-123456";
+        Long voterId = 1L;
+        Long votedPlayerId = 2L;
+        String token = "existingToken";
+
+        User user = new User();
+        user.setId(voterId);
+        user.setUsername("user");
+        user.setToken(token);
+
+        when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
+
+        doThrow(new ResponseStatusException(HttpStatus.NOT_FOUND)).when(gameService).vote(gameId, voterId, votedPlayerId);
+
+        mockMvc.perform(post("/games/" + gameId + "/vote")
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("voterId", voterId.toString())
+                .content(votedPlayerId.toString()))
+                .andExpect(status().isNotFound());
+
+        verify(gameService, times(1)).vote(gameId, voterId, votedPlayerId);
+    }
+
+    @Test
+    public void testVote_SelfVote() throws Exception {
+        String gameId = "game-123456";
+        Long voterId = 1L;
+        Long votedPlayerId = 1L; // Voting for self
+        String token = "existingToken";
+
+        User user = new User();
+        user.setId(voterId);
+        user.setUsername("user");
+        user.setToken(token);
+
+        when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
+
+        doThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST)).when(gameService).vote(gameId, voterId, votedPlayerId);
+
+        mockMvc.perform(post("/games/" + gameId + "/vote")
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("voterId", voterId.toString())
+                .content(votedPlayerId.toString()))
+                .andExpect(status().isBadRequest());
+
+        verify(gameService, times(1)).vote(gameId, voterId, votedPlayerId);
+    }
 }

@@ -15,7 +15,6 @@ import org.springframework.web.server.ResponseStatusException;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.UserPostDTO;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
