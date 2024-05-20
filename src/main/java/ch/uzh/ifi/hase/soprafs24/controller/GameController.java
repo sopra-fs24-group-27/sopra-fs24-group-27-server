@@ -42,7 +42,6 @@ public class GameController {
     @ResponseBody
     public GameGetDTO getGame(@PathVariable String gameId) {
         Game game = gameService.getGameByIdWithPlayers(gameId);
-        // Game game = gameService.getGameStatus(gameId);
         return DTOMapper.INSTANCE.convertEntityToGameGetDTO(game);
     }
 

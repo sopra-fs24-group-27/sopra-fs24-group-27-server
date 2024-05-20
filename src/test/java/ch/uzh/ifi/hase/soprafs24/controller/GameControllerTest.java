@@ -1,11 +1,8 @@
 package ch.uzh.ifi.hase.soprafs24.controller;
 
-import static org.hamcrest.Matchers.empty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
@@ -28,8 +25,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.security.test.context.support.TestExecutionEvent;
-import org.springframework.security.test.context.support.WithMockUser;
 
 import ch.uzh.ifi.hase.soprafs24.entity.Game;
 import ch.uzh.ifi.hase.soprafs24.entity.Player;
@@ -44,7 +39,6 @@ import ch.uzh.ifi.hase.soprafs24.security.TokenUtils;
 import ch.uzh.ifi.hase.soprafs24.service.GameService;
 import ch.uzh.ifi.hase.soprafs24.service.UserService;
 import ch.uzh.ifi.hase.soprafs24.constant.UserStatus;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -342,7 +336,6 @@ public class GameControllerTest {
         game.setHostId(1L);
 
         when(gameService.getGameByIdWithPlayers(anyString())).thenReturn(game);
-        // when(gameService.getGameStatus(anyString())).thenReturn(game);
 
         mockMvc.perform(get("/games/game-123456")
                 .header("Authorization", token)
@@ -359,8 +352,6 @@ public class GameControllerTest {
         String gameId = "nonexistentGameId";
         when(gameService.getGameByIdWithPlayers(anyString()))
                 .thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
-        // when(gameService.getGameStatus(anyString())).thenThrow(new
-        // ResponseStatusException(HttpStatus.NOT_FOUND));
         GameController gameController = new GameController(gameService);
 
         assertThrows(ResponseStatusException.class, () -> gameController.getGame(gameId));
@@ -470,34 +461,6 @@ public class GameControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.gameId").value("game-123456"));
     }
-
-    // @Test
-    // public void testSavePlayerEmojis_Success() throws Exception {
-    // String gameId = "game-123456";
-    // Long userId = 1L;
-    // Long playerId = 1L;
-    // int round = 1;
-    // List<String> emojis = Arrays.asList("emoji1", "emoji2");
-    // String token = "existingToken";
-
-    // User user = new User();
-    // user.setId(userId);
-    // user.setUsername("user");
-    // user.setToken(token);
-
-    // when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
-
-    // doNothing().when(gameService).savePlayerEmojis(gameId, playerId, emojis,
-    // round);
-
-    // mockMvc.perform(post("/games/" + gameId + "/emojis")
-    // .header("Authorization", token)
-    // .contentType(MediaType.APPLICATION_JSON)
-    // .param("playerId", playerId.toString())
-    // .param("round", Integer.toString(round))
-    // .content(emojis.toString()))
-    // .andExpect(status().isOk());
-    // }
 
     @Test
     public void testVote_Success() throws Exception {
