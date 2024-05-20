@@ -9,6 +9,11 @@ import ch.uzh.ifi.hase.soprafs24.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GameGetDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GamePostDTO;
+import ch.uzh.ifi.hase.soprafs24.rest.dto.PlayerInfoDTO;
+import java.util.Arrays;
+import java.util.List;
+
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -121,4 +126,37 @@ public class DTOMapperTest {
     assertEquals(game.getSettings().getArtist(), gameGetDTO.getSettings().getArtist());
     assertEquals(game.getSettings().getGenre(), gameGetDTO.getSettings().getGenre());
   }
+
+  @Test
+  public void testCreatePlayerInfoDTO_fromPlayer_success() {
+    User user = new User();
+    user.setId(1L);
+    user.setUsername("firstname@lastname");
+    user.setPassword("password");
+    Player player = new Player();
+    player.setUser(user);
+    player.setHost(true);
+    player.setScore(100);
+    player.setId(1L);
+    player.setEmojis(Arrays.asList("😀", "🎉"));
+    player.setTurn(1);
+
+    PlayerInfoDTO playerInfoDTO = new PlayerInfoDTO();
+    playerInfoDTO.setId(player.getId());
+    playerInfoDTO.setUserId(player.getUser().getId());
+    playerInfoDTO.setUsername(player.getUser().getUsername());
+    playerInfoDTO.setAvatar(player.getAvatar());
+    playerInfoDTO.setScore(player.getScore());
+    playerInfoDTO.setEmojis(player.getEmojis());
+    playerInfoDTO.setTurn(player.getTurn());
+
+    assertEquals(player.getId(), playerInfoDTO.getId());
+    assertEquals(player.getUser().getId(), playerInfoDTO.getUserId());
+    assertEquals(player.getUser().getUsername(), playerInfoDTO.getUsername());
+    assertEquals(player.getAvatar(), playerInfoDTO.getAvatar());
+    assertEquals(player.getScore(), playerInfoDTO.getScore());
+    assertEquals(player.getEmojis(), playerInfoDTO.getEmojis());
+    assertEquals(player.getTurn(), playerInfoDTO.getTurn());
+  }
+
 }
