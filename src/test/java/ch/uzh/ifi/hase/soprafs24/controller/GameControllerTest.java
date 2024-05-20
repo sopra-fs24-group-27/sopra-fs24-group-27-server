@@ -1,17 +1,21 @@
 package ch.uzh.ifi.hase.soprafs24.controller;
 
+import static org.hamcrest.Matchers.empty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -278,6 +282,28 @@ public class GameControllerTest {
     }
 
     @Test
+    public void testDeleteGame_Success() throws Exception {
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("existingUser");
+        String token = "existingToken";
+        user.setToken(token);
+
+        when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
+
+        Game game = new Game();
+        game.setGameId("game-123456");
+
+        doNothing().when(gameService).deleteRoom(anyString());
+
+        mockMvc.perform(delete("/games/{gameId}", "game-123456")
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("playerId", "1"))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
     public void testStartGame_Success() {
 
         String gameId = "game-123456";
@@ -419,6 +445,59 @@ public class GameControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].spy").value(false));
     }
+
+    @Test
+    public void testSortTurnOrder_Success() throws Exception {
+        String gameId = "game-123456";
+        Long userId = 1L;
+        String token = "existingToken";
+
+        User user = new User();
+        user.setId(userId);
+        user.setUsername("user");
+        user.setToken(token);
+
+        when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
+
+        Game game = new Game();
+        game.setGameId(gameId);
+
+        when(gameService.sortTurnOrder(gameId)).thenReturn(game);
+
+        mockMvc.perform(post("/games/" + gameId + "/sortTurnOrder")
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.gameId").value("game-123456"));
+    }
+
+    // @Test
+    // public void testSavePlayerEmojis_Success() throws Exception {
+    // String gameId = "game-123456";
+    // Long userId = 1L;
+    // Long playerId = 1L;
+    // int round = 1;
+    // List<String> emojis = Arrays.asList("emoji1", "emoji2");
+    // String token = "existingToken";
+
+    // User user = new User();
+    // user.setId(userId);
+    // user.setUsername("user");
+    // user.setToken(token);
+
+    // when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
+
+    // doNothing().when(gameService).savePlayerEmojis(gameId, playerId, emojis,
+    // round);
+
+    // mockMvc.perform(post("/games/" + gameId + "/emojis")
+    // .header("Authorization", token)
+    // .contentType(MediaType.APPLICATION_JSON)
+    // .param("playerId", playerId.toString())
+    // .param("round", Integer.toString(round))
+    // .content(emojis.toString()))
+    // .andExpect(status().isOk());
+    // }
 
     @Test
     public void testVote_Success() throws Exception {
