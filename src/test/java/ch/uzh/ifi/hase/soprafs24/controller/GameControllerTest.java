@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs24.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -12,6 +11,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -32,7 +32,6 @@ import ch.uzh.ifi.hase.soprafs24.entity.Settings;
 import ch.uzh.ifi.hase.soprafs24.entity.User;
 import ch.uzh.ifi.hase.soprafs24.repository.GameRepository;
 import ch.uzh.ifi.hase.soprafs24.repository.UserRepository;
-import ch.uzh.ifi.hase.soprafs24.rest.dto.GameGetDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.GamePostDTO;
 import ch.uzh.ifi.hase.soprafs24.rest.dto.PlayerSongInfoDTO;
 import ch.uzh.ifi.hase.soprafs24.security.TokenUtils;
@@ -298,17 +297,27 @@ public class GameControllerTest {
     }
 
     @Test
-    public void testStartGame_Success() {
+    public void testStartGame_Success() throws Exception {
+        User user = new User();
+        user.setId(2L);
+        user.setUsername("existingUser");
+        String token = "existingToken";
+        user.setToken(token);
 
-        String gameId = "game-123456";
+        when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
+
         Game game = new Game();
+        game.setGameId("game-123456");
+        game.setHostId(1L);
+
         when(gameService.startGame(anyString())).thenReturn(game);
-        GameController gameController = new GameController(gameService);
 
-        GameGetDTO result = gameController.start(gameId);
-
-        assertEquals(game.getId(), result.getGameId());
-        verify(gameService, times(1)).startGame(gameId);
+        mockMvc.perform(put("/games/game-123456")
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.gameId").value("game-123456"))
+                .andExpect(jsonPath("$.hostId").value("1"));
     }
 
     @Test
