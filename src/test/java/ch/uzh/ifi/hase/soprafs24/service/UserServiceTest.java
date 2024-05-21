@@ -22,6 +22,8 @@ import static org.mockito.Mockito.when;
 import java.util.Optional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserServiceTest {
 
@@ -53,7 +55,7 @@ public class UserServiceTest {
 
   @AfterEach
   public void releaseMocks() throws Exception {
-    closeable.close(); 
+    closeable.close();
   }
 
   @Test
@@ -134,6 +136,28 @@ public class UserServiceTest {
   public void logoutUser_invalidToken_throwsException() {
     Mockito.when(userRepository.findByToken(anyString())).thenReturn(Optional.empty());
     assertThrows(ResponseStatusException.class, () -> userService.logoutUser("invalidToken"));
+  }
+
+  @Test
+  public void getUsers_success() {
+    List<User> testUsers = new ArrayList<>();
+    testUsers.add(testUser);
+    when(userRepository.findAll()).thenReturn(testUsers);
+    List<User> retrievedUsers = userService.getUsers();
+    Mockito.verify(userRepository, Mockito.times(1)).findAll();
+    assertEquals(testUsers, retrievedUsers);
+  }
+
+  @Test
+  public void getUserById_success() {
+    when(userRepository.findById(anyLong())).thenReturn(Optional.of(testUser));
+
+    User retrievedUser = userService.getUserById(testUser.getId());
+    Mockito.verify(userRepository, Mockito.times(1)).findById(testUser.getId());
+
+    assertEquals(testUser.getUsername(), retrievedUser.getUsername());
+    assertEquals(testUser.getName(), retrievedUser.getName());
+
   }
 
   @Test
