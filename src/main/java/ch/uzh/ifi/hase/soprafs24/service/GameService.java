@@ -396,6 +396,15 @@ public class GameService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You cannot vote for yourself");
         }
 
+        Player voterPlayer = game.getPlayers().stream()
+                .filter(player -> player.getId().equals(voterId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Voter player not found in game: " + gameId));
+
+        // Set the voter's hasVoted flag to true
+        voterPlayer.setHasVoted(true);
+        playerRepository.save(voterPlayer);
+
         // Increment votes
         votedPlayer.setVotes(votedPlayer.getVotes() + 1);
         playerRepository.save(votedPlayer);

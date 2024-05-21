@@ -61,6 +61,8 @@ public class Player implements Serializable {
     @ElementCollection
     private List<String> emojis2 = new ArrayList<>();
 
+    @Column
+    private boolean hasVoted;
 
     @Column
     private int votes = 0;
@@ -168,4 +170,12 @@ public class Player implements Serializable {
     public String getAvatar() {
         return avatar;
       }
+
+    public boolean isHasVoted() {
+        return hasVoted;
+    }
+
+    public void setHasVoted(boolean hasVoted) {
+        this.hasVoted = hasVoted;
+    }
 }
