@@ -565,4 +565,40 @@ public class GameServiceTest {
         verify(gameRepository, never()).save(any(Game.class));
     }
 
+    @Test
+    public void testCreatePlayerSongInfoDTO_WithSongInfo() {
+        Player player = new Player();
+        player.setId(1L);
+        player.setSpy(true);
+
+        SongInfo songInfo = new SongInfo();
+        songInfo.setTitle("Song Title");
+        songInfo.setArtist("Song Artist");
+        songInfo.setPlayUrl("http://play.url");
+        songInfo.setImageUrl("http://image.url");
+        player.setSongInfo(songInfo);
+
+        PlayerSongInfoDTO dto = gameService.createPlayerSongInfoDTO(player);
+
+        assertNotNull(dto);
+        assertEquals(player.getId(), dto.getId());
+        assertEquals(player.isSpy(), dto.getSpy());
+        assertEquals(songInfo.getTitle(), dto.getSongTitle());
+        assertEquals(songInfo.getArtist(), dto.getSongArtist());
+        assertEquals(songInfo.getPlayUrl(), dto.getPlayUrl());
+        assertEquals(songInfo.getImageUrl(), dto.getImageUrl());
+    }
+
+    @Test
+    public void testCreatePlayerSongInfoDTO_WithoutSongInfo() {
+        Player player = new Player();
+        player.setId(1L);
+        player.setSpy(true);
+
+        PlayerSongInfoDTO dto = gameService.createPlayerSongInfoDTO(player);
+
+        assertNull(dto);
+    }
+
+
 }

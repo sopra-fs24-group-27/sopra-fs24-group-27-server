@@ -223,8 +223,8 @@ public class GameService {
                     player.isSpy(),
                     songInfo.getTitle(),
                     songInfo.getArtist(),
-                    songInfo.getPlayUrl(),
-                    songInfo.getImageUrl());
+                    songInfo.getImageUrl(), 
+                    songInfo.getPlayUrl()); 
         }
         return null; // Handle as needed
     }
