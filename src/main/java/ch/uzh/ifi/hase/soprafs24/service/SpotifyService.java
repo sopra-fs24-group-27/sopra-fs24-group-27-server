@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs24.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -8,25 +9,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Properties;
-import java.util.Random;
-import java.io.FileInputStream;
-import java.net.URI;
-
-import org.springframework.core.io.ClassPathResource;
-
-import ch.uzh.ifi.hase.soprafs24.entity.SongInfo;
 
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.Random;
+import java.util.Properties;
+import java.io.FileInputStream;
+import java.net.URI;
+
+import ch.uzh.ifi.hase.soprafs24.entity.SongInfo;
 
 @Service
 public class SpotifyService {
@@ -37,7 +35,8 @@ public class SpotifyService {
     @Value("${spotify.client.secret}")
     private String clientSecret;
 
-    private WebClient webClient = WebClient.create("https://accounts.spotify.com");
+    private final WebClient authWebClient;
+    private final WebClient apiWebClient;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpotifyService.class);
 
@@ -47,13 +46,18 @@ public class SpotifyService {
     private String cachedToken;
     private long tokenExpiryTime = 0;
 
+    public SpotifyService(WebClient.Builder webClientBuilder) {
+        this.authWebClient = webClientBuilder.baseUrl("https://accounts.spotify.com").build();
+        this.apiWebClient = webClientBuilder.baseUrl("https://api.spotify.com").build();
+    }
+
     public synchronized String authenticate() {
         if (System.currentTimeMillis() < tokenExpiryTime && cachedToken != null) {
             return cachedToken;
         }
 
         LOGGER.info("Using clientId: {} and clientSecret: {}", clientId, clientSecret);
-        String tokenResponse = webClient.post()
+        String tokenResponse = authWebClient.post()
                 .uri("/api/token")
                 .headers(headers -> {
                     headers.setBasicAuth(clientId, clientSecret);
@@ -64,20 +68,20 @@ public class SpotifyService {
                 .bodyToMono(String.class)
                 .block(); // Consider using async handling with Mono instead of block
 
-    LOGGER.info("Received token response");
-    try {
-        JsonNode rootNode = objectMapper.readTree(tokenResponse);
-        cachedToken = rootNode.path("access_token").asText();
-        int expiresIn = rootNode.path("expires_in").asInt();
-        tokenExpiryTime = System.currentTimeMillis() + (expiresIn * 1000);
+        LOGGER.info("Received token response");
+        try {
+            JsonNode rootNode = objectMapper.readTree(tokenResponse);
+            cachedToken = rootNode.path("access_token").asText();
+            int expiresIn = rootNode.path("expires_in").asInt();
+            tokenExpiryTime = System.currentTimeMillis() + (expiresIn * 1000);
 
-        System.out.println("Complete Token: " + cachedToken);  // Print the complete token to console
+            System.out.println("Complete Token: " + cachedToken);  // Print the complete token to console
 
-        return cachedToken;
-    } catch (Exception e) {
-        LOGGER.error("Error parsing token response", e);
-        throw new RuntimeException("Error parsing token response", e);
-    }
+            return cachedToken;
+        } catch (Exception e) {
+            LOGGER.error("Error parsing token response", e);
+            throw new RuntimeException("Error parsing token response", e);
+        }
     }
 
     private String normalizeSongName(String name) {
@@ -91,8 +95,7 @@ public class SpotifyService {
     public List<SongInfo> searchSong(String market, String genre, String artist, String token) {
         String query = String.format("genre:%s artist:%s", genre, artist);
         LOGGER.info("Searching for song with query: {}", query);
-        String searchResult = WebClient.create("https://api.spotify.com")
-                .get()
+        String searchResult = apiWebClient.get()
                 .uri(uriBuilder -> uriBuilder.path("/v1/search")
                         .queryParam("q", query)
                         .queryParam("type", "track")
@@ -133,12 +136,12 @@ public class SpotifyService {
             throw new RuntimeException("Error parsing search result", e);
         }
         
-    // Randomly select 2 songs from the list
-    Collections.shuffle(songsInfo, new Random());
-    if (songsInfo.size() > 2) {
-        LOGGER.info("2 randomly selected songs: {}", songsInfo.subList(0, 2));
-        return songsInfo.subList(0, 2);
-    }
+        // Randomly select 2 songs from the list
+        Collections.shuffle(songsInfo, new Random());
+        if (songsInfo.size() > 2) {
+            LOGGER.info("2 randomly selected songs: {}", songsInfo.subList(0, 2));
+            return songsInfo.subList(0, 2);
+        }
         return songsInfo;
     }
     
@@ -147,8 +150,7 @@ public class SpotifyService {
         String embedUrl = String.format("https://open.spotify.com/embed/track/%s", trackId);
         LOGGER.debug("Fetching preview URL from: {}", embedUrl);
         try {
-            String htmlContent = WebClient.create()
-                .get()
+            String htmlContent = apiWebClient.get()
                 .uri(URI.create(embedUrl))
                 .retrieve()
                 .bodyToMono(String.class)
@@ -180,7 +182,6 @@ public class SpotifyService {
         this.clientSecret = clientSecret;
     }
     
-
     // a main method to use above methods
     public static void main(String[] args) {
         try {
@@ -190,7 +191,7 @@ public class SpotifyService {
             props.load(new FileInputStream(resource.getFile()));
     
             // Create an instance of the service
-            SpotifyService spotifyService = new SpotifyService();
+            SpotifyService spotifyService = new SpotifyService(WebClient.builder());
             
             // Set properties manually
             spotifyService.setClientId(props.getProperty("spotify.client.id"));

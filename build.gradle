@@ -54,6 +54,7 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
         exclude group: 'org.mockito', module: 'mockito-core'
     }
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.9.3' // for Sportify Service tests
     testImplementation 'org.springframework.security:spring-security-test'
 
     // JUnit 5 Jupiter API and Engine
