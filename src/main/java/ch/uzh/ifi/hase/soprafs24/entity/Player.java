@@ -53,6 +53,9 @@ public class Player implements Serializable {
     @Column
     private String avatar;
 
+    @Column
+    private boolean hasVoted;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "player_emojis", joinColumns = @JoinColumn(name = "player_id"))
     @Column(name = "emoji")
@@ -168,4 +171,12 @@ public class Player implements Serializable {
     public String getAvatar() {
         return avatar;
       }
+
+    public boolean isHasVoted() {
+        return hasVoted;
+    }
+
+    public void setHasVoted(boolean hasVoted) {
+        this.hasVoted = hasVoted;
+    }
 }
