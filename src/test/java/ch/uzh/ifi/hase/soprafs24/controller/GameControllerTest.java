@@ -298,6 +298,8 @@ public class GameControllerTest {
 
     @Test
     public void testStartGame_Success() throws Exception {
+        String gameId = "game-123456";
+
         User user = new User();
         user.setId(2L);
         user.setUsername("existingUser");
@@ -307,16 +309,16 @@ public class GameControllerTest {
         when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
 
         Game game = new Game();
-        game.setGameId("game-123456");
+        game.setGameId(gameId);
         game.setHostId(1L);
 
         when(gameService.startGame(anyString())).thenReturn(game);
 
-        mockMvc.perform(put("/games/game-123456")
+        mockMvc.perform(put("/games/{gameId}", gameId)
                 .header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.gameId").value("game-123456"))
+                .andExpect(jsonPath("$.gameId").value(gameId))
                 .andExpect(jsonPath("$.hostId").value("1"));
     }
 
