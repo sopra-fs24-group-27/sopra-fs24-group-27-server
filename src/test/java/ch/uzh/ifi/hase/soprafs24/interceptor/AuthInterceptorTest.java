@@ -2,7 +2,6 @@ package ch.uzh.ifi.hase.soprafs24.interceptor;
 
 import ch.uzh.ifi.hase.soprafs24.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs24.security.TokenUtils;
-import ch.uzh.ifi.hase.soprafs24.interceptor.AuthInterceptor;
 import ch.uzh.ifi.hase.soprafs24.entity.User;
 
 import org.junit.jupiter.api.BeforeEach;

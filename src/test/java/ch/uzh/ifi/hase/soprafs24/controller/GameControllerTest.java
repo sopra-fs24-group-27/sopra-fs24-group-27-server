@@ -463,6 +463,35 @@ public class GameControllerTest {
     }
 
     @Test
+    public void testSavePlayerEmojis_Success() throws Exception {
+        String gameId = "game-123456";
+        Long userId = 1L;
+        String token = "existingToken";
+        Long playerId = 1L;
+        int round = 1;
+        List<String> emojis = Arrays.asList("emoji1", "emoji2");
+
+        User user = new User();
+        user.setId(userId);
+        user.setUsername("user");
+        user.setToken(token);
+
+        when(userRepository.findByToken(token)).thenReturn(Optional.of(user));
+
+        String requestBody = "[\"emoji1\", \"emoji2\"]";
+
+        mockMvc.perform(post("/games/" + gameId + "/emojis")
+                .param("playerId", playerId.toString())
+                .param("round", Integer.toString(round))
+                .header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody))
+                .andExpect(status().isOk());
+
+        verify(gameService).savePlayerEmojis(gameId, playerId, emojis, round);
+    }
+
+    @Test
     public void testVote_Success() throws Exception {
         String gameId = "game-123456";
         Long voterId = 1L;
