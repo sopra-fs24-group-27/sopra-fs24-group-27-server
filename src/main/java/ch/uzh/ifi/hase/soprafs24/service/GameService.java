@@ -324,6 +324,7 @@ public class GameService {
     public List<PlayerSongInfoDTO> getSongs(String gameId) {
         Game game = gameRepository.findByGameIdWithPlayers(gameId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game not found"));
+        System.out.println("Found the songs for the game: " + game.getPlayers().stream().map(Player::getSongInfo).collect(Collectors.toList()));
         return game.getPlayers().stream()
                 .map(this::createPlayerSongInfoDTO)
                 .collect(Collectors.toList());
