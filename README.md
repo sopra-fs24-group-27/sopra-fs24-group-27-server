@@ -13,27 +13,27 @@ LyricLies is a multiplayer online game designed to combine music and emojis. Pla
 ## High-Level Components
 1. **GameController.java**
    - Role: Controls all game-related activities through REST endpoints.
-   - Link: [GameController.java](./src/main/java/com/example/game/GameController.java)
+   - Link: [GameController.java](./src/main/java/ch/uzh/ifi/hase/soprafs24/controller/GameController.java)
 
 2. **GameService.java**
    - Role: Provides game logic and interacts with the GameController.
-   - Link: [GameService.java](./src/main/java/com/example/game/GameService.java)
+   - Link: [GameService.java](./src/main/java/ch/uzh/ifi/hase/soprafs24/service/GameService.java)
 
 3. **SpotifyService.java**
    - Role: Interacts with Spotify API to fetch songs for the game.
-   - Link: [SpotifyService.java](./src/main/java/com/example/spotify/SpotifyService.java)
+   - Link: [SpotifyService.java](./src/main/java/ch/uzh/ifi/hase/soprafs24/service/SpotifyService.java)
 
 4. **UserController.java**
    - Role: Manages user-related activities through REST endpoints.
-   - Link: [UserController.java](./src/main/java/com/example/user/UserController.java)
+   - Link: [UserController.java](./src/main/java/ch/uzh/ifi/hase/soprafs24/controller/UserController.java)
 
 5. **UserService.java**
    - Role: Provides user-related logic and interacts with the UserController.
-   - Link: [UserService.java](./src/main/java/com/example/user/UserService.java)
+   - Link: [UserService.java](./src/main/java/ch/uzh/ifi/hase/soprafs24/service/UserService.java)
 
 6. **AuthInterceptor.java & AuthConfig.java**
    - Role: Handles authentication for all activities.
-   - Link: [AuthInterceptor.java](./src/main/java/com/example/auth/AuthInterceptor.java), [AuthConfig.java](./src/main/java/com/example/auth/AuthConfig.java)
+   - Link: [AuthInterceptor.java](./src/main/java/ch/uzh/ifi/hase/soprafs24/interceptor/AuthInterceptor.java), [AuthConfig.java](./src/main/java/ch/uzh/ifi/hase/soprafs24/config/AuthConfig.java)
 
 ## Launch & Deployment
 ### Server
