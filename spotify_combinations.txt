@@ -1,270 +1,255 @@
 SUCCESS: Market: US, Genre: Country, Artist: Jason Aldean
-    Song: Amarillo Sky, Artist: Jason Aldean, Image: https://i.scdn.co/image/ab67616d0000b273ed8560f62bdac940e9547a4f, Preview: https://p.scdn.co/mp3-preview/c0aed30963714ec77bcf7322420d18226b9d6d72
-    Song: She's Country, Artist: Jason Aldean, Image: https://i.scdn.co/image/ab67616d0000b273d1a675a94e84177277e8cd8f, Preview: https://p.scdn.co/mp3-preview/e65b9bc249301e4f16bffd0e11bca95952d4d29c
-SUCCESS: Market: CA, Genre: Country, Artist: Jason Aldean
-    Song: Night Train, Artist: Jason Aldean, Image: https://i.scdn.co/image/ab67616d0000b273337ed7ca74334a2f41ee217f, Preview: https://p.scdn.co/mp3-preview/b191f0bfac26563f1eab7b0ad020b432ea6b0bec
-    Song: Let Your Boys Be Country, Artist: Jason Aldean, Image: https://i.scdn.co/image/ab67616d0000b273d5b678a83d81a2d7691d72da, Preview: https://p.scdn.co/mp3-preview/48a4a3b0ffb23016daa287d0bde7c38beea5904c
-SUCCESS: Market: GB, Genre: Country, Artist: Jason Aldean
-    Song: If I Didn’t Love You, Artist: Jason Aldean, Image: https://i.scdn.co/image/ab67616d0000b2737c0396af8cafedbc42e1a122, Preview: https://p.scdn.co/mp3-preview/36fb7579381fc0123530e15bf794ce7f5d4aafbf
-    Song: She's Country, Artist: Jason Aldean, Image: https://i.scdn.co/image/ab67616d0000b273d1a675a94e84177277e8cd8f, Preview: https://p.scdn.co/mp3-preview/e65b9bc249301e4f16bffd0e11bca95952d4d29c
-SUCCESS: Market: AU, Genre: Country, Artist: Jason Aldean
-    Song: You Make It Easy, Artist: Jason Aldean, Image: https://i.scdn.co/image/ab67616d0000b27374ac8d740530487e3bd50378, Preview: https://p.scdn.co/mp3-preview/792310fb793bf0821bd23c10614b918872c961e4
+    Song: Any Ol' Barstool, Artist: Jason Aldean, Image: https://i.scdn.co/image/ab67616d0000b2738eaef4a59458b92ec686fdce, Preview: https://p.scdn.co/mp3-preview/fd1ea515e01893909234e372111f2418b29e8b35
     Song: Girl Like You, Artist: Jason Aldean, Image: https://i.scdn.co/image/ab67616d0000b27374ac8d740530487e3bd50378, Preview: https://p.scdn.co/mp3-preview/74f5dd528f3a6c56e014061ae9eeee6be654701d
-SUCCESS: Market: DE, Genre: Country, Artist: Jason Aldean
-    Song: Lights Come On, Artist: Jason Aldean, Image: https://i.scdn.co/image/ab67616d0000b2738eaef4a59458b92ec686fdce, Preview: https://p.scdn.co/mp3-preview/ebdc31f41ebc7c09da7078cbee63fd9768adca1c
+SUCCESS: Market: CA, Genre: Country, Artist: Jason Aldean
+    Song: Fly over States, Artist: Jason Aldean, Image: https://i.scdn.co/image/ab67616d0000b27305e76b84a0fceebe3ebaaf16, Preview: https://p.scdn.co/mp3-preview/7ff3d4bde36f7278962cd7c2b6f11108826fe7fb
     Song: Should've Been A Cowboy - Live, Artist: Jason Aldean, Image: https://i.scdn.co/image/ab67616d0000b27325c2c9b3411330774630ada0, Preview: https://p.scdn.co/mp3-preview/2ed78d049cf0aae0d55ff896513734e161cb4e1e
-FAILED: Market: US, Genre: Country, Artist: Taylor Swift
-FAILED: Market: CA, Genre: Country, Artist: Taylor Swift
-FAILED: Market: GB, Genre: Country, Artist: Taylor Swift
-FAILED: Market: AU, Genre: Country, Artist: Taylor Swift
-FAILED: Market: DE, Genre: Country, Artist: Taylor Swift
+SUCCESS: Market: GB, Genre: Country, Artist: Jason Aldean
+    Song: Girl Like You, Artist: Jason Aldean, Image: https://i.scdn.co/image/ab67616d0000b27374ac8d740530487e3bd50378, Preview: https://p.scdn.co/mp3-preview/74f5dd528f3a6c56e014061ae9eeee6be654701d
+    Song: Should've Been A Cowboy - Live, Artist: Jason Aldean, Image: https://i.scdn.co/image/ab67616d0000b27325c2c9b3411330774630ada0, Preview: https://p.scdn.co/mp3-preview/2ed78d049cf0aae0d55ff896513734e161cb4e1e
+SUCCESS: Market: AU, Genre: Country, Artist: Jason Aldean
+    Song: Dirt Road Anthem, Artist: Jason Aldean, Image: https://i.scdn.co/image/ab67616d0000b27305e76b84a0fceebe3ebaaf16, Preview: https://p.scdn.co/mp3-preview/75636290782a864bfe342bfb020de7be11e2add9
+    Song: Lights Come On, Artist: Jason Aldean, Image: https://i.scdn.co/image/ab67616d0000b2738eaef4a59458b92ec686fdce, Preview: https://p.scdn.co/mp3-preview/ebdc31f41ebc7c09da7078cbee63fd9768adca1c
+SUCCESS: Market: DE, Genre: Country, Artist: Jason Aldean
+    Song: Heaven, Artist: Jason Aldean, Image: https://i.scdn.co/image/ab67616d0000b2737c0396af8cafedbc42e1a122, Preview: https://p.scdn.co/mp3-preview/d1df09f64060bbd9895ce3c805b7a09079fc2448
+    Song: Any Ol' Barstool, Artist: Jason Aldean, Image: https://i.scdn.co/image/ab67616d0000b2738eaef4a59458b92ec686fdce, Preview: https://p.scdn.co/mp3-preview/fd1ea515e01893909234e372111f2418b29e8b35
 SUCCESS: Market: US, Genre: Country, Artist: Hunter Hayes
-    Song: Dear God, Artist: Hunter Hayes, Image: https://i.scdn.co/image/ab67616d0000b273f418bebbf512efbd63883d59, Preview: https://p.scdn.co/mp3-preview/cc213d1d340320c9a602f267b2e8383968a1d9a1
-    Song: If You Told Me To, Artist: Hunter Hayes, Image: https://i.scdn.co/image/ab67616d0000b2732a0070a89eb69a9cc7914f49, Preview: https://p.scdn.co/mp3-preview/f62b6c1b562686bcab4d3828b1812e22b97fe855
+    Song: This Girl, Artist: Hunter Hayes, Image: https://i.scdn.co/image/ab67616d0000b273b00372b4eec89e6c6be71e4a, Preview: https://p.scdn.co/mp3-preview/d8fc8aef210da00419d51d12e5e2232c0bbdf342
+    Song: Best Part, Artist: Hunter Hayes, Image: https://i.scdn.co/image/ab67616d0000b2732e7a89a68b8a16c4c995a25d, Preview: https://p.scdn.co/mp3-preview/a78146eda29923702704463d830c7fdafef9c171
 SUCCESS: Market: CA, Genre: Country, Artist: Hunter Hayes
-    Song: Tell Me, Artist: Hunter Hayes, Image: https://i.scdn.co/image/ab67616d0000b2738aa32f302b88c34372cb8e33, Preview: https://p.scdn.co/mp3-preview/b59cebd231834189e8b89d396d26423cd7d48ce1
-    Song: Heartbreak, Artist: Hunter Hayes, Image: https://i.scdn.co/image/ab67616d0000b273f418bebbf512efbd63883d59, Preview: https://p.scdn.co/mp3-preview/125917c209334cfc64a5eac6e412827836b2f13f
+    Song: One Good Reason, Artist: Hunter Hayes, Image: https://i.scdn.co/image/ab67616d0000b273f418bebbf512efbd63883d59, Preview: https://p.scdn.co/mp3-preview/d6765b7665d7a9ad5963ad3b63f63cb6612df168
+    Song: Song About You, Artist: Hunter Hayes, Image: https://i.scdn.co/image/ab67616d0000b2736627184193b2b3ed5718400a, Preview: https://p.scdn.co/mp3-preview/803b10b6ac9008be6b047e32262f0468a2fc1db0
 SUCCESS: Market: GB, Genre: Country, Artist: Hunter Hayes
-    Song: Rescue, Artist: Hunter Hayes, Image: https://i.scdn.co/image/ab67616d0000b273b00372b4eec89e6c6be71e4a, Preview: https://p.scdn.co/mp3-preview/ece3aed39d5ca77b38fd1ff0a22c0ccec34e97e4
-    Song: I Want Crazy - Encore, Artist: Hunter Hayes, Image: https://i.scdn.co/image/ab67616d0000b273dd8dff82e07684beedab0b47, Preview: https://p.scdn.co/mp3-preview/1fbf25530ec591e3c5c23bc1a91a593a00457a39
-SUCCESS: Market: AU, Genre: Country, Artist: Hunter Hayes
+    Song: Invisible, Artist: Hunter Hayes, Image: https://i.scdn.co/image/ab67616d0000b273cb30b5e2a19b29ff463edbd9, Preview: https://p.scdn.co/mp3-preview/27ec13b2678df65ab1efe8e0334a3ffcbd553312
     Song: Heartbreak, Artist: Hunter Hayes, Image: https://i.scdn.co/image/ab67616d0000b273f418bebbf512efbd63883d59, Preview: https://p.scdn.co/mp3-preview/125917c209334cfc64a5eac6e412827836b2f13f
-    Song: Where It All Begins (feat. Lady Antebellum), Artist: Hunter Hayes, Image: https://i.scdn.co/image/ab67616d0000b27312b08a7de47e43985d629310, Preview: https://p.scdn.co/mp3-preview/aac4b75ce0611e445c9248a520c9c33a67eb9f68
+SUCCESS: Market: AU, Genre: Country, Artist: Hunter Hayes
+    Song: Storm Warning, Artist: Hunter Hayes, Image: https://i.scdn.co/image/ab67616d0000b273020d0445d4d1a1ba37eddca0, Preview: https://p.scdn.co/mp3-preview/a5cbdb7c34c6ba8c8ece38da9713fe198d98b98d
+    Song: Heartbreak, Artist: Hunter Hayes, Image: https://i.scdn.co/image/ab67616d0000b273f418bebbf512efbd63883d59, Preview: https://p.scdn.co/mp3-preview/125917c209334cfc64a5eac6e412827836b2f13f
 SUCCESS: Market: DE, Genre: Country, Artist: Hunter Hayes
-    Song: Tell Me, Artist: Hunter Hayes, Image: https://i.scdn.co/image/ab67616d0000b2738aa32f302b88c34372cb8e33, Preview: https://p.scdn.co/mp3-preview/b59cebd231834189e8b89d396d26423cd7d48ce1
-    Song: 21, Artist: Hunter Hayes, Image: https://i.scdn.co/image/ab67616d0000b27312b08a7de47e43985d629310, Preview: https://p.scdn.co/mp3-preview/5fa1656ae65de31b36295d52b4df3a6461d25118
+    Song: Friend, Artist: Hunter Hayes, Image: https://i.scdn.co/image/ab67616d0000b2737c4e7b6ea966a8b44abdad84, Preview: https://p.scdn.co/mp3-preview/d488c28e44fb4e7d488803cf1455196de99f89e3
+    Song: Dear God, Artist: Hunter Hayes, Image: https://i.scdn.co/image/ab67616d0000b273f418bebbf512efbd63883d59, Preview: https://p.scdn.co/mp3-preview/cc213d1d340320c9a602f267b2e8383968a1d9a1
 SUCCESS: Market: US, Genre: Country, Artist: Morgan Wallen
-    Song: Chasin' You, Artist: Morgan Wallen, Image: https://i.scdn.co/image/ab67616d0000b273f9f2dda2df2a695b9bad3440, Preview: https://p.scdn.co/mp3-preview/0f91ed4fde6bba8680c193da321bf882e09115d9
-    Song: The Way I Talk, Artist: Morgan Wallen, Image: https://i.scdn.co/image/ab67616d0000b273f9f2dda2df2a695b9bad3440, Preview: https://p.scdn.co/mp3-preview/32b3b47e0a2867c0f809cefcd9da20350a5d3b8c
+    Song: You Proof, Artist: Morgan Wallen, Image: https://i.scdn.co/image/ab67616d0000b273705079df9a25a28b452c1fc9, Preview: https://p.scdn.co/mp3-preview/4ad8dc44f64affca6a646bee5d0ec8899bca67e0
+    Song: Wasted On You, Artist: Morgan Wallen, Image: https://i.scdn.co/image/ab67616d0000b2737d6813fd233f3bc4977cceca, Preview: https://p.scdn.co/mp3-preview/185a44ab4036da728ee2f90bc0c9e61439f43261
 SUCCESS: Market: CA, Genre: Country, Artist: Morgan Wallen
     Song: Chasin' You, Artist: Morgan Wallen, Image: https://i.scdn.co/image/ab67616d0000b273f9f2dda2df2a695b9bad3440, Preview: https://p.scdn.co/mp3-preview/0f91ed4fde6bba8680c193da321bf882e09115d9
-    Song: Man Made A Bar (feat. Eric Church), Artist: Morgan Wallen, Image: https://i.scdn.co/image/ab67616d0000b273705079df9a25a28b452c1fc9, Preview: https://p.scdn.co/mp3-preview/d87ebc690f5f825e36e3fad23418e349b06deaf1
+    Song: Ain’t That Some, Artist: Morgan Wallen, Image: https://i.scdn.co/image/ab67616d0000b273705079df9a25a28b452c1fc9, Preview: https://p.scdn.co/mp3-preview/b62d93ecb5be2900ddf5136d37068d617f00e786
 SUCCESS: Market: GB, Genre: Country, Artist: Morgan Wallen
-    Song: Spin You Around (1/24), Artist: Morgan Wallen, Image: https://i.scdn.co/image/ab67616d0000b27379663e938af7d4dc153da554, Preview: https://p.scdn.co/mp3-preview/061ee8b5de2411830cb66f8b78bf88388e540bac
-    Song: Cover Me Up, Artist: Morgan Wallen, Image: https://i.scdn.co/image/ab67616d0000b2737d6813fd233f3bc4977cceca, Preview: https://p.scdn.co/mp3-preview/9b30d1ba5761f9c5f5c22963d7a3b117d90a3e67
+    Song: Whiskey Glasses, Artist: Morgan Wallen, Image: https://i.scdn.co/image/ab67616d0000b273f9f2dda2df2a695b9bad3440, Preview: https://p.scdn.co/mp3-preview/8bfbda21b7e6c086f8d5461c05226cbf2f3e31fa
+    Song: Sand In My Boots, Artist: Morgan Wallen, Image: https://i.scdn.co/image/ab67616d0000b2737d6813fd233f3bc4977cceca, Preview: https://p.scdn.co/mp3-preview/3b3cfdf33ac2b8279e736257eee368d844dc9d01
 SUCCESS: Market: AU, Genre: Country, Artist: Morgan Wallen
-    Song: Cowgirls (feat. ERNEST), Artist: Morgan Wallen, Image: https://i.scdn.co/image/ab67616d0000b273705079df9a25a28b452c1fc9, Preview: https://p.scdn.co/mp3-preview/9b345214e5a476d7be462c641b239518d733947e
-    Song: Cover Me Up, Artist: Morgan Wallen, Image: https://i.scdn.co/image/ab67616d0000b2737d6813fd233f3bc4977cceca, Preview: https://p.scdn.co/mp3-preview/9b30d1ba5761f9c5f5c22963d7a3b117d90a3e67
+    Song: 7 Summers, Artist: Morgan Wallen, Image: https://i.scdn.co/image/ab67616d0000b2737d6813fd233f3bc4977cceca, Preview: https://p.scdn.co/mp3-preview/6d400fdb99199022bec60a9e0f680d5dbe353c9d
+    Song: Last Night, Artist: Morgan Wallen, Image: https://i.scdn.co/image/ab67616d0000b273705079df9a25a28b452c1fc9, Preview: https://p.scdn.co/mp3-preview/48760562c770591058c71d16a5ac81d3833e72d2
 SUCCESS: Market: DE, Genre: Country, Artist: Morgan Wallen
-    Song: Dangerous, Artist: Morgan Wallen, Image: https://i.scdn.co/image/ab67616d0000b2737d6813fd233f3bc4977cceca, Preview: https://p.scdn.co/mp3-preview/0263c0437bb034abfa61fc538de4b57c3f1b072c
-    Song: Everything I Love, Artist: Morgan Wallen, Image: https://i.scdn.co/image/ab67616d0000b273705079df9a25a28b452c1fc9, Preview: https://p.scdn.co/mp3-preview/02f60599bfad09bc52007c1d14d953e4e3cfea26
+    Song: Thought You Should Know, Artist: Morgan Wallen, Image: https://i.scdn.co/image/ab67616d0000b273705079df9a25a28b452c1fc9, Preview: https://p.scdn.co/mp3-preview/91130ebcd50bcbe8105c8e29a682c6a2ffd42efc
+    Song: Man Made A Bar (feat. Eric Church), Artist: Morgan Wallen, Image: https://i.scdn.co/image/ab67616d0000b273705079df9a25a28b452c1fc9, Preview: https://p.scdn.co/mp3-preview/d87ebc690f5f825e36e3fad23418e349b06deaf1
 SUCCESS: Market: US, Genre: Country, Artist: Brett Young
-    Song: Dance With You, Artist: Brett Young, Image: https://i.scdn.co/image/ab67616d0000b27313e81fe6b8bfd129796d3a4d, Preview: https://p.scdn.co/mp3-preview/8454f468643699c4143b94c2ae2cac677d03d342
     Song: Not Yet, Artist: Brett Young, Image: https://i.scdn.co/image/ab67616d0000b2739bdfaaf2bbb2b82c288fd7a8, Preview: https://p.scdn.co/mp3-preview/edc1949ded0153545ce23dbb05dcd7b8456e08d9
+    Song: In Case You Didn't Know, Artist: Brett Young, Image: https://i.scdn.co/image/ab67616d0000b2738c67513a5ffd9a018b410f1b, Preview: https://p.scdn.co/mp3-preview/d0166507e83331962d05abc5cd4c502c75788a5f
 SUCCESS: Market: CA, Genre: Country, Artist: Brett Young
-    Song: In Case You Didn't Know, Artist: Brett Young, Image: https://i.scdn.co/image/ab67616d0000b2738c67513a5ffd9a018b410f1b, Preview: https://p.scdn.co/mp3-preview/d0166507e83331962d05abc5cd4c502c75788a5f
-    Song: You Ain't Here To Kiss Me, Artist: Brett Young, Image: https://i.scdn.co/image/ab67616d0000b2738c67513a5ffd9a018b410f1b, Preview: https://p.scdn.co/mp3-preview/92a8515dfe60dd790ab3255b62c0a4ad09410749
+    Song: Lady, Artist: Brett Young, Image: https://i.scdn.co/image/ab67616d0000b2739bdfaaf2bbb2b82c288fd7a8, Preview: https://p.scdn.co/mp3-preview/6763753cf4063535d2448600eb3b3edf23d25e81
+    Song: Chapters, Artist: Brett Young, Image: https://i.scdn.co/image/ab67616d0000b273720de70fda3ffbd62db799a1, Preview: https://p.scdn.co/mp3-preview/c604656fa49affba635dc97776bdd37d3b248706
 SUCCESS: Market: GB, Genre: Country, Artist: Brett Young
-    Song: Reason To Stay, Artist: Brett Young, Image: https://i.scdn.co/image/ab67616d0000b273720de70fda3ffbd62db799a1, Preview: https://p.scdn.co/mp3-preview/90be6309d132f69ca6bb45f07db41cd605f8fb20
-    Song: Mercy, Artist: Brett Young, Image: https://i.scdn.co/image/ab67616d0000b2738c67513a5ffd9a018b410f1b, Preview: https://p.scdn.co/mp3-preview/b4c4931d94cea5a1232fb4ba1ed1a1327d3305b5
+    Song: Change Your Name, Artist: Brett Young, Image: https://i.scdn.co/image/ab67616d0000b273720de70fda3ffbd62db799a1, Preview: https://p.scdn.co/mp3-preview/bfad632e158084a7e7d2f046bd7d8cf9cb6423a0
+    Song: Uncomfortable, Artist: Brett Young, Image: https://i.scdn.co/image/ab67616d0000b27313e81fe6b8bfd129796d3a4d, Preview: https://p.scdn.co/mp3-preview/a6405483db1ca90e8148bd6cfa92f915d6330871
 SUCCESS: Market: AU, Genre: Country, Artist: Brett Young
-    Song: Catch, Artist: Brett Young, Image: https://i.scdn.co/image/ab67616d0000b273720de70fda3ffbd62db799a1, Preview: https://p.scdn.co/mp3-preview/41f792052efb42a05b7c7625b460411c26edf9d0
-    Song: You Didn’t, Artist: Brett Young, Image: https://i.scdn.co/image/ab67616d0000b2739bdfaaf2bbb2b82c288fd7a8, Preview: https://p.scdn.co/mp3-preview/76adefc3ccd23aa5d9770f31cfd1a51b66caf846
+    Song: Chapters, Artist: Brett Young, Image: https://i.scdn.co/image/ab67616d0000b273720de70fda3ffbd62db799a1, Preview: https://p.scdn.co/mp3-preview/c604656fa49affba635dc97776bdd37d3b248706
+    Song: Don’t Wanna Write This Song, Artist: Brett Young, Image: https://i.scdn.co/image/ab67616d0000b273720de70fda3ffbd62db799a1, Preview: https://p.scdn.co/mp3-preview/f575a5e9a750c5d8ad1a0e31828b9f15e51bb22e
 SUCCESS: Market: DE, Genre: Country, Artist: Brett Young
-    Song: You Didn’t, Artist: Brett Young, Image: https://i.scdn.co/image/ab67616d0000b2739bdfaaf2bbb2b82c288fd7a8, Preview: https://p.scdn.co/mp3-preview/76adefc3ccd23aa5d9770f31cfd1a51b66caf846
-    Song: In Case You Didn't Know, Artist: Brett Young, Image: https://i.scdn.co/image/ab67616d0000b2738c67513a5ffd9a018b410f1b, Preview: https://p.scdn.co/mp3-preview/d0166507e83331962d05abc5cd4c502c75788a5f
+    Song: Not Over You - Recorded at Sound Stage Studios Nashville, Artist: Brett Young, Image: https://i.scdn.co/image/ab67616d0000b273bc02d519ab3004cb08f73b63, Preview: https://p.scdn.co/mp3-preview/50914bffe02dbe62c85a9177d95e52a3e774f2a2
+    Song: You Ain't Here To Kiss Me, Artist: Brett Young, Image: https://i.scdn.co/image/ab67616d0000b2738c67513a5ffd9a018b410f1b, Preview: https://p.scdn.co/mp3-preview/92a8515dfe60dd790ab3255b62c0a4ad09410749
 SUCCESS: Market: US, Genre: Rock, Artist: Linkin Park
-    Song: Lost, Artist: Linkin Park, Image: https://i.scdn.co/image/ab67616d0000b2735d283816a23e9ac7511f1519, Preview: https://p.scdn.co/mp3-preview/effd763b0241c4973a3ebad491ac7fd13c93e6c5
-    Song: CASTLE OF GLASS, Artist: Linkin Park, Image: https://i.scdn.co/image/ab67616d0000b273987fb4c5ec8790e9f637a4a4, Preview: https://p.scdn.co/mp3-preview/4a1db9ba57b75cd319509e90d45045668ed3a575
-SUCCESS: Market: CA, Genre: Rock, Artist: Linkin Park
-    Song: Somewhere I Belong, Artist: Linkin Park, Image: https://i.scdn.co/image/ab67616d0000b2735f1f51d14e8bea89484ecd1b, Preview: https://p.scdn.co/mp3-preview/e4cec97c55fab6b6360901c1da2525e08a029b03
-    Song: What I've Done, Artist: Linkin Park, Image: https://i.scdn.co/image/ab67616d0000b2736e996745f2c7b8036abef213, Preview: https://p.scdn.co/mp3-preview/bb5a97b64d61c8920674717ca753752eee008b95
-SUCCESS: Market: GB, Genre: Rock, Artist: Linkin Park
-    Song: One More Light, Artist: Linkin Park, Image: https://i.scdn.co/image/ab67616d0000b273145e1cf12538f5666511237d, Preview: https://p.scdn.co/mp3-preview/44482a2b0b1bacd5d5e3b3c28e29974812b1351f
-    Song: What I've Done, Artist: Linkin Park, Image: https://i.scdn.co/image/ab67616d0000b2736e996745f2c7b8036abef213, Preview: https://p.scdn.co/mp3-preview/bb5a97b64d61c8920674717ca753752eee008b95
-SUCCESS: Market: AU, Genre: Rock, Artist: Linkin Park
+    Song: Lying from You, Artist: Linkin Park, Image: https://i.scdn.co/image/ab67616d0000b27310b4bd659193bc34476e066f, Preview: https://p.scdn.co/mp3-preview/d3ef53412e2a4b5972edfdcf454cdb8dea0c18e8
     Song: Given Up, Artist: Linkin Park, Image: https://i.scdn.co/image/ab67616d0000b2736e996745f2c7b8036abef213, Preview: https://p.scdn.co/mp3-preview/2318105570df0a039486ba2cd4168b49b058f76a
+SUCCESS: Market: CA, Genre: Rock, Artist: Linkin Park
+    Song: What I've Done, Artist: Linkin Park, Image: https://i.scdn.co/image/ab67616d0000b2736e996745f2c7b8036abef213, Preview: https://p.scdn.co/mp3-preview/bb5a97b64d61c8920674717ca753752eee008b95
+    Song: Lost, Artist: Linkin Park, Image: https://i.scdn.co/image/ab67616d0000b2735d283816a23e9ac7511f1519, Preview: https://p.scdn.co/mp3-preview/effd763b0241c4973a3ebad491ac7fd13c93e6c5
+SUCCESS: Market: GB, Genre: Rock, Artist: Linkin Park
     Song: Lying from You, Artist: Linkin Park, Image: https://i.scdn.co/image/ab67616d0000b2738b5b6fa1326d996181e71dd7, Preview: https://p.scdn.co/mp3-preview/d3ef53412e2a4b5972edfdcf454cdb8dea0c18e8
+    Song: Crawling, Artist: Linkin Park, Image: https://i.scdn.co/image/ab67616d0000b273e2f039481babe23658fc719a, Preview: https://p.scdn.co/mp3-preview/757e39055aca3abc9157fe579869d63baca5a54e
+SUCCESS: Market: AU, Genre: Rock, Artist: Linkin Park
+    Song: Lying from You, Artist: Linkin Park, Image: https://i.scdn.co/image/ab67616d0000b2738b5b6fa1326d996181e71dd7, Preview: https://p.scdn.co/mp3-preview/d3ef53412e2a4b5972edfdcf454cdb8dea0c18e8
+    Song: Points of Authority, Artist: Linkin Park, Image: https://i.scdn.co/image/ab67616d0000b273e2f039481babe23658fc719a, Preview: https://p.scdn.co/mp3-preview/7b2da33cc789b2f7d150e68b568b90973da87a79
 SUCCESS: Market: DE, Genre: Rock, Artist: Linkin Park
     Song: Faint, Artist: Linkin Park, Image: https://i.scdn.co/image/ab67616d0000b2735f1f51d14e8bea89484ecd1b, Preview: https://p.scdn.co/mp3-preview/93e66af3a92081740710b18e45dcc9eeff08edbf
-    Song: Somewhere I Belong, Artist: Linkin Park, Image: https://i.scdn.co/image/ab67616d0000b2738b5b6fa1326d996181e71dd7, Preview: https://p.scdn.co/mp3-preview/e4cec97c55fab6b6360901c1da2525e08a029b03
+    Song: Crawling, Artist: Linkin Park, Image: https://i.scdn.co/image/ab67616d0000b273e2f039481babe23658fc719a, Preview: https://p.scdn.co/mp3-preview/757e39055aca3abc9157fe579869d63baca5a54e
 SUCCESS: Market: US, Genre: Rock, Artist: Fall Out Boy
-    Song: Grand Theft Autumn / Where Is Your Boy, Artist: Fall Out Boy, Image: https://i.scdn.co/image/ab67616d0000b273b3e13979bf4f6515020fbaea, Preview: https://p.scdn.co/mp3-preview/fa587f5aa697bda8ef6fd598cf9894c6e86a901d
-    Song: Hold Me Like a Grudge, Artist: Fall Out Boy, Image: https://i.scdn.co/image/ab67616d0000b273fd0ad203a3d2a2343d889a95, Preview: https://p.scdn.co/mp3-preview/0ba656ab6455c22da843ecfeb6314b227ae772f9
+    Song: We Didn’t Start The Fire, Artist: Fall Out Boy, Image: https://i.scdn.co/image/ab67616d0000b27399a8b193fae2ce4521682e73, Preview: https://p.scdn.co/mp3-preview/39cb4ffd2b94e20533913ea52cff60054ea0f118
+    Song: I Don't Care - Single Version, Artist: Fall Out Boy, Image: https://i.scdn.co/image/ab67616d0000b2739dea43e1ba135094aae5a600, Preview: https://p.scdn.co/mp3-preview/a4fddd6463cb7c3f612509569b52055c05e53746
 SUCCESS: Market: CA, Genre: Rock, Artist: Fall Out Boy
-    Song: We Didn’t Start The Fire (Bonus Track), Artist: Fall Out Boy, Image: https://i.scdn.co/image/ab67616d0000b273fd0ad203a3d2a2343d889a95, Preview: https://p.scdn.co/mp3-preview/39cb4ffd2b94e20533913ea52cff60054ea0f118
-    Song: Dance, Dance, Artist: Fall Out Boy, Image: https://i.scdn.co/image/ab67616d0000b27371565eda831124be86c603d5, Preview: https://p.scdn.co/mp3-preview/398fc812d44d1777c638905903c8a575997cee84
-SUCCESS: Market: GB, Genre: Rock, Artist: Fall Out Boy
-    Song: Immortals, Artist: Fall Out Boy, Image: https://i.scdn.co/image/ab67616d0000b2733cf1c1dbcfa3f1ab7282719b, Preview: https://p.scdn.co/mp3-preview/bd7572611f9c06e4003f09e97ef51499dcc4ae8a
-    Song: Heartbreak Feels So Good, Artist: Fall Out Boy, Image: https://i.scdn.co/image/ab67616d0000b273fd0ad203a3d2a2343d889a95, Preview: https://p.scdn.co/mp3-preview/a978e6d15c8a11edcad391480ce14387a705de7f
-SUCCESS: Market: AU, Genre: Rock, Artist: Fall Out Boy
-    Song: "The Take Over, The Breaks Over", Artist: Fall Out Boy, Image: https://i.scdn.co/image/ab67616d0000b273da071ae7564949fbbfc6904d, Preview: https://p.scdn.co/mp3-preview/a87177514e7c3b69f8bd7cd609ec1f07c7acb656
-    Song: Immortals - From "Big Hero 6”, Artist: Fall Out Boy, Image: https://i.scdn.co/image/ab67616d0000b2735f7e46fecb396f3f2542c850, Preview: https://p.scdn.co/mp3-preview/f8a17a8b49522d2faad7896951b423c2998b4faf
-SUCCESS: Market: DE, Genre: Rock, Artist: Fall Out Boy
+    Song: A Little Less Sixteen Candles, A Little More "Touch Me", Artist: Fall Out Boy, Image: https://i.scdn.co/image/ab67616d0000b27371565eda831124be86c603d5, Preview: https://p.scdn.co/mp3-preview/9a0ac5e668fef7fbb306534ceff3206cdac60af5
     Song: The Last Of The Real Ones, Artist: Fall Out Boy, Image: https://i.scdn.co/image/ab67616d0000b273bc8d2b3ac36be53be9a38fe1, Preview: https://p.scdn.co/mp3-preview/34417e50fd480351c4166510bcb048f4bfb07164
+SUCCESS: Market: GB, Genre: Rock, Artist: Fall Out Boy
+    Song: Heartbreak Feels So Good, Artist: Fall Out Boy, Image: https://i.scdn.co/image/ab67616d0000b273fd0ad203a3d2a2343d889a95, Preview: https://p.scdn.co/mp3-preview/a978e6d15c8a11edcad391480ce14387a705de7f
+    Song: Grand Theft Autumn / Where Is Your Boy, Artist: Fall Out Boy, Image: https://i.scdn.co/image/ab67616d0000b273b3e13979bf4f6515020fbaea, Preview: https://p.scdn.co/mp3-preview/fa587f5aa697bda8ef6fd598cf9894c6e86a901d
+SUCCESS: Market: AU, Genre: Rock, Artist: Fall Out Boy
+    Song: Uma Thurman, Artist: Fall Out Boy, Image: https://i.scdn.co/image/ab67616d0000b2733cf1c1dbcfa3f1ab7282719b, Preview: https://p.scdn.co/mp3-preview/30f1f9e13ed0a8bf13668aab2c2523f509604b59
+    Song: The Phoenix, Artist: Fall Out Boy, Image: https://i.scdn.co/image/ab67616d0000b273483a98632e23f6d2623ab75c, Preview: https://p.scdn.co/mp3-preview/051fd41a43ae401cf4c36909fdbed8e4d58207bc
+SUCCESS: Market: DE, Genre: Rock, Artist: Fall Out Boy
     Song: Irresistible, Artist: Fall Out Boy, Image: https://i.scdn.co/image/ab67616d0000b2733cf1c1dbcfa3f1ab7282719b, Preview: https://p.scdn.co/mp3-preview/bbeb7ee567f35d0db1b62b5db8829f99e2538e0a
+    Song: Thnks fr th Mmrs, Artist: Fall Out Boy, Image: https://i.scdn.co/image/ab67616d0000b273da071ae7564949fbbfc6904d, Preview: https://p.scdn.co/mp3-preview/efc79db86b5ce942f8cb8f693a42bf1da6a5bf30
 SUCCESS: Market: US, Genre: Rock, Artist: Imagine Dragons
-    Song: Radioactive, Artist: Imagine Dragons, Image: https://i.scdn.co/image/ab67616d0000b273b2b2747c89d2157b0b29fb6a, Preview: https://p.scdn.co/mp3-preview/10a6946f6466990d6ffee5821d745999c1492932
-    Song: Demons, Artist: Imagine Dragons, Image: https://i.scdn.co/image/ab67616d0000b273b2b2747c89d2157b0b29fb6a, Preview: https://p.scdn.co/mp3-preview/dffa47dbbfe06cff32e8b676e66e7d50ad358ca7
+    Song: Enemy (with JID) - from the series Arcane League of Legends, Artist: Imagine Dragons, Image: https://i.scdn.co/image/ab67616d0000b273fc915b69600dce2991a61f13, Preview: https://p.scdn.co/mp3-preview/7f4f896ba1b8bca78a515778f0ee0da380d198a6
+    Song: Shots - Broiler Remix, Artist: Imagine Dragons, Image: https://i.scdn.co/image/ab67616d0000b273bb66726142219af92b20b8d6, Preview: https://p.scdn.co/mp3-preview/d651005af8223a0f4f35d8d629d40536326f34c2
 SUCCESS: Market: CA, Genre: Rock, Artist: Imagine Dragons
-    Song: Eyes Closed, Artist: Imagine Dragons, Image: https://i.scdn.co/image/ab67616d0000b273bf6adf85773b11a1d06412d6, Preview: https://p.scdn.co/mp3-preview/a502573248e770adb5fe074d377eb290de50154f
-    Song: Demons, Artist: Imagine Dragons, Image: https://i.scdn.co/image/ab67616d0000b273b2b2747c89d2157b0b29fb6a, Preview: https://p.scdn.co/mp3-preview/dffa47dbbfe06cff32e8b676e66e7d50ad358ca7
-SUCCESS: Market: GB, Genre: Rock, Artist: Imagine Dragons
-    Song: Eyes Closed (feat. J Balvin), Artist: Imagine Dragons, Image: https://i.scdn.co/image/ab67616d0000b2732361269ebe07ac27abe1980a, Preview: https://p.scdn.co/mp3-preview/f451be8f7b956b65d2e7a476b861e44d1758e02b
     Song: Enemy - From the series Arcane League of Legends, Artist: Imagine Dragons, Image: https://i.scdn.co/image/ab67616d0000b27337706d3b594fa52d5a1ef026, Preview: https://p.scdn.co/mp3-preview/9ebacc310414a266e906d94a49a370773ade7e7d
+    Song: Radioactive, Artist: Imagine Dragons, Image: https://i.scdn.co/image/ab67616d0000b273b2b2747c89d2157b0b29fb6a, Preview: https://p.scdn.co/mp3-preview/10a6946f6466990d6ffee5821d745999c1492932
+SUCCESS: Market: GB, Genre: Rock, Artist: Imagine Dragons
+    Song: Warriors, Artist: Imagine Dragons, Image: https://i.scdn.co/image/ab67616d0000b27336f0824f12d62da009f2ea6a, Preview: https://p.scdn.co/mp3-preview/c8d8de2df8c90a00fe44fa23bca66d81cdecfede
+    Song: Demons, Artist: Imagine Dragons, Image: https://i.scdn.co/image/ab67616d0000b273407bd04707c463bbb3410737, Preview: https://p.scdn.co/mp3-preview/dffa47dbbfe06cff32e8b676e66e7d50ad358ca7
 SUCCESS: Market: AU, Genre: Rock, Artist: Imagine Dragons
-    Song: Thunder, Artist: Imagine Dragons, Image: https://i.scdn.co/image/ab67616d0000b2735675e83f707f1d7271e5cf8a, Preview: https://p.scdn.co/mp3-preview/ef62eb257ada5dd10002ebb8aa6ba2889a96dde4
-    Song: Radioactive, Artist: Imagine Dragons, Image: https://i.scdn.co/image/ab67616d0000b273407bd04707c463bbb3410737, Preview: https://p.scdn.co/mp3-preview/10a6946f6466990d6ffee5821d745999c1492932
+    Song: Demons, Artist: Imagine Dragons, Image: https://i.scdn.co/image/ab67616d0000b273407bd04707c463bbb3410737, Preview: https://p.scdn.co/mp3-preview/dffa47dbbfe06cff32e8b676e66e7d50ad358ca7
+    Song: Bad Liar, Artist: Imagine Dragons, Image: https://i.scdn.co/image/ab67616d0000b273da6f73a25f4c79d0e6b4a8bd, Preview: https://p.scdn.co/mp3-preview/56413ec463879763e7f9f347f82675e2cff6654c
 SUCCESS: Market: DE, Genre: Rock, Artist: Imagine Dragons
-    Song: On Top Of The World, Artist: Imagine Dragons, Image: https://i.scdn.co/image/ab67616d0000b273407bd04707c463bbb3410737, Preview: https://p.scdn.co/mp3-preview/63c233fd86794fed3c0b3a3ba5e1e4916e1a23bc
-    Song: Eyes Closed (feat. J Balvin), Artist: Imagine Dragons, Image: https://i.scdn.co/image/ab67616d0000b2732361269ebe07ac27abe1980a, Preview: https://p.scdn.co/mp3-preview/f451be8f7b956b65d2e7a476b861e44d1758e02b
+    Song: Demons, Artist: Imagine Dragons, Image: https://i.scdn.co/image/ab67616d0000b273407bd04707c463bbb3410737, Preview: https://p.scdn.co/mp3-preview/dffa47dbbfe06cff32e8b676e66e7d50ad358ca7
+    Song: Believer, Artist: Imagine Dragons, Image: https://i.scdn.co/image/ab67616d0000b2735675e83f707f1d7271e5cf8a, Preview: https://p.scdn.co/mp3-preview/7d2f1ec114c44ecfa8b9017ad1c01cb041c8e613
 SUCCESS: Market: US, Genre: Rock, Artist: Guns N' Roses
-    Song: My Michelle, Artist: Guns N' Roses, Image: https://i.scdn.co/image/ab67616d0000b27321ebf49b3292c3f0f575f0f5, Preview: https://p.scdn.co/mp3-preview/e46cc8dfdc2903f1cf51d815d95200a5a19b791a
-    Song: Used To Love Her, Artist: Guns N' Roses, Image: https://i.scdn.co/image/ab67616d0000b2737e1774622a9c5f52b7dd1c33, Preview: https://p.scdn.co/mp3-preview/5200a450dc86b8fbe16b481e005456cee64430e1
-SUCCESS: Market: CA, Genre: Rock, Artist: Guns N' Roses
-    Song: Sweet Child O' Mine, Artist: Guns N' Roses, Image: https://i.scdn.co/image/ab67616d0000b27321ebf49b3292c3f0f575f0f5, Preview: https://p.scdn.co/mp3-preview/a941cdd2c0c74206aaa6d7e459e4fdf1d738deaa
-    Song: Live And Let Die, Artist: Guns N' Roses, Image: https://i.scdn.co/image/ab67616d0000b273e44963b8bb127552ac761873, Preview: https://p.scdn.co/mp3-preview/78340097d6a0bee4883b6341756ba2cc5e1b97e8
-SUCCESS: Market: GB, Genre: Rock, Artist: Guns N' Roses
-    Song: Since I Don't Have You, Artist: Guns N' Roses, Image: https://i.scdn.co/image/ab67616d0000b273d8a68fd3e16f7ff6932b47d9, Preview: https://p.scdn.co/mp3-preview/383fda72c385e119f286471891e3a8ac5cb3073a
     Song: Mr. Brownstone, Artist: Guns N' Roses, Image: https://i.scdn.co/image/ab67616d0000b27321ebf49b3292c3f0f575f0f5, Preview: https://p.scdn.co/mp3-preview/ddc4ef45e775027faf1bcdeea00c86df540d5fb1
+    Song: You Could Be Mine, Artist: Guns N' Roses, Image: https://i.scdn.co/image/ab67616d0000b27392d21aef6c0d288cc4c05973, Preview: https://p.scdn.co/mp3-preview/bbf56f59852f3c987c0a69f7b1f81b572e5ebc9f
+SUCCESS: Market: CA, Genre: Rock, Artist: Guns N' Roses
+    Song: You Could Be Mine, Artist: Guns N' Roses, Image: https://i.scdn.co/image/ab67616d0000b27392d21aef6c0d288cc4c05973, Preview: https://p.scdn.co/mp3-preview/bbf56f59852f3c987c0a69f7b1f81b572e5ebc9f
+    Song: Nightrain, Artist: Guns N' Roses, Image: https://i.scdn.co/image/ab67616d0000b27321ebf49b3292c3f0f575f0f5, Preview: https://p.scdn.co/mp3-preview/f2928066ce385e35526d33ce5875403e887496aa
+SUCCESS: Market: GB, Genre: Rock, Artist: Guns N' Roses
+    Song: Live And Let Die, Artist: Guns N' Roses, Image: https://i.scdn.co/image/ab67616d0000b273e44963b8bb127552ac761873, Preview: https://p.scdn.co/mp3-preview/78340097d6a0bee4883b6341756ba2cc5e1b97e8
+    Song: Used To Love Her, Artist: Guns N' Roses, Image: https://i.scdn.co/image/ab67616d0000b2737e1774622a9c5f52b7dd1c33, Preview: https://p.scdn.co/mp3-preview/5200a450dc86b8fbe16b481e005456cee64430e1
 SUCCESS: Market: AU, Genre: Rock, Artist: Guns N' Roses
-    Song: My Michelle, Artist: Guns N' Roses, Image: https://i.scdn.co/image/ab67616d0000b27321ebf49b3292c3f0f575f0f5, Preview: https://p.scdn.co/mp3-preview/e46cc8dfdc2903f1cf51d815d95200a5a19b791a
-    Song: Civil War, Artist: Guns N' Roses, Image: https://i.scdn.co/image/ab67616d0000b27392d21aef6c0d288cc4c05973, Preview: https://p.scdn.co/mp3-preview/cad8fe33309ede089e3ecedd4b9edef5930c3360
+    Song: Mr. Brownstone, Artist: Guns N' Roses, Image: https://i.scdn.co/image/ab67616d0000b27321ebf49b3292c3f0f575f0f5, Preview: https://p.scdn.co/mp3-preview/ddc4ef45e775027faf1bcdeea00c86df540d5fb1
+    Song: Paradise City, Artist: Guns N' Roses, Image: https://i.scdn.co/image/ab67616d0000b27321ebf49b3292c3f0f575f0f5, Preview: https://p.scdn.co/mp3-preview/6c99e08ad1885d08023354ac96b546ffe3dee44b
 SUCCESS: Market: DE, Genre: Rock, Artist: Guns N' Roses
     Song: Since I Don't Have You, Artist: Guns N' Roses, Image: https://i.scdn.co/image/ab67616d0000b273d8a68fd3e16f7ff6932b47d9, Preview: https://p.scdn.co/mp3-preview/383fda72c385e119f286471891e3a8ac5cb3073a
-    Song: Don't Cry (Original), Artist: Guns N' Roses, Image: https://i.scdn.co/image/ab67616d0000b273e44963b8bb127552ac761873, Preview: https://p.scdn.co/mp3-preview/9629f477f594def6531865c7783910a0a85473a0
-FAILED: Market: US, Genre: Rock, Artist: Coldplay
-FAILED: Market: CA, Genre: Rock, Artist: Coldplay
-FAILED: Market: GB, Genre: Rock, Artist: Coldplay
-FAILED: Market: AU, Genre: Rock, Artist: Coldplay
-FAILED: Market: DE, Genre: Rock, Artist: Coldplay
+    Song: November Rain, Artist: Guns N' Roses, Image: https://i.scdn.co/image/ab67616d0000b273e44963b8bb127552ac761873, Preview: https://p.scdn.co/mp3-preview/98deb9c370bbaa350be058b3470fbe3bc1e28d9d
 SUCCESS: Market: US, Genre: Rap, Artist: Drake
-    Song: One Dance, Artist: Drake, Image: https://i.scdn.co/image/ab67616d0000b2739416ed64daf84936d89e671c, Preview: https://p.scdn.co/mp3-preview/0ee5843f6060102ce4ac239c856c452439e3d9d2
-    Song: Best I Ever Had, Artist: Drake, Image: https://i.scdn.co/image/ab67616d0000b27354ef13c30a024a7f1ba79efd, Preview: https://p.scdn.co/mp3-preview/6de38d9beebc2f5e219b6191ea5f26fca5cd138a
+    Song: IDGAF (feat. Yeat), Artist: Drake, Image: https://i.scdn.co/image/ab67616d0000b2737d384516b23347e92a587ed1, Preview: https://p.scdn.co/mp3-preview/c23e9088d5bbab9edfb8e6c37af8e8eee0016e39
+    Song: Push Ups, Artist: Drake, Image: https://i.scdn.co/image/ab67616d0000b27384bfd0d363f0179ac7c97fa5, Preview: https://p.scdn.co/mp3-preview/6890d6f0749ecec39ce0bc1811b144ba1c19f7ee
 SUCCESS: Market: CA, Genre: Rap, Artist: Drake
-    Song: Wants and Needs (feat. Lil Baby), Artist: Drake, Image: https://i.scdn.co/image/ab67616d0000b2738b20e4631fa15d3953528bbc, Preview: https://p.scdn.co/mp3-preview/ea0ccb0e07adce9579d8afe74dbbf3b0ee781b39
-    Song: Fair Trade (with Travis Scott), Artist: Drake, Image: https://i.scdn.co/image/ab67616d0000b273cd945b4e3de57edd28481a3f, Preview: https://p.scdn.co/mp3-preview/eb11d1cbc3babe956721c8292a3c825dbf326bcf
+    Song: Push Ups, Artist: Drake, Image: https://i.scdn.co/image/ab67616d0000b27384bfd0d363f0179ac7c97fa5, Preview: https://p.scdn.co/mp3-preview/6890d6f0749ecec39ce0bc1811b144ba1c19f7ee
+    Song: Spin Bout U, Artist: Drake, Image: https://i.scdn.co/image/ab67616d0000b27302854a7060fccc1a66a4b5ad, Preview: https://p.scdn.co/mp3-preview/bf533782827ca15d534a816a0224761be5981d62
 SUCCESS: Market: GB, Genre: Rap, Artist: Drake
-    Song: First Person Shooter (feat. J. Cole), Artist: Drake, Image: https://i.scdn.co/image/ab67616d0000b2737d384516b23347e92a587ed1, Preview: https://p.scdn.co/mp3-preview/a4d013ad2c035152398ea652a7b5a0e374777432
-    Song: Passionfruit, Artist: Drake, Image: https://i.scdn.co/image/ab67616d0000b2734f0fd9dad63977146e685700, Preview: https://p.scdn.co/mp3-preview/f54450b33a17422d771eb9c70f171cb015273dc9
-SUCCESS: Market: AU, Genre: Rap, Artist: Drake
-    Song: Nonstop, Artist: Drake, Image: https://i.scdn.co/image/ab67616d0000b273f907de96b9a4fbc04accc0d5, Preview: https://p.scdn.co/mp3-preview/1edbb0fb6707a57c5ed958bb5bf47b16862d36f7
     Song: Nice For What, Artist: Drake, Image: https://i.scdn.co/image/ab67616d0000b273f907de96b9a4fbc04accc0d5, Preview: https://p.scdn.co/mp3-preview/6cafe308e1bee1313826b475a40d39a3eb3204c2
+    Song: Rich Baby Daddy (feat. Sexyy Red & SZA), Artist: Drake, Image: https://i.scdn.co/image/ab67616d0000b2737d384516b23347e92a587ed1, Preview: https://p.scdn.co/mp3-preview/b05595d63200498786692be1f6d79f1685b4e2b5
+SUCCESS: Market: AU, Genre: Rap, Artist: Drake
+    Song: Hold On, We're Going Home, Artist: Drake, Image: https://i.scdn.co/image/ab67616d0000b273adfb5909ec66db5fbb4d06c8, Preview: https://p.scdn.co/mp3-preview/899e6ab1f648df2dbfc67d1ac1bc9852f4537dd6
+    Song: Jimmy Cooks (feat. 21 Savage), Artist: Drake, Image: https://i.scdn.co/image/ab67616d0000b2738dc0d801766a5aa6a33cbe37, Preview: https://p.scdn.co/mp3-preview/0859116d6b69da68199ee5d8153bf9e33771267c
 SUCCESS: Market: DE, Genre: Rap, Artist: Drake
-    Song: Family Matters, Artist: Drake, Image: https://i.scdn.co/image/ab67616d0000b273a0ac23f4b446a7264e67bf0e, Preview: https://p.scdn.co/mp3-preview/1e4eea2082249ef2edc50fa9c4aac68be72bd3a1
+    Song: Money In The Grave (Drake ft. Rick Ross), Artist: Drake, Image: https://i.scdn.co/image/ab67616d0000b2733f3b653b0a7b9e889a712c3d, Preview: https://p.scdn.co/mp3-preview/77c4e124f56fbb1e7c5f2715fb9db0a3567c44bb
     Song: Push Ups, Artist: Drake, Image: https://i.scdn.co/image/ab67616d0000b27384bfd0d363f0179ac7c97fa5, Preview: https://p.scdn.co/mp3-preview/6890d6f0749ecec39ce0bc1811b144ba1c19f7ee
 SUCCESS: Market: US, Genre: Rap, Artist: Nicki Minaj
-    Song: Did It On’em, Artist: Nicki Minaj, Image: https://i.scdn.co/image/ab67616d0000b273c17570626959bfa6c2435925, Preview: https://p.scdn.co/mp3-preview/5a514b74a2c8a0550e0349d783953cb558e4a56e
+    Song: Super Bass, Artist: Nicki Minaj, Image: https://i.scdn.co/image/ab67616d0000b273aa7d2641af0fa4c1f76fafbf, Preview: https://p.scdn.co/mp3-preview/35b028e2715bda58ffaabb3b8bde86f40d9288e6
     Song: Barbie World (with Aqua) [From Barbie The Album], Artist: Nicki Minaj, Image: https://i.scdn.co/image/ab67616d0000b2737e8f938c02fac3b564931116, Preview: https://p.scdn.co/mp3-preview/f654928ccaa4e6a9fb09a6eb3f208383eccc12a9
 SUCCESS: Market: CA, Genre: Rap, Artist: Nicki Minaj
-    Song: Let Me Calm Down (feat. J. Cole), Artist: Nicki Minaj, Image: https://i.scdn.co/image/ab67616d0000b273651e1dbc0b5218f2306181a1, Preview: https://p.scdn.co/mp3-preview/909235c66f630d4b1c665744ee6df3bc3da85661
-    Song: Beep Beep, Artist: Nicki Minaj, Image: https://i.scdn.co/image/ab67616d0000b273651e1dbc0b5218f2306181a1, Preview: https://p.scdn.co/mp3-preview/fbbf6ed326c6c7a7d6f7bfb96999f0c26847e8ae
+    Song: Only, Artist: Nicki Minaj, Image: https://i.scdn.co/image/ab67616d0000b2730f79d1616e3b02368d41f458, Preview: https://p.scdn.co/mp3-preview/439448e65b3724dfdf13d8caf23dee0f6b418095
+    Song: FTCU (feat. Travis Scott, Chris Brown & Sexyy Red) - SLEEZEMIX, Artist: Nicki Minaj, Image: https://i.scdn.co/image/ab67616d0000b27371021793f092b0214d249ed7, Preview: https://p.scdn.co/mp3-preview/0cf9e713bf40ae5a967c1f1c2c0a8b614d7bc280
 SUCCESS: Market: GB, Genre: Rap, Artist: Nicki Minaj
-    Song: Feeling Myself, Artist: Nicki Minaj, Image: https://i.scdn.co/image/ab67616d0000b27305d647d0e976e7fb2460492e, Preview: https://p.scdn.co/mp3-preview/1b9cdd5436d2cadd5fcb5d72b9814507275f1665
     Song: Super Bass, Artist: Nicki Minaj, Image: https://i.scdn.co/image/ab67616d0000b273aa7d2641af0fa4c1f76fafbf, Preview: https://p.scdn.co/mp3-preview/35b028e2715bda58ffaabb3b8bde86f40d9288e6
-SUCCESS: Market: AU, Genre: Rap, Artist: Nicki Minaj
-    Song: Needle (feat. Drake), Artist: Nicki Minaj, Image: https://i.scdn.co/image/ab67616d0000b273651e1dbc0b5218f2306181a1, Preview: https://p.scdn.co/mp3-preview/8702582c66c07cc5260d9e8f29badbb2b0cc9147
-    Song: Everybody (feat. Lil Uzi Vert), Artist: Nicki Minaj, Image: https://i.scdn.co/image/ab67616d0000b273651e1dbc0b5218f2306181a1, Preview: https://p.scdn.co/mp3-preview/b2aafc5b95837a99cfc5d08328f3d3f720a53729
-SUCCESS: Market: DE, Genre: Rap, Artist: Nicki Minaj
     Song: The Night Is Still Young, Artist: Nicki Minaj, Image: https://i.scdn.co/image/ab67616d0000b27305d647d0e976e7fb2460492e, Preview: https://p.scdn.co/mp3-preview/014d325976d5f3672c9a5d0ce734303ebea8ae4e
-    Song: Anaconda, Artist: Nicki Minaj, Image: https://i.scdn.co/image/ab67616d0000b27305d647d0e976e7fb2460492e, Preview: https://p.scdn.co/mp3-preview/6bc615b589c833affd4ad11de627ec4048191c4c
+SUCCESS: Market: AU, Genre: Rap, Artist: Nicki Minaj
+    Song: Va Va Voom, Artist: Nicki Minaj, Image: https://i.scdn.co/image/ab67616d0000b2734f0aae4e435a794e0e24d115, Preview: https://p.scdn.co/mp3-preview/e22b68476e99beaefcab739fa797add6d89cbaf1
+    Song: Moment 4 Life, Artist: Nicki Minaj, Image: https://i.scdn.co/image/ab67616d0000b273c17570626959bfa6c2435925, Preview: https://p.scdn.co/mp3-preview/6f32e0c9f8c2f1175e98331565cdc28005859121
+SUCCESS: Market: DE, Genre: Rap, Artist: Nicki Minaj
+    Song: Everybody (feat. Lil Uzi Vert), Artist: Nicki Minaj, Image: https://i.scdn.co/image/ab67616d0000b273651e1dbc0b5218f2306181a1, Preview: https://p.scdn.co/mp3-preview/b2aafc5b95837a99cfc5d08328f3d3f720a53729
+    Song: Fallin 4 U, Artist: Nicki Minaj, Image: https://i.scdn.co/image/ab67616d0000b27352c34bbc779284b0d820d8ce, Preview: https://p.scdn.co/mp3-preview/c18a06d48da87db67c81b15eec24562da0443ac7
 SUCCESS: Market: US, Genre: Rap, Artist: Eminem
-    Song: Lose Yourself, Artist: Eminem, Image: https://i.scdn.co/image/ab67616d0000b273eab40fc794b88b9d1e012578, Preview: https://p.scdn.co/mp3-preview/f943c5b5954918a2dbeb13981861859f77978d12
-    Song: Rap God, Artist: Eminem, Image: https://i.scdn.co/image/ab67616d0000b273c6338d684995af10c2bf0533, Preview: https://p.scdn.co/mp3-preview/b16c7465d64cbd4ade2c5f41cab76c88e9e5e4ee
+    Song: Venom - Music From The Motion Picture, Artist: Eminem, Image: https://i.scdn.co/image/ab67616d0000b273e4073def0c03a91e3fceaf73, Preview: https://p.scdn.co/mp3-preview/c7e59d4e419a732e80a5b75e6c40dfccb3bd1780
+    Song: Sing For The Moment, Artist: Eminem, Image: https://i.scdn.co/image/ab67616d0000b2736ca5c90113b30c3c43ffb8f4, Preview: https://p.scdn.co/mp3-preview/2c2218eb50111c78745e5de8793c39722e9c87a1
 SUCCESS: Market: CA, Genre: Rap, Artist: Eminem
     Song: Stan, Artist: Eminem, Image: https://i.scdn.co/image/ab67616d0000b273dbb3dd82da45b7d7f31b1b42, Preview: https://p.scdn.co/mp3-preview/966406ecff01a973669e1457b17fdd7e7089d454
-    Song: Superman, Artist: Eminem, Image: https://i.scdn.co/image/ab67616d0000b2736ca5c90113b30c3c43ffb8f4, Preview: https://p.scdn.co/mp3-preview/8625034728d0e1a6971ab17f003fecaad74f63b4
+    Song: The Real Slim Shady, Artist: Eminem, Image: https://i.scdn.co/image/ab67616d0000b273dbb3dd82da45b7d7f31b1b42, Preview: https://p.scdn.co/mp3-preview/a3cb1372a99a0944063b535182eef6ad80d43087
 SUCCESS: Market: GB, Genre: Rap, Artist: Eminem
-    Song: Superman, Artist: Eminem, Image: https://i.scdn.co/image/ab67616d0000b2736ca5c90113b30c3c43ffb8f4, Preview: https://p.scdn.co/mp3-preview/8625034728d0e1a6971ab17f003fecaad74f63b4
-    Song: Rap God, Artist: Eminem, Image: https://i.scdn.co/image/ab67616d0000b273c6338d684995af10c2bf0533, Preview: https://p.scdn.co/mp3-preview/b16c7465d64cbd4ade2c5f41cab76c88e9e5e4ee
+    Song: The Way I Am, Artist: Eminem, Image: https://i.scdn.co/image/ab67616d0000b273dbb3dd82da45b7d7f31b1b42, Preview: https://p.scdn.co/mp3-preview/5e73b6e2959e9ef8f01a5cbe3545f55dacc6780c
+    Song: Mockingbird, Artist: Eminem, Image: https://i.scdn.co/image/ab67616d0000b273726d48d93d02e1271774f023, Preview: https://p.scdn.co/mp3-preview/43887419c9301358d28b7d487dfeb078f9668a6a
 SUCCESS: Market: AU, Genre: Rap, Artist: Eminem
     Song: Shake That, Artist: Eminem, Image: https://i.scdn.co/image/ab67616d0000b273eab40fc794b88b9d1e012578, Preview: https://p.scdn.co/mp3-preview/ef21caa4bb550ace222f1517dcc583fa889c5a64
-    Song: The Monster, Artist: Eminem, Image: https://i.scdn.co/image/ab67616d0000b2733c65085a58aae2cccd892cbe, Preview: https://p.scdn.co/mp3-preview/dd22524a409b15fab0702e1c4306609b3c79a6c4
+    Song: The Way I Am, Artist: Eminem, Image: https://i.scdn.co/image/ab67616d0000b273dbb3dd82da45b7d7f31b1b42, Preview: https://p.scdn.co/mp3-preview/5e73b6e2959e9ef8f01a5cbe3545f55dacc6780c
 SUCCESS: Market: DE, Genre: Rap, Artist: Eminem
     Song: Love The Way You Lie, Artist: Eminem, Image: https://i.scdn.co/image/ab67616d0000b273c08d5fa5c0f1a834acef5100, Preview: https://p.scdn.co/mp3-preview/3824afd426e7ebbba4e107f811f7506ea3416db0
-    Song: Superman, Artist: Eminem, Image: https://i.scdn.co/image/ab67616d0000b2736ca5c90113b30c3c43ffb8f4, Preview: https://p.scdn.co/mp3-preview/8625034728d0e1a6971ab17f003fecaad74f63b4
-FAILED: Market: US, Genre: Rap, Artist: Doja Cat
-FAILED: Market: CA, Genre: Rap, Artist: Doja Cat
-FAILED: Market: GB, Genre: Rap, Artist: Doja Cat
-FAILED: Market: AU, Genre: Rap, Artist: Doja Cat
-FAILED: Market: DE, Genre: Rap, Artist: Doja Cat
+    Song: The Monster, Artist: Eminem, Image: https://i.scdn.co/image/ab67616d0000b2733c65085a58aae2cccd892cbe, Preview: https://p.scdn.co/mp3-preview/dd22524a409b15fab0702e1c4306609b3c79a6c4
 SUCCESS: Market: US, Genre: Rap, Artist: Kanye West
-    Song: Good Life, Artist: Kanye West, Image: https://i.scdn.co/image/ab67616d0000b27326f7f19c7f0381e56156c94a, Preview: https://p.scdn.co/mp3-preview/bc34b195574e5684735b60ce124b057f84628636
-    Song: Ghost Town, Artist: Kanye West, Image: https://i.scdn.co/image/ab67616d0000b2730cd942c1a864afa4e92d04f2, Preview: https://p.scdn.co/mp3-preview/b01411c77500efa3830f69a04a0026d5cb01f3e7
+    Song: POWER, Artist: Kanye West, Image: https://i.scdn.co/image/ab67616d0000b273d9194aa18fa4c9362b47464f, Preview: https://p.scdn.co/mp3-preview/0d5423c5f4d41582149e1ebcf13279964fa76428
+    Song: Devil In A New Dress, Artist: Kanye West, Image: https://i.scdn.co/image/ab67616d0000b273d9194aa18fa4c9362b47464f, Preview: https://p.scdn.co/mp3-preview/27da2905d952787da75df1b57038d0182e1f2e33
 SUCCESS: Market: CA, Genre: Rap, Artist: Kanye West
-    Song: Father Stretch My Hands Pt. 1, Artist: Kanye West, Image: https://i.scdn.co/image/ab67616d0000b2732a7db835b912dc5014bd37f4, Preview: https://p.scdn.co/mp3-preview/92e9e2777d5300825d0f14e8afab4c693c4546bb
-    Song: Runaway, Artist: Kanye West, Image: https://i.scdn.co/image/ab67616d0000b273d9194aa18fa4c9362b47464f, Preview: https://p.scdn.co/mp3-preview/a1f828c57ecf2b61cee888d956e5b59aebb14610
+    Song: Everything I Am, Artist: Kanye West, Image: https://i.scdn.co/image/ab67616d0000b27326f7f19c7f0381e56156c94a, Preview: https://p.scdn.co/mp3-preview/cd7c85a242b759c26cce4eb6f81a3c29c5038482
+    Song: Heartless, Artist: Kanye West, Image: https://i.scdn.co/image/ab67616d0000b273346d77e155d854735410ed18, Preview: https://p.scdn.co/mp3-preview/920b09535e94d18179265783aeb8b3ccb2495977
 SUCCESS: Market: GB, Genre: Rap, Artist: Kanye West
-    Song: Stronger, Artist: Kanye West, Image: https://i.scdn.co/image/ab67616d0000b27326f7f19c7f0381e56156c94a, Preview: https://p.scdn.co/mp3-preview/998124b19664ac7c039651111eda40e8ed4d4292
-    Song: I Wonder, Artist: Kanye West, Image: https://i.scdn.co/image/ab67616d0000b27326f7f19c7f0381e56156c94a, Preview: https://p.scdn.co/mp3-preview/22169e0212f8e77e0bb753c4d5cf1befae619997
+    Song: Gold Digger, Artist: Kanye West, Image: https://i.scdn.co/image/ab67616d0000b273d79ba8ad2be777bad0e9924b, Preview: https://p.scdn.co/mp3-preview/c07d8315fb8fc3a820a312e29961c96a2e7d7229
+    Song: Heartless, Artist: Kanye West, Image: https://i.scdn.co/image/ab67616d0000b27365fbf56c2837be4879b5020a, Preview: https://p.scdn.co/mp3-preview/920b09535e94d18179265783aeb8b3ccb2495977
 SUCCESS: Market: AU, Genre: Rap, Artist: Kanye West
     Song: All Of The Lights, Artist: Kanye West, Image: https://i.scdn.co/image/ab67616d0000b273d9194aa18fa4c9362b47464f, Preview: https://p.scdn.co/mp3-preview/5225c99f6301a3fbe3bdd9f8af1579ad5416828c
-    Song: All Falls Down, Artist: Kanye West, Image: https://i.scdn.co/image/ab67616d0000b27325b055377757b3cdd6f26b78, Preview: https://p.scdn.co/mp3-preview/9e7b45a12d4b010d5ebae0ee4fab1ee5935bf881
+    Song: Ghost Town, Artist: Kanye West, Image: https://i.scdn.co/image/ab67616d0000b2730cd942c1a864afa4e92d04f2, Preview: https://p.scdn.co/mp3-preview/b01411c77500efa3830f69a04a0026d5cb01f3e7
 SUCCESS: Market: DE, Genre: Rap, Artist: Kanye West
-    Song: Stronger, Artist: Kanye West, Image: https://i.scdn.co/image/ab67616d0000b27326f7f19c7f0381e56156c94a, Preview: https://p.scdn.co/mp3-preview/998124b19664ac7c039651111eda40e8ed4d4292
-    Song: All Of The Lights, Artist: Kanye West, Image: https://i.scdn.co/image/ab67616d0000b273d9194aa18fa4c9362b47464f, Preview: https://p.scdn.co/mp3-preview/5225c99f6301a3fbe3bdd9f8af1579ad5416828c
+    Song: Follow God, Artist: Kanye West, Image: https://i.scdn.co/image/ab67616d0000b2731bb797bbfe2480650b6c2964, Preview: https://p.scdn.co/mp3-preview/332d97b8a0ff9b94e6789b038c2e96eb32128655
+    Song: Gold Digger, Artist: Kanye West, Image: https://i.scdn.co/image/ab67616d0000b273428d2255141c2119409a31b2, Preview: https://p.scdn.co/mp3-preview/c07d8315fb8fc3a820a312e29961c96a2e7d7229
 SUCCESS: Market: US, Genre: Pop, Artist: Maroon 5
-    Song: This Love, Artist: Maroon 5, Image: https://i.scdn.co/image/ab67616d0000b27392f2d790c6a97b195f66d51e, Preview: https://p.scdn.co/mp3-preview/05d17c445a19455c74237d48b5d6e780f899f1ee
-    Song: She Will Be Loved - Radio Mix, Artist: Maroon 5, Image: https://i.scdn.co/image/ab67616d0000b27392f2d790c6a97b195f66d51e, Preview: https://p.scdn.co/mp3-preview/b74550324d855c9b03d2fd66e7fa6c6f02bd5699
+    Song: One More Night, Artist: Maroon 5, Image: https://i.scdn.co/image/ab67616d0000b273ce7d499847da02a9cbd1c084, Preview: https://p.scdn.co/mp3-preview/360b014557b4207b39da6a84b6023dd87fcd77ac
+    Song: Don't Wanna Know (feat. Kendrick Lamar), Artist: Maroon 5, Image: https://i.scdn.co/image/ab67616d0000b273fc4852898bc6ed85b3e3f89c, Preview: https://p.scdn.co/mp3-preview/7e9c77a2e24e979397d07e24be75e4e3148670e0
 SUCCESS: Market: CA, Genre: Pop, Artist: Maroon 5
+    Song: Don't Wanna Know (feat. Kendrick Lamar), Artist: Maroon 5, Image: https://i.scdn.co/image/ab67616d0000b273fc4852898bc6ed85b3e3f89c, Preview: https://p.scdn.co/mp3-preview/7e9c77a2e24e979397d07e24be75e4e3148670e0
     Song: Daylight, Artist: Maroon 5, Image: https://i.scdn.co/image/ab67616d0000b2739d41d73f973cb817462e068a, Preview: https://p.scdn.co/mp3-preview/df5c48d6f507357536167216f400d28f49915ae1
-    Song: Animals, Artist: Maroon 5, Image: https://i.scdn.co/image/ab67616d0000b273442b53773d50e1b5369bb16c, Preview: https://p.scdn.co/mp3-preview/c630a46d6c96188dccf761c6f33f25a1c98ad9c1
 SUCCESS: Market: GB, Genre: Pop, Artist: Maroon 5
-    Song: Don't Wanna Know (feat. Kendrick Lamar), Artist: Maroon 5, Image: https://i.scdn.co/image/ab67616d0000b273deae7d931928fc1543e70203, Preview: https://p.scdn.co/mp3-preview/7e9c77a2e24e979397d07e24be75e4e3148670e0
-    Song: Sunday Morning, Artist: Maroon 5, Image: https://i.scdn.co/image/ab67616d0000b27392f2d790c6a97b195f66d51e, Preview: https://p.scdn.co/mp3-preview/41f14a5612da8fdf53a11d03fb2e705ef3ba2084
+    Song: Daylight, Artist: Maroon 5, Image: https://i.scdn.co/image/ab67616d0000b273fc8633e22a7dba6aab817bff, Preview: https://p.scdn.co/mp3-preview/df5c48d6f507357536167216f400d28f49915ae1
+    Song: She Will Be Loved, Artist: Maroon 5, Image: https://i.scdn.co/image/ab67616d0000b27317b3850d758fff5a2301e537, Preview: https://p.scdn.co/mp3-preview/455f42259196c2c5678b108556ba76a91988cfac
 SUCCESS: Market: AU, Genre: Pop, Artist: Maroon 5
     Song: Won't Go Home Without You, Artist: Maroon 5, Image: https://i.scdn.co/image/ab67616d0000b273515b72d7c72fc65b017a87ea, Preview: https://p.scdn.co/mp3-preview/6c1a81e518b21018bd08dc38cefea909b76ad736
-    Song: Cold (feat. Future), Artist: Maroon 5, Image: https://i.scdn.co/image/ab67616d0000b273deae7d931928fc1543e70203, Preview: https://p.scdn.co/mp3-preview/f67c4cffe880cc85996c827ee90a90b408711b2b
+    Song: Moves Like Jagger - Studio Recording From "The Voice" Performance, Artist: Maroon 5, Image: https://i.scdn.co/image/ab67616d0000b2739585ff55fff75c5c07a619cb, Preview: https://p.scdn.co/mp3-preview/8d8c60dd93ba3d04e8e3c3eaaa8fc4f84d3fd9fe
 SUCCESS: Market: DE, Genre: Pop, Artist: Maroon 5
-    Song: Animals, Artist: Maroon 5, Image: https://i.scdn.co/image/ab67616d0000b273442b53773d50e1b5369bb16c, Preview: https://p.scdn.co/mp3-preview/c630a46d6c96188dccf761c6f33f25a1c98ad9c1
-    Song: Daylight, Artist: Maroon 5, Image: https://i.scdn.co/image/ab67616d0000b273fc8633e22a7dba6aab817bff, Preview: https://p.scdn.co/mp3-preview/df5c48d6f507357536167216f400d28f49915ae1
+    Song: This Love, Artist: Maroon 5, Image: https://i.scdn.co/image/ab67616d0000b27392f2d790c6a97b195f66d51e, Preview: https://p.scdn.co/mp3-preview/05d17c445a19455c74237d48b5d6e780f899f1ee
+    Song: Cold (feat. Future), Artist: Maroon 5, Image: https://i.scdn.co/image/ab67616d0000b273deae7d931928fc1543e70203, Preview: https://p.scdn.co/mp3-preview/f67c4cffe880cc85996c827ee90a90b408711b2b
 SUCCESS: Market: US, Genre: Pop, Artist: Rihanna
-    Song: SOS, Artist: Rihanna, Image: https://i.scdn.co/image/ab67616d0000b273d744a51e193d52170070062b, Preview: https://p.scdn.co/mp3-preview/02282f8a31c4610790c486aea7da19a655e0ae9d
-    Song: Only Girl (In The World), Artist: Rihanna, Image: https://i.scdn.co/image/ab67616d0000b27331548865f7c729290b96c794, Preview: https://p.scdn.co/mp3-preview/ee800fcd3f6b738d5ffe78de8c958eaa2c4de291
+    Song: Love On The Brain, Artist: Rihanna, Image: https://i.scdn.co/image/ab67616d0000b27333c6b920eabcf4c00d7a1093, Preview: https://p.scdn.co/mp3-preview/98cecc1a4554c6100fd1e3bac10b6f56881c6606
+    Song: We Found Love, Artist: Rihanna, Image: https://i.scdn.co/image/ab67616d0000b273bef074de9ca825bddaeb9f46, Preview: https://p.scdn.co/mp3-preview/6a035bc6ac2041a2edcdde555df93cd2af89abef
 SUCCESS: Market: CA, Genre: Pop, Artist: Rihanna
+    Song: S&M, Artist: Rihanna, Image: https://i.scdn.co/image/ab67616d0000b27331548865f7c729290b96c794, Preview: https://p.scdn.co/mp3-preview/6df4d34ea5aba149846ff5a2e10209dad5b2d1fd
     Song: Needed Me, Artist: Rihanna, Image: https://i.scdn.co/image/ab67616d0000b27333c6b920eabcf4c00d7a1093, Preview: https://p.scdn.co/mp3-preview/2dff5fb96a89f131ef1a3396be4868840bc605c9
-    Song: Rude Boy, Artist: Rihanna, Image: https://i.scdn.co/image/ab67616d0000b273ab647295c0c97446c1f1a3b5, Preview: https://p.scdn.co/mp3-preview/f8efdc86bcd76cbfe6ab687ce0d8f3d6d911abe8
 SUCCESS: Market: GB, Genre: Pop, Artist: Rihanna
-    Song: Rude Boy, Artist: Rihanna, Image: https://i.scdn.co/image/ab67616d0000b273ab647295c0c97446c1f1a3b5, Preview: https://p.scdn.co/mp3-preview/f8efdc86bcd76cbfe6ab687ce0d8f3d6d911abe8
-    Song: Only Girl (In The World), Artist: Rihanna, Image: https://i.scdn.co/image/ab67616d0000b27331548865f7c729290b96c794, Preview: https://p.scdn.co/mp3-preview/ee800fcd3f6b738d5ffe78de8c958eaa2c4de291
+    Song: S&M, Artist: Rihanna, Image: https://i.scdn.co/image/ab67616d0000b27331548865f7c729290b96c794, Preview: https://p.scdn.co/mp3-preview/6df4d34ea5aba149846ff5a2e10209dad5b2d1fd
+    Song: Loveeeeeee Song, Artist: Rihanna, Image: https://i.scdn.co/image/ab67616d0000b2736dee21d6cd1823e4d6231d37, Preview: https://p.scdn.co/mp3-preview/4f7564162b8080b202db357e608131d24c41b8ea
 SUCCESS: Market: AU, Genre: Pop, Artist: Rihanna
-    Song: Don't Stop The Music, Artist: Rihanna, Image: https://i.scdn.co/image/ab67616d0000b273f9f27162ab1ed45b8d7a7e98, Preview: https://p.scdn.co/mp3-preview/2ac14b43fe2451a70c07357ac675ade8da1f776c
-    Song: Needed Me, Artist: Rihanna, Image: https://i.scdn.co/image/ab67616d0000b27333c6b920eabcf4c00d7a1093, Preview: https://p.scdn.co/mp3-preview/2dff5fb96a89f131ef1a3396be4868840bc605c9
+    Song: We Found Love, Artist: Rihanna, Image: https://i.scdn.co/image/ab67616d0000b273bef074de9ca825bddaeb9f46, Preview: https://p.scdn.co/mp3-preview/6a035bc6ac2041a2edcdde555df93cd2af89abef
+    Song: Umbrella, Artist: Rihanna, Image: https://i.scdn.co/image/ab67616d0000b273c10fafad6a659f2802b32421, Preview: https://p.scdn.co/mp3-preview/e58475d2391025fe032cba6b5282c71a6141223e
 SUCCESS: Market: DE, Genre: Pop, Artist: Rihanna
-    Song: Disturbia, Artist: Rihanna, Image: https://i.scdn.co/image/ab67616d0000b273f9f27162ab1ed45b8d7a7e98, Preview: https://p.scdn.co/mp3-preview/404db84a42a4d67cb530631333443c4616e31059
-    Song: Breakin' Dishes, Artist: Rihanna, Image: https://i.scdn.co/image/ab67616d0000b273f9f27162ab1ed45b8d7a7e98, Preview: https://p.scdn.co/mp3-preview/56f0d556c3b8c3e6fdb05b027e4594d33d9a44d6
+    Song: Needed Me, Artist: Rihanna, Image: https://i.scdn.co/image/ab67616d0000b27333c6b920eabcf4c00d7a1093, Preview: https://p.scdn.co/mp3-preview/2dff5fb96a89f131ef1a3396be4868840bc605c9
+    Song: Diamonds, Artist: Rihanna, Image: https://i.scdn.co/image/ab67616d0000b2736dee21d6cd1823e4d6231d37, Preview: https://p.scdn.co/mp3-preview/67ac87fb708878171147df1427f7ad1957c2bbca
 SUCCESS: Market: US, Genre: Pop, Artist: Taylor Swift
-    Song: The Alchemy, Artist: Taylor Swift, Image: https://i.scdn.co/image/ab67616d0000b2738ecc33f195df6aa257c39eaa, Preview: https://p.scdn.co/mp3-preview/72a7312239b38e98ca9f5fe3e1df482be5e79cad
-    Song: Who’s Afraid of Little Old Me?, Artist: Taylor Swift, Image: https://i.scdn.co/image/ab67616d0000b2738ecc33f195df6aa257c39eaa, Preview: https://p.scdn.co/mp3-preview/897a98fc7691c0e18092ae589b414be11f529207
+    Song: Fortnight (feat. Post Malone) - BLOND:ISH Remix, Artist: Taylor Swift, Image: https://i.scdn.co/image/ab67616d0000b273e6b77b3eef9269d06e13fe17, Preview: https://p.scdn.co/mp3-preview/72b16ad401e8ccb35b77a7cd5cf7595a2e15738f
+    Song: Fortnight (feat. Post Malone), Artist: Taylor Swift, Image: https://i.scdn.co/image/ab67616d0000b2735076e4160d018e378f488c33, Preview: https://p.scdn.co/mp3-preview/8098fbf227c8cc1a550e3cabfb8cc52972ac2024
 SUCCESS: Market: CA, Genre: Pop, Artist: Taylor Swift
-    Song: The Smallest Man Who Ever Lived, Artist: Taylor Swift, Image: https://i.scdn.co/image/ab67616d0000b2738ecc33f195df6aa257c39eaa, Preview: https://p.scdn.co/mp3-preview/19d4ae9fe32d31404c0022a81cc478a0483ad1ef
-    Song: Cruel Summer, Artist: Taylor Swift, Image: https://i.scdn.co/image/ab67616d0000b273e787cffec20aa2a396a61647, Preview: https://p.scdn.co/mp3-preview/dba15da5409f3c808022cf927c0ff8581f717aa4
-SUCCESS: Market: GB, Genre: Pop, Artist: Taylor Swift
-    Song: Florida!!! (feat. Florence + The Machine), Artist: Taylor Swift, Image: https://i.scdn.co/image/ab67616d0000b2738ecc33f195df6aa257c39eaa, Preview: https://p.scdn.co/mp3-preview/fd1b9310263381336a0e396a96f18bc129cdc027
-    Song: Down Bad, Artist: Taylor Swift, Image: https://i.scdn.co/image/ab67616d0000b2738ecc33f195df6aa257c39eaa, Preview: https://p.scdn.co/mp3-preview/534f2122faa6429e5bc07348cf853bcd4ad356e7
-SUCCESS: Market: AU, Genre: Pop, Artist: Taylor Swift
-    Song: My Boy Only Breaks His Favorite Toys, Artist: Taylor Swift, Image: https://i.scdn.co/image/ab67616d0000b2738ecc33f195df6aa257c39eaa, Preview: https://p.scdn.co/mp3-preview/81b7bf5be10bced9a65016a7a1868c50deec2ee8
-    Song: Florida!!! (feat. Florence + The Machine), Artist: Taylor Swift, Image: https://i.scdn.co/image/ab67616d0000b2738ecc33f195df6aa257c39eaa, Preview: https://p.scdn.co/mp3-preview/fd1b9310263381336a0e396a96f18bc129cdc027
-SUCCESS: Market: DE, Genre: Pop, Artist: Taylor Swift
-    Song: Anti-Hero, Artist: Taylor Swift, Image: https://i.scdn.co/image/ab67616d0000b273bb54dde68cd23e2a268ae0f5, Preview: https://p.scdn.co/mp3-preview/8587a38f3496e9b17e33d89c322c4b69ba899d69
     Song: Guilty as Sin?, Artist: Taylor Swift, Image: https://i.scdn.co/image/ab67616d0000b2738ecc33f195df6aa257c39eaa, Preview: https://p.scdn.co/mp3-preview/073601eb8307e2f5915c5300c2da7059845a79ea
+    Song: Florida!!! (feat. Florence + The Machine), Artist: Taylor Swift, Image: https://i.scdn.co/image/ab67616d0000b2738ecc33f195df6aa257c39eaa, Preview: https://p.scdn.co/mp3-preview/fd1b9310263381336a0e396a96f18bc129cdc027
+SUCCESS: Market: GB, Genre: Pop, Artist: Taylor Swift
+    Song: The Smallest Man Who Ever Lived, Artist: Taylor Swift, Image: https://i.scdn.co/image/ab67616d0000b2738ecc33f195df6aa257c39eaa, Preview: https://p.scdn.co/mp3-preview/19d4ae9fe32d31404c0022a81cc478a0483ad1ef
+    Song: I Can Do It With a Broken Heart, Artist: Taylor Swift, Image: https://i.scdn.co/image/ab67616d0000b2735076e4160d018e378f488c33, Preview: https://p.scdn.co/mp3-preview/a05094a0d81b85df0b1aff524f89e01b27be8263
+SUCCESS: Market: AU, Genre: Pop, Artist: Taylor Swift
+    Song: Who’s Afraid of Little Old Me?, Artist: Taylor Swift, Image: https://i.scdn.co/image/ab67616d0000b2738ecc33f195df6aa257c39eaa, Preview: https://p.scdn.co/mp3-preview/897a98fc7691c0e18092ae589b414be11f529207
+    Song: The Black Dog, Artist: Taylor Swift, Image: https://i.scdn.co/image/ab67616d0000b2738ecc33f195df6aa257c39eaa, Preview: https://p.scdn.co/mp3-preview/8eb3318d9845088367f66916fe3fef12a3e22b41
+SUCCESS: Market: DE, Genre: Pop, Artist: Taylor Swift
+    Song: But Daddy I Love Him, Artist: Taylor Swift, Image: https://i.scdn.co/image/ab67616d0000b2738ecc33f195df6aa257c39eaa, Preview: https://p.scdn.co/mp3-preview/23e45e7ee89ad4982da24a4857f6be2606c5d49f
+    Song: Fortnight (feat. Post Malone), Artist: Taylor Swift, Image: https://i.scdn.co/image/ab67616d0000b2735076e4160d018e378f488c33, Preview: https://p.scdn.co/mp3-preview/8098fbf227c8cc1a550e3cabfb8cc52972ac2024
 SUCCESS: Market: US, Genre: Pop, Artist: Justin Bieber
-    Song: What Do You Mean?, Artist: Justin Bieber, Image: https://i.scdn.co/image/ab67616d0000b273f46b9d202509a8f7384b90de, Preview: https://p.scdn.co/mp3-preview/408d55c4d5d6383a57b93361b6e58d5e8916ebe3
-    Song: Beauty And A Beat, Artist: Justin Bieber, Image: https://i.scdn.co/image/ab67616d0000b273f1d02a6cec967f8b6b78f76e, Preview: https://p.scdn.co/mp3-preview/7ee90f1ac5d956116da382002302bb6a6b0c0c3c
+    Song: Somebody To Love, Artist: Justin Bieber, Image: https://i.scdn.co/image/ab67616d0000b273629dc9e2e3bc20bbd7d92e4a, Preview: https://p.scdn.co/mp3-preview/67592831f52d4266f706ca453ad005386ba9d41d
+    Song: Ghost, Artist: Justin Bieber, Image: https://i.scdn.co/image/ab67616d0000b273e6f407c7f3a0ec98845e4431, Preview: https://p.scdn.co/mp3-preview/10746d0627d5dd428001083030cf6726c5e92c67
 SUCCESS: Market: CA, Genre: Pop, Artist: Justin Bieber
-    Song: Intentions (feat. Quavo), Artist: Justin Bieber, Image: https://i.scdn.co/image/ab67616d0000b2737fe4a82a08c4f0decbeddbc6, Preview: https://p.scdn.co/mp3-preview/941f581cc1794e3a57aebf3de2c2dffb08b37f79
+    Song: What Do You Mean?, Artist: Justin Bieber, Image: https://i.scdn.co/image/ab67616d0000b273f46b9d202509a8f7384b90de, Preview: https://p.scdn.co/mp3-preview/408d55c4d5d6383a57b93361b6e58d5e8916ebe3
     Song: Peaches (feat. Daniel Caesar & Giveon), Artist: Justin Bieber, Image: https://i.scdn.co/image/ab67616d0000b273e6f407c7f3a0ec98845e4431, Preview: https://p.scdn.co/mp3-preview/cc4a3aa7b548792f4f37f4501303010985442876
 SUCCESS: Market: GB, Genre: Pop, Artist: Justin Bieber
-    Song: Maria, Artist: Justin Bieber, Image: https://i.scdn.co/image/ab67616d0000b2736c20c4638a558132ba95bc39, Preview: https://p.scdn.co/mp3-preview/7e849e066dff5366a08374330ec241771c3b2468
-    Song: Beauty And A Beat, Artist: Justin Bieber, Image: https://i.scdn.co/image/ab67616d0000b273f1d02a6cec967f8b6b78f76e, Preview: https://p.scdn.co/mp3-preview/7ee90f1ac5d956116da382002302bb6a6b0c0c3c
+    Song: Friends (with BloodPop®), Artist: Justin Bieber, Image: https://i.scdn.co/image/ab67616d0000b2735e8213c6183630b7d1931bdf, Preview: https://p.scdn.co/mp3-preview/4f2fc84297545610ce99c81716a96791a3ce9440
+    Song: Sorry, Artist: Justin Bieber, Image: https://i.scdn.co/image/ab67616d0000b273f46b9d202509a8f7384b90de, Preview: https://p.scdn.co/mp3-preview/eca5a32b13f68f700b06e06ffdc8110e61e232ce
 SUCCESS: Market: AU, Genre: Pop, Artist: Justin Bieber
+    Song: Peaches (feat. Daniel Caesar & Giveon), Artist: Justin Bieber, Image: https://i.scdn.co/image/ab67616d0000b273e6f407c7f3a0ec98845e4431, Preview: https://p.scdn.co/mp3-preview/cc4a3aa7b548792f4f37f4501303010985442876
     Song: Love Yourself, Artist: Justin Bieber, Image: https://i.scdn.co/image/ab67616d0000b273f46b9d202509a8f7384b90de, Preview: https://p.scdn.co/mp3-preview/b750d9609aa454adb23284b1504d962a6ff9bb07
-    Song: Never Say Never, Artist: Justin Bieber, Image: https://i.scdn.co/image/ab67616d0000b27349130b16d4190db1d6822e59, Preview: https://p.scdn.co/mp3-preview/80b1163aebd72becd14aaceac90626152dea9469
 SUCCESS: Market: DE, Genre: Pop, Artist: Justin Bieber
-    Song: Beauty And A Beat, Artist: Justin Bieber, Image: https://i.scdn.co/image/ab67616d0000b273f1d02a6cec967f8b6b78f76e, Preview: https://p.scdn.co/mp3-preview/7ee90f1ac5d956116da382002302bb6a6b0c0c3c
-    Song: What Do You Mean?, Artist: Justin Bieber, Image: https://i.scdn.co/image/ab67616d0000b273f46b9d202509a8f7384b90de, Preview: https://p.scdn.co/mp3-preview/408d55c4d5d6383a57b93361b6e58d5e8916ebe3
+    Song: Intentions (feat. Quavo), Artist: Justin Bieber, Image: https://i.scdn.co/image/ab67616d0000b2737fe4a82a08c4f0decbeddbc6, Preview: https://p.scdn.co/mp3-preview/941f581cc1794e3a57aebf3de2c2dffb08b37f79
+    Song: Friends (with BloodPop®), Artist: Justin Bieber, Image: https://i.scdn.co/image/ab67616d0000b2735e8213c6183630b7d1931bdf, Preview: https://p.scdn.co/mp3-preview/4f2fc84297545610ce99c81716a96791a3ce9440
 SUCCESS: Market: US, Genre: Pop, Artist: Ed Sheeran
-    Song: The A Team, Artist: Ed Sheeran, Image: https://i.scdn.co/image/ab67616d0000b273e6d489d359c546fea254f440, Preview: https://p.scdn.co/mp3-preview/1cab73cd0e33cec8fe9a0ffe7319170862f37f8a
-    Song: Shape of You, Artist: Ed Sheeran, Image: https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96, Preview: https://p.scdn.co/mp3-preview/7339548839a263fd721d01eb3364a848cad16fa7
-SUCCESS: Market: CA, Genre: Pop, Artist: Ed Sheeran
-    Song: Bad Habits, Artist: Ed Sheeran, Image: https://i.scdn.co/image/ab67616d0000b273ef24c3fdbf856340d55cfeb2, Preview: https://p.scdn.co/mp3-preview/22f3a86c8a83e364db595007f9ac1d666596a335
-    Song: Life Goes On (feat. Luke Combs), Artist: Ed Sheeran, Image: https://i.scdn.co/image/ab67616d0000b273dd0c0090129ad5fb99d361c8, Preview: https://p.scdn.co/mp3-preview/919ffc4d4d4b16bd33c239339f63acc3ce795475
-SUCCESS: Market: GB, Genre: Pop, Artist: Ed Sheeran
-    Song: Thinking out Loud, Artist: Ed Sheeran, Image: https://i.scdn.co/image/ab67616d0000b27313b3e37318a0c247b550bccd, Preview: https://p.scdn.co/mp3-preview/7b5d54ffb3c4e5c28adafe19532de22508d62851
-    Song: Shape of You, Artist: Ed Sheeran, Image: https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96, Preview: https://p.scdn.co/mp3-preview/7339548839a263fd721d01eb3364a848cad16fa7
-SUCCESS: Market: AU, Genre: Pop, Artist: Ed Sheeran
-    Song: Photograph, Artist: Ed Sheeran, Image: https://i.scdn.co/image/ab67616d0000b27313b3e37318a0c247b550bccd, Preview: https://p.scdn.co/mp3-preview/d90f4e5f15d8ed411307945560b1db8cca6b253b
-    Song: Life Goes On (feat. Luke Combs), Artist: Ed Sheeran, Image: https://i.scdn.co/image/ab67616d0000b273dd0c0090129ad5fb99d361c8, Preview: https://p.scdn.co/mp3-preview/919ffc4d4d4b16bd33c239339f63acc3ce795475
-SUCCESS: Market: DE, Genre: Pop, Artist: Ed Sheeran
     Song: Eyes Closed, Artist: Ed Sheeran, Image: https://i.scdn.co/image/ab67616d0000b273a0aea3805ed6a87aa394c796, Preview: https://p.scdn.co/mp3-preview/7cd2576f2d27799fe8c515c4e0fc880870a5cc88
-    Song: Happier, Artist: Ed Sheeran, Image: https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96, Preview: https://p.scdn.co/mp3-preview/f4944de04b857647b920811fae9a1abfb27d7f8b
+    Song: Photograph, Artist: Ed Sheeran, Image: https://i.scdn.co/image/ab67616d0000b27313b3e37318a0c247b550bccd, Preview: https://p.scdn.co/mp3-preview/d90f4e5f15d8ed411307945560b1db8cca6b253b
+SUCCESS: Market: CA, Genre: Pop, Artist: Ed Sheeran
+    Song: Thinking out Loud, Artist: Ed Sheeran, Image: https://i.scdn.co/image/ab67616d0000b27313b3e37318a0c247b550bccd, Preview: https://p.scdn.co/mp3-preview/7b5d54ffb3c4e5c28adafe19532de22508d62851
+    Song: Bad Habits, Artist: Ed Sheeran, Image: https://i.scdn.co/image/ab67616d0000b273ef24c3fdbf856340d55cfeb2, Preview: https://p.scdn.co/mp3-preview/22f3a86c8a83e364db595007f9ac1d666596a335
+SUCCESS: Market: GB, Genre: Pop, Artist: Ed Sheeran
+    Song: Eyes Closed, Artist: Ed Sheeran, Image: https://i.scdn.co/image/ab67616d0000b273a0aea3805ed6a87aa394c796, Preview: https://p.scdn.co/mp3-preview/7cd2576f2d27799fe8c515c4e0fc880870a5cc88
+    Song: Take Me Back to London (feat. Stormzy), Artist: Ed Sheeran, Image: https://i.scdn.co/image/ab67616d0000b27373304ce0653c7758dd94b259, Preview: https://p.scdn.co/mp3-preview/b7aa5feab12e8722aac5e4cf9c9ffca35be92f48
+SUCCESS: Market: AU, Genre: Pop, Artist: Ed Sheeran
+    Song: Don't, Artist: Ed Sheeran, Image: https://i.scdn.co/image/ab67616d0000b27313b3e37318a0c247b550bccd, Preview: https://p.scdn.co/mp3-preview/100a33b4b33fcde83e3fa0c6e25aa497f2220fde
+    Song: Perfect, Artist: Ed Sheeran, Image: https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96, Preview: https://p.scdn.co/mp3-preview/4e30857a3c7da3f8891483643e310bb233afadd2
+SUCCESS: Market: DE, Genre: Pop, Artist: Ed Sheeran
+    Song: Perfect, Artist: Ed Sheeran, Image: https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96, Preview: https://p.scdn.co/mp3-preview/4e30857a3c7da3f8891483643e310bb233afadd2
+    Song: Bad Habits, Artist: Ed Sheeran, Image: https://i.scdn.co/image/ab67616d0000b273ef24c3fdbf856340d55cfeb2, Preview: https://p.scdn.co/mp3-preview/22f3a86c8a83e364db595007f9ac1d666596a335

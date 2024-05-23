@@ -188,7 +188,7 @@ public class SpotifyService {
     }
     
     // a main method to use above methods
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         BufferedWriter writer = null;
         try {
             // Manually loading properties
@@ -253,4 +253,5 @@ public class SpotifyService {
             }
         }
     }
+    */
 }
