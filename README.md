@@ -1,32 +1,82 @@
-# SoPra FS24 Group 27 Project - LyricLies🎵
+# SoPra FS24 Group 27 Project - LyricLies 🎵
 
-## Authors
+## Introduction
+LyricLies is a multiplayer online game designed to combine music and emojis. Players use their knowledge of music and non-literal expression skills to identify the "lyric spy" among them. This entertaining social platform promotes the exploration of musical perception and non-verbal communication, thereby enriching the social gaming landscape with educational and fun elements.
+
+## Technologies Used
+- **Backend:** Java, Spring Boot, JPA/Hibernate
+- **Frontend:** JavaScript, React, Material-UI
+- **Communication:** REST
+- **Testing:** JUnit, Mockito
+- **Other:** Spotify API for song selection
+
+## High-Level Components
+1. **GameController.java**
+   - Role: Controls all game-related activities through REST endpoints.
+   - Link: [GameController.java](./src/main/java/com/example/game/GameController.java)
+
+2. **GameService.java**
+   - Role: Provides game logic and interacts with the GameController.
+   - Link: [GameService.java](./src/main/java/com/example/game/GameService.java)
+
+3. **SpotifyService.java**
+   - Role: Interacts with Spotify API to fetch songs for the game.
+   - Link: [SpotifyService.java](./src/main/java/com/example/spotify/SpotifyService.java)
+
+4. **UserController.java**
+   - Role: Manages user-related activities through REST endpoints.
+   - Link: [UserController.java](./src/main/java/com/example/user/UserController.java)
+
+5. **UserService.java**
+   - Role: Provides user-related logic and interacts with the UserController.
+   - Link: [UserService.java](./src/main/java/com/example/user/UserService.java)
+
+6. **AuthInterceptor.java & AuthConfig.java**
+   - Role: Handles authentication for all activities.
+   - Link: [AuthInterceptor.java](./src/main/java/com/example/auth/AuthInterceptor.java), [AuthConfig.java](./src/main/java/com/example/auth/AuthConfig.java)
+
+## Launch & Deployment
+### Server
+1. **Build:**
+   ```sh
+   ./gradlew build
+   ```
+   This command compiles the source code, runs tests, and packages the application.
+
+2. **Run:**
+   ```sh
+   ./gradlew bootRun
+   ```
+   This starts the application on your local machine. You can verify that the server is running by visiting `http://localhost:8080` in your browser.
+
+3. **Test:**
+   ```sh
+   ./gradlew test
+   ```
+   This executes the test suite and provides feedback on the application's functionality and reliability.
+
+4. **Deploy:**
+   ```sh
+   git add .
+   git commit -m "message here"
+   git push origin main
+   ```
+   These commands push the changes to GitHub and automatically deploy the app on Google Cloud.
+
+## Roadmap
+- **Real-Time In-Game Chat:** Add a chat function to allow players to communicate during voting.
+- **Spotify OAuth Integration:** Allow users to log into their Spotify account and select songs from their playlist.
+- **Full-Song Playback:** Enable players to listen to the full song during the game (requires Spotify Premium account).
+
+## Authors and Acknowledgment
+SoPra Group 27 2024 consists of:
 - Yating Pan - [GitHub](https://github.com/YatingPan)
 - Hepeng Fan - [GitHub](https://github.com/bazziprincess)
 - Qingcheng Wang - [GitHub](https://github.com/wqc260615)
 - Yuying Zhong - [GitHub](https://github.com/Yuying8777)
 - Yi Zhang - [GitHub](https://github.com/imyizhang)
 
-## Project Description
-This group project from Group 27 in the Software Engineering Lab FS24 at UZH aims to develop "LyricLies," a multiplayer online game that combines music and emojis. Players use their knowledge of music and non-literal expression skills to identify the "lyric spy" among them. This entertaining social platform promotes the exploration of musical perception and non-verbal communication, thereby enriching the social gaming landscape with educational and fun elements.
+We would like to thank our teaching assistant Sven - [GitHub](https://github.com/SvenRingger) for his help throughout the semester. We also thank Spotify for providing its API and the game of "Who is Spy" for inspiring our idea. This semester has proven to be both challenging and intriguing, offering us valuable opportunities for growth.
 
-## LyricLies🎵
-
-The objective of LyricLies is to identify the spy who listens to a different song, using emojis to describe their song. The game supports 4 players and utilizes songs from the [Spotify API](https://developer.spotify.com/documentation/web-api) to assign identities to each player. Suitable for audiences aged 10 and up, the game begins with each player assigned a song, but only one player receives a different track. Throughout two rounds of emoji descriptions, players must then vote to guess the spy. If the spy is correctly identified, the non-spy players win; otherwise, the spy claims victory.
-
-### Game Setup
-After registration and login, players can create or join a game room. The game starts once four players are present, initiated by the room owner. Privacy during gameplay is crucial to ensure fair play.
-
-### Identity Assignment
-The system randomly selects songs through the Spotify API, assigning the same song to three players and a different one to the spy. All players listen to their song for 30 seconds simultaneously.
-
-### Emoji Description
-Post-listening, players have 60 seconds to select up to five emojis to describe their song, taking turns. The choice of emojis can reflect the song's mood, style, lyrics, or vibe. Players must be strategic in their descriptions, as the spy's identity is unknown.
-
-### Guessing and Voting
-After two rounds of description, a two-minute discussion phase allows players to speculate on the spy's identity, followed by a voting phase.
-
-### End of Game
-The game concludes by revealing the true identities and songs, determining the winning side based on the votes. Players' scores are updated accordingly, rewarding strategic deception and deduction.
-
-Embark on a journey of musical espionage - can you outsmart your friends and win the game of LyricLies? 🤔
+## License
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
