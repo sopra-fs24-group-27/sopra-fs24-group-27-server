@@ -23,6 +23,11 @@ import java.util.Random;
 import java.util.Properties;
 import java.io.FileInputStream;
 import java.net.URI;
+import java.util.Map;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 
 import ch.uzh.ifi.hase.soprafs24.entity.SongInfo;
 
@@ -184,6 +189,7 @@ public class SpotifyService {
     
     // a main method to use above methods
     public static void main(String[] args) {
+        BufferedWriter writer = null;
         try {
             // Manually loading properties
             Properties props = new Properties();
@@ -192,17 +198,59 @@ public class SpotifyService {
     
             // Create an instance of the service
             SpotifyService spotifyService = new SpotifyService(WebClient.builder());
-            
+    
             // Set properties manually
             spotifyService.setClientId(props.getProperty("spotify.client.id"));
             spotifyService.setClientSecret(props.getProperty("spotify.client.secret"));
     
-            // Authenticate and search for songs
+            // Authenticate
             String token = spotifyService.authenticate();
-            List<SongInfo> songs = spotifyService.searchSong("US", "Pop", "Maroon 5", token);
-            System.out.println(songs);
+    
+            // Define artists by genre
+            Map<String, List<String>> genreArtists = Map.of(
+                "Pop", List.of("Maroon 5", "Rihanna", "Taylor Swift", "Justin Bieber", "Ed Sheeran"),
+                "Rap", List.of("Drake", "Nicki Minaj", "Eminem", "Doja Cat", "Kanye West"),
+                "Rock", List.of("Linkin Park", "Fall Out Boy", "Imagine Dragons", "Guns N' Roses", "Coldplay"),
+                "Country", List.of("Jason Aldean", "Taylor Swift", "Hunter Hayes", "Morgan Wallen", "Brett Young")
+            );
+    
+            // Define markets
+            List<String> markets = List.of("US", "CA", "GB", "AU", "DE");
+    
+            // Open the file for writing
+            writer = new BufferedWriter(new FileWriter("spotify_combinations.txt"));
+            
+            // Check combinations
+            for (String genre : genreArtists.keySet()) {
+                for (String artist : genreArtists.get(genre)) {
+                    for (String market : markets) {
+                        List<SongInfo> songs = spotifyService.searchSong(market, genre, artist, token);
+                        if (songs.size() < 2) {
+                            String failedCombination = String.format("FAILED: Market: %s, Genre: %s, Artist: %s%n", market, genre, artist);
+                            writer.write(failedCombination);
+                            System.out.print(failedCombination);
+                        } else {
+                            StringBuilder result = new StringBuilder(String.format("SUCCESS: Market: %s, Genre: %s, Artist: %s%n", market, genre, artist));
+                            for (SongInfo song : songs) {
+                                result.append(String.format("    Song: %s, Artist: %s, Image: %s, Preview: %s%n",
+                                        song.getTitle(), song.getArtist(), song.getImageUrl(), song.getPlayUrl()));
+                            }
+                            writer.write(result.toString());
+                            System.out.print(result.toString());
+                        }
+                    }
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
