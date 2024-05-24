@@ -70,7 +70,7 @@
 
 **Yi Zhang**
 
-* Completed #29, #31 on the server side. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/97203f17a8a64920a90b42c47e654f7daa0450b7)
+* Completed #29, #31 on the server side [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/97203f17a8a64920a90b42c47e654f7daa0450b7)
 
 
 
@@ -101,7 +101,7 @@
 
 **Yi Zhang**
 
-- Completed #6, #43 on server side. [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/97203f17a8a64920a90b42c47e654f7daa0450b7)
+- Completed #6, #43 on server side [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/97203f17a8a64920a90b42c47e654f7daa0450b7)
 
 
 
@@ -194,8 +194,9 @@
 
 **Yi Zhang**
 
-* Contributed to the WebSocket and STOMP client for the front-end as well as the user stories #4 #5 #6 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/32060ec7a7520793b5a10e185bfde7a58ace3f97)
-* Contributed to the server test, add game/room related REST DTO tests [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/4ac8ff6bce19eaf1c5c322ab3d0d90722787d8cb)
+* Contributed to the WebSocket and STOMP client for the front-end as well as the user stories #4 #5 #6 [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/32060ec7a7520793b5a10e185bfde7a58ace3f97), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/32060ec7a7520793b5a10e185bfde7a58ace3f97)
+* Contributed to the server test, add game/room related REST DTO tests [Link to task](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/4ac8ff6bce19eaf1c5c322ab3d0d90722787d8cb), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/4ac8ff6bce19eaf1c5c322ab3d0d90722787d8cb)
+* Fixed the errors for waiting room page [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/2fd3c507171d75e6e27c9dd65599884bd30898b5), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/bd5cf92cb8952254da7c18bdf2badf85f772823b)
 * Prepared the presentation slides, and report for M3
 
 
@@ -241,8 +242,8 @@
 
 **Yi Zhang**
 
-* Removed the socket config and set server endpoints and APIs to REST #80 [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/4be1dff4fb35bc2a44261a90cbddb46c3e62d15d)
-* Replaced Socket with REST and refine UI after M3 pre #81
+* Removed the socket config and set server endpoints and APIs to REST #80 [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/4be1dff4fb35bc2a44261a90cbddb46c3e62d15d), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/c003e52ec9644607c4c2a5da9230ba9f451bb070)
+* Replaced Socket with RESTful API and refine UI after M3 pre #81[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/037a1dd11d27875614e0803d5d28c5801f0cdf7d)
 
 
 
@@ -280,7 +281,7 @@
 
 * Completed the room leaving logic #92 #93 #94 [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/59785ae872a2ae62642bec30b4079f0e7f151275)
 * Completed the token-based authentication #96 #97 [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/59785ae872a2ae62642bec30b4079f0e7f151275) [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/ade72743c676b80f3dbca1221f949e9aa8534568)
-* Supported lobby page to display avatar [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/564532c1557d152c55c1fd9ffd65f2235c6bd87f)
+* Supported avatar display on lobby page [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/564532c1557d152c55c1fd9ffd65f2235c6bd87f)
 
 
 
@@ -314,11 +315,11 @@
 
 **Yi Zhang**
 
-* Refined lobby, waiting room page [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/832b15e4ff27e40ed9ae1cc79e0feb2dcc4794d8)
+* Refined lobby, waiting room, etc., pages [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/832b15e4ff27e40ed9ae1cc79e0feb2dcc4794d8), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/487f9a3f6e191f019525fd9041229e911630877b), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/24e75275ca4c23f5301622078357159bedc52adf)
 * Identified and fixed the bug for starting game [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/c0af73d1b20ff0ff5de539c739ad5c6cfc259f9c)
 * Refined avatar support during register [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/fbc7ce7be812d9a09f130473a52f49fc283eb577), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/f9102d5091a81fcf08b64df7ce2018e141859b10)
 * Supported long polling for waiting room page [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/7c44088e5fab8696143580c8ebc38c591365733b)
-* Cleaned the session storage [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/b3c45d651343435727501a48ab09c30be1873756)
+* Removed unused items in the sessionStorage [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/b3c45d651343435727501a48ab09c30be1873756)
 
 
 
@@ -347,15 +348,24 @@
 * Added the tests for gameController methods joinRoom, leaveRoom, getGame  [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/81622c28485b3060c14260aa039c8fba98225078)
 * Commented unused gameService methods and added the tests for gameService methods getSongs, getPlayerById [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/3533a6dcc70e90bb1eb373b03d938077b992f58d)
 * Added the tests for gameController methods deleteGame, sortTurnOrder [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/8ef7de1a619216f0ec2cc9479dc898a252a9968d), [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/2cadb0033f65fbb685c7436446a21706536d14db)
+* Added the tests for userService methods getUsers, getUserById [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/ef88310abd565a472ca892a9d93f90f7b65a8c97)
+* Added the tests for tokenUtils methods [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/fc18e67aa9dd4f4c1f64cbef0ca1b2942a2dcddf)
+* Added the tests for authInterceptor methods [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/2115cbb57f4e900ccd8da44b819c4529d854211d)
+* Added the test for gameController method savePlayerEmojis [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/b95bd898fb4dcf9d0ef0d4a9ea618f55e22f6e41)
+* Updated the test for game Controller method startGame [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/d486cdd929163731ae7ce2e7527162568a30ed2b)
+* Prepared the presentation slides for M4
+
 
 
 **Yuying Zhong**
+
 - Added avatar selection function to satisfy players who want to modify their avatar. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/350ac4c6a1ecd7d139e6cf18e3c3276a8677f4e6)&[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/2548b3bf2a49b6a84ac25b47e7f4a4b8a7b60197)
 - Added test for PlayerInfoDTO. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/3d1ec1f1ea6b78e68fb2050846248684c6b6ee78)
 - Added test for VotePostDTO. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/c04d9528db76f616dfbef418c2d5f37fbb6f426b)
 - Fix failure tests. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/a184f95cfd2697ddcd2461b9bd2504e859a504e7)
 - Updated README in the client repository and modified new game rules. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/59b3b077be28b37e5183e9f540acfa460d4786ac)&[Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/cc36ebfbc0fdb253773c5f94c4eb5de9432e8c6b)
 - Added tests for createPlayerSongInfoDTO. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/c6b9536c35ea7e084474999f86a3ebb7f801466b)
+
 
 
 **Yating Pan**
@@ -368,6 +378,7 @@
 - Threw error message if the game cannot start [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/a100765780dae6b6214ee4ba5fb6c3b31f97bdd0).
 - Rendered player score in lobby page [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/306ef0a42f7fc865a2042708751b1f2499f34aa5).
 - Updated server README for M4 [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/d10f534e6835342ba36821cdbe3dc2e74774424e).
+
 
 
 **Qingcheng Wang**
