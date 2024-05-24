@@ -368,3 +368,10 @@
 - Threw error message if the game cannot start [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/a100765780dae6b6214ee4ba5fb6c3b31f97bdd0).
 - Rendered player score in lobby page [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/306ef0a42f7fc865a2042708751b1f2499f34aa5).
 - Updated server README for M4 [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/d10f534e6835342ba36821cdbe3dc2e74774424e).
+
+
+**Qingcheng Wang**
+
+- Displays a list of voted and unvoted players on the Player Voting page.  [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/5b1ccf67375c6dcf40d248e50486fbeb220450ea)  [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/88538beae45fd90371e67dd7814c5a7335f5290c)
+- Added tests for emojis and turn. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/c4eeb48afdefd51855b006271eeea65d5741afa1)
+- Completed M4 reports.
