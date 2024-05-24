@@ -303,9 +303,8 @@
 
 
 **Hepeng Fan**
-
-- Refine endpage and bugs fixed [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/4a90a5ae6c7d8c2af1bda86a93d73837beba2e21)
-- Display the overall points on the frontend [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/d927246d375ed08e6875225b42d0cd11a41b323c)
+- Bugs fixed
+  [Link to commit]([https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/c617b4e79ee04894c2d7e026903ebf4f0d0ef064](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/98eda58faca51102a6b2c77c4f2863083bfc628c))
 - Completed tests for DeleteGame to GameControllerTest&GameServiceTest
 - Completed tests for LeaveGame to GameControllerTest&GameServiceTest
   [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/c617b4e79ee04894c2d7e026903ebf4f0d0ef064)
@@ -375,3 +374,10 @@
 - Displays a list of voted and unvoted players on the Player Voting page.  [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/5b1ccf67375c6dcf40d248e50486fbeb220450ea)  [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/88538beae45fd90371e67dd7814c5a7335f5290c)
 - Added tests for emojis and turn. [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-server/commit/c4eeb48afdefd51855b006271eeea65d5741afa1)
 - Completed M4 reports.
+
+**Hepeng Fan**
+
+- Refine endpage and bugs fixed [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/4a90a5ae6c7d8c2af1bda86a93d73837beba2e21)
+- Display the overall points on the frontend [Link to commit](https://github.com/sopra-fs24-group-27/sopra-fs24-group-27-client/commit/d927246d375ed08e6875225b42d0cd11a41b323c)
+- Completed M4 reports.
+
